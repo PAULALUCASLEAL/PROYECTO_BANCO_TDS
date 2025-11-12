@@ -10,7 +10,7 @@ public class Gasto {
     private LocalDate fecha;
     private String descripcion;
     private Categoria categoria;
-    private CuentaCompartida cuentaCompartida; // opcional
+    private Cuenta cuenta; // opcional
 
     // ======== CONSTRUCTORES ========
 
@@ -20,16 +20,16 @@ public class Gasto {
         this.fecha = fecha;
         this.descripcion = descripcion;
         this.categoria = categoria;
-        this.cuentaCompartida = null; // por defecto no pertenece a una cuenta compartida
+        this.cuenta = null; // por defecto no pertenece a una cuenta compartida
     }
 
     // Constructor completo (para gasto compartido)
-    public Gasto(double cantidad, LocalDate fecha, String descripcion, Categoria categoria, CuentaCompartida cuentaCompartida) {
+    public Gasto(double cantidad, LocalDate fecha, String descripcion, Categoria categoria, Cuenta cuenta) {
         this.cantidad = cantidad;
         this.fecha = fecha;
         this.descripcion = descripcion;
         this.categoria = categoria;
-        this.cuentaCompartida = cuentaCompartida;
+        this.cuenta = cuenta;
     }
 
     // ======== GETTERS Y SETTERS ========
@@ -66,19 +66,19 @@ public class Gasto {
         this.categoria = categoria;
     }
 
-    public CuentaCompartida getCuentaCompartida() {
-        return cuentaCompartida;
+    public Cuenta getCuentaCompartida() {
+        return cuenta;
     }
 
-    public void setCuentaCompartida(CuentaCompartida cuentaCompartida) {
-        this.cuentaCompartida = cuentaCompartida;
+    public void setCuentaCompartida(Cuenta cuenta) {
+        this.cuenta = cuenta;
     }
 
     // ======== MÉTODOS AUXILIARES ========
 
     @Override
     public String toString() {
-        String cuenta = (cuentaCompartida != null) ? cuentaCompartida.getNombre() : "Personal";
+        String cuenta = (this.cuenta != null) ? this.cuenta.getNombre() : "Personal";
         return String.format("Gasto[cantidad=%.2f, fecha=%s, descripcion=%s, categoria=%s, cuenta=%s]",
                 cantidad, fecha, descripcion, categoria.getNombre(), cuenta);
     }
@@ -92,11 +92,11 @@ public class Gasto {
                 Objects.equals(fecha, gasto.fecha) &&
                 Objects.equals(descripcion, gasto.descripcion) &&
                 Objects.equals(categoria, gasto.categoria) &&
-                Objects.equals(cuentaCompartida, gasto.cuentaCompartida);
+                Objects.equals(cuenta, gasto.cuenta);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cantidad, fecha, descripcion, categoria, cuentaCompartida);
+        return Objects.hash(cantidad, fecha, descripcion, categoria, cuenta);
     }
 }

@@ -1,5 +1,5 @@
 package ASP.BanCroak;
 
-public class RepositorioCuentasCompartidas {
+public class RepositorioCuentas {
     //HOLA PROBANDO RAMA PAULA 
 }

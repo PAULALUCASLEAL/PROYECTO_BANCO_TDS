@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class CuentaCompartida {
+public class Cuenta {
 
     // ======== ATRIBUTOS ========
     private String nombre;
@@ -13,14 +13,14 @@ public class CuentaCompartida {
 
     // ======== CONSTRUCTORES ========
 
-    public CuentaCompartida(String nombre, String descripcion) {
+    public Cuenta(String nombre, String descripcion) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.gastos = new ArrayList<>();
     }
 
     // Constructor vacío (para frameworks o serialización)
-    public CuentaCompartida() {
+    public Cuenta() {
         this.gastos = new ArrayList<>();
     }
 
@@ -82,8 +82,8 @@ public class CuentaCompartida {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof CuentaCompartida)) return false;
-        CuentaCompartida that = (CuentaCompartida) o;
+        if (!(o instanceof Cuenta)) return false;
+        Cuenta that = (Cuenta) o;
         return Objects.equals(nombre, that.nombre);
     }
 
