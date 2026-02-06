@@ -1,5 +1,7 @@
 package ASP.BanCroak;
 
+import ASP.BanCroak.filtros.Filtro;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -75,6 +77,14 @@ public enum RepositorioGastos {
         return List.copyOf(listaGastos);
     }
 
+    public List<Gasto> filtrar(Filtro filtro) {
+        if (filtro == null) {
+            throw new IllegalArgumentException("El filtro no puede ser null");
+        }
+        return listaGastos.stream().filter(filtro::filtrar)
+            .collect(java.util.stream.Collectors.toList());
+    }
+
     // --- Categorías (Set, sin duplicados) ---
     public void añadirCategoria(String categoria) {
         String cat = normalizarCategoria(categoria);
@@ -105,4 +115,3 @@ public enum RepositorioGastos {
         nextId = 1;
     }
 }
-

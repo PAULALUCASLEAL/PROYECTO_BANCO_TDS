@@ -1,7 +1,6 @@
 package ASP.BanCroak.ui;
 
 import ASP.BanCroak.RepositorioGastos;
-import ASP.BanCroak.persistence.GastosPersistence;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -10,7 +9,7 @@ public class GastosApp extends Application {
     @Override
     public void start(Stage stage) {
         GastosView view = new GastosView();
-        GastosController controller = new GastosController(RepositorioGastos.INSTANCE, new GastosPersistence(), view);
+        GastosController controller = new GastosController(RepositorioGastos.INSTANCE, view);
         controller.init();
 
         Scene scene = new Scene(view.getRoot(), 1100, 600);

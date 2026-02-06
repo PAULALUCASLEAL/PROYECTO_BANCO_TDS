@@ -30,6 +30,13 @@ public class GastosView {
     private final TextField nuevaCategoriaField;
     private final Button addCategoriaButton;
 
+    private final TextField filtroCategoriasField;
+    private final TextField filtroMesesField;
+    private final DatePicker filtroDesdePicker;
+    private final DatePicker filtroHastaPicker;
+    private final Button aplicarFiltroButton;
+    private final Button limpiarFiltroButton;
+
     private final TableView<Gasto> tablaGastos;
     private final Button eliminarSeleccionadoButton;
 
@@ -46,6 +53,13 @@ public class GastosView {
 
         this.nuevaCategoriaField = new TextField();
         this.addCategoriaButton = new Button("Añadir categoría");
+
+        this.filtroCategoriasField = new TextField();
+        this.filtroMesesField = new TextField();
+        this.filtroDesdePicker = new DatePicker();
+        this.filtroHastaPicker = new DatePicker();
+        this.aplicarFiltroButton = new Button("Aplicar filtros");
+        this.limpiarFiltroButton = new Button("Limpiar filtros");
 
         this.tablaGastos = new TableView<>();
         this.eliminarSeleccionadoButton = new Button("Eliminar seleccionado");
@@ -86,7 +100,24 @@ public class GastosView {
         HBox categoriaRow = new HBox(10, new Label("Nueva categoría"), nuevaCategoriaField, addCategoriaButton);
         categoriaRow.setAlignment(Pos.CENTER_LEFT);
 
-        VBox left = new VBox(12, form, addRow, categoriaRow);
+        filtroCategoriasField.setPromptText("Categorías (coma)");
+        filtroMesesField.setPromptText("Meses (coma)");
+        filtroDesdePicker.setPromptText("Desde");
+        filtroHastaPicker.setPromptText("Hasta");
+
+        HBox filtrosRow1 = new HBox(10, new Label("Filtro categorías"), filtroCategoriasField);
+        filtrosRow1.setAlignment(Pos.CENTER_LEFT);
+
+        HBox filtrosRow2 = new HBox(10, new Label("Filtro meses"), filtroMesesField);
+        filtrosRow2.setAlignment(Pos.CENTER_LEFT);
+
+        HBox filtrosRow3 = new HBox(10, new Label("Filtro fechas"), filtroDesdePicker, filtroHastaPicker);
+        filtrosRow3.setAlignment(Pos.CENTER_LEFT);
+
+        HBox filtrosRow4 = new HBox(10, aplicarFiltroButton, limpiarFiltroButton);
+        filtrosRow4.setAlignment(Pos.CENTER_LEFT);
+
+        VBox left = new VBox(12, form, addRow, categoriaRow, filtrosRow1, filtrosRow2, filtrosRow3, filtrosRow4);
         left.setPadding(new Insets(0, 16, 0, 0));
 
         buildTabla();
@@ -157,6 +188,30 @@ public class GastosView {
 
     public Button getAddCategoriaButton() {
         return addCategoriaButton;
+    }
+
+    public TextField getFiltroCategoriasField() {
+        return filtroCategoriasField;
+    }
+
+    public TextField getFiltroMesesField() {
+        return filtroMesesField;
+    }
+
+    public DatePicker getFiltroDesdePicker() {
+        return filtroDesdePicker;
+    }
+
+    public DatePicker getFiltroHastaPicker() {
+        return filtroHastaPicker;
+    }
+
+    public Button getAplicarFiltroButton() {
+        return aplicarFiltroButton;
+    }
+
+    public Button getLimpiarFiltroButton() {
+        return limpiarFiltroButton;
     }
 
     public TableView<Gasto> getTablaGastos() {
