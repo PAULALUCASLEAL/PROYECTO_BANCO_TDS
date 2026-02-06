@@ -69,7 +69,7 @@ public class GastosController {
 
             refreshAll();
             clearGastoInputs();
-            view.getFeedbackLabel().setText("Guardado ✅");
+            view.getFeedbackLabel().setText("Guardado");
         } catch (NumberFormatException ex) {
             showError("Cantidad o idCuenta no válido.", ex);
         } catch (IllegalArgumentException | IOException ex) {
