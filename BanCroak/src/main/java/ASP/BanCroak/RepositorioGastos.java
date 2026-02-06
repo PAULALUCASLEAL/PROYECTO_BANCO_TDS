@@ -9,8 +9,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Repositorio en memoria para gestionar gastos (singleton + CRUD) y categorías.
  */
-public final class RepositorioGastos {
-    private static RepositorioGastos instancia;
+public enum RepositorioGastos {
+    INSTANCE;
 
     private final List<Gasto> listaGastos;
     private final List<String> listaCategorias;
@@ -20,11 +20,6 @@ public final class RepositorioGastos {
         this.listaGastos = new ArrayList<>();
         this.listaCategorias = new ArrayList<>();
         this.nextId = 1;
-    }
-
-    public static RepositorioGastos getInstancia() {
-        if (instancia == null) instancia = new RepositorioGastos();
-        return instancia;
     }
 
     public void añadirGasto(Gasto gasto) {
