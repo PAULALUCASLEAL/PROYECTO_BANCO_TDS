@@ -14,12 +14,12 @@ public final class RepositorioGastos {
 
     private final List<Gasto> listaGastos;
     private final List<String> listaCategorias;
-    private final AtomicInteger nextId;
+    private int nextId;
 
     private RepositorioGastos() {
         this.listaGastos = new ArrayList<>();
         this.listaCategorias = new ArrayList<>();
-        this.nextId = new AtomicInteger(1);
+        this.nextId = 1;
     }
 
     public static RepositorioGastos getInstancia() {
@@ -30,8 +30,7 @@ public final class RepositorioGastos {
     public void añadirGasto(Gasto gasto) {
         if (gasto == null) throw new IllegalArgumentException("El gasto no puede ser null");
         if (gasto.getID() == 0) {
-            int id = nextId.getAndIncrement();
-            gasto.asignarId(id);
+        	gasto.asignarId(nextId++);
         } else if (buscarPorId(gasto.getID()).isPresent()) {
             throw new IllegalArgumentException("Ya existe un gasto con el id " + gasto.getID());
         }
@@ -103,6 +102,7 @@ public final class RepositorioGastos {
     public void limpiar() {
         listaGastos.clear();
         listaCategorias.clear();
-        nextId.set(1);
+        nextId = 1;
+
     }
 }
