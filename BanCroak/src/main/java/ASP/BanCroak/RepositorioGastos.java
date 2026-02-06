@@ -38,7 +38,7 @@ public final class RepositorioGastos {
     }
 
     // Nueva versión: busca por id y delega la actualización en la entidad
-    public void editarGasto(int id, double cantidad, LocalDate fecha, String categoria) {
+    public void editarGasto(int id, double cantidad, LocalDate fecha, String categoria, String pagador) {
         if (id <= 0) throw new IllegalArgumentException("Id de gasto no válido");
         String cat = normalizarCategoria(categoria);
         if (cat.isEmpty()) throw new IllegalArgumentException("La categoría no puede estar vacía");
@@ -46,7 +46,7 @@ public final class RepositorioGastos {
 
         for (Gasto g : listaGastos) {
             if (g.getID() == id) {
-                g.actualizarGasto(cantidad, fecha, cat);
+                g.actualizarGasto(cantidad, fecha, cat, pagador);
                 return;
             }
         }
