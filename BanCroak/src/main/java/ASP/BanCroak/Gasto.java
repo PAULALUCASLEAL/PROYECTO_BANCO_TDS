@@ -34,6 +34,17 @@ public final class Gasto {
         return new Gasto(cantidad, fecha, categoria, pagador, idCuenta);
     }
 
+    /**
+     * Factory para reconstrucción desde persistencia (mantiene el id existente).
+     */
+    public static Gasto reconstruir(double cantidad, LocalDate fecha, String categoria, String pagador, int idCuenta, int idGasto) {
+        Gasto gasto = new Gasto(cantidad, fecha, categoria, pagador, idCuenta);
+        if (idGasto > 0) {
+            gasto.asignarId(idGasto);
+        }
+        return gasto;
+    }
+
     public int getID() {
         return idGasto;
     }
