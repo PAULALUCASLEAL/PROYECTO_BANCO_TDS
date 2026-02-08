@@ -6,9 +6,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-/**
- * Entidad Gasto con validaciones y helpers de filtrado.
- */
+
 public final class Gasto {
     private LocalDate fechaGasto;
     private String categoria;
@@ -24,20 +22,16 @@ public final class Gasto {
         this.categoria = categoria;
         this.pagador = pagador;
         this.idCuenta = idCuenta;
-        this.idGasto = 0;
+        this.idGasto = 0; //lo ponemos  a 0 porque el id real lo pone el repositorio 
     }
 
-    /**
-     * Factory para crear un gasto con idGasto inicial en 0 (lo asigna el repositorio).
-     */
+    //función a la que llamarán otras clases para crear un nuevo gasto, sin usar el new porque el contrustor es privado 
     public static Gasto crearGasto(double cantidad, LocalDate fecha, String categoria, String pagador, int idCuenta) {
         return new Gasto(cantidad, fecha, categoria, pagador, idCuenta);
     }
-
-    /**
-     * Factory para reconstrucción desde persistencia (mantiene el id existente).
-     */
-    public static Gasto reconstruir(double cantidad, LocalDate fecha, String categoria, String pagador, int idCuenta, int idGasto) {
+    
+    //esta función la ponemos para recrear un gasto que ya existía antes (cuando lo tenemos en un JSON), y este mantiene el idGasto que ya tenía guardado
+    public static Gasto reconstruirGasto(double cantidad, LocalDate fecha, String categoria, String pagador, int idCuenta, int idGasto) {
         Gasto gasto = new Gasto(cantidad, fecha, categoria, pagador, idCuenta);
         if (idGasto > 0) {
             gasto.asignarId(idGasto);
@@ -69,9 +63,9 @@ public final class Gasto {
         return pagador;
     }
 
-    /**
-     * Actualiza los datos (sin cambiar idGasto ni idCuenta).
-     */
+  
+     //Actualiza los datos (sin cambiar idGasto ni idCuenta).
+     
     public void actualizarGasto(double cantidad, LocalDate fecha, String categoria, String pagador) {
         validarDatos(cantidad, fecha, categoria, pagador, this.idCuenta);
         this.cantidad = cantidad;
@@ -80,9 +74,10 @@ public final class Gasto {
         this.pagador = pagador;
     }
 
-    /**
-     * Comprueba si la categoría coincide (normalizando mayúsculas y espacios).
-     */
+    
+    //AQUÍ ENTRAMOS EN LA SECCIÓN DE MÉTODOS PARA FILTRAR
+     
+    //Comprueba si la categoría coincide (normalizando mayúsculas y espacios).
     public boolean perteneceACategoria(String categoria) {
         if (categoria == null) {
             return false;
@@ -92,7 +87,7 @@ public final class Gasto {
 
     /**
      * Comprueba si la fecha del gasto está en alguno de los meses indicados.
-     * Convención: la lista acepta "1".."12", "01".."12" o nombres de mes en español
+     * La lista va a aceptar "1".."12", "01".."12" o nombres de mes en español
      * (por ejemplo: "enero", "febrero", "marzo", ...). La comparación ignora mayúsculas,
      * espacios y acentos.
      */
@@ -110,9 +105,8 @@ public final class Gasto {
         return false;
     }
 
-    /**
-     * Comprueba si la fecha del gasto está entre desde y hasta (incluyente).
-     */
+    
+    //Comprueba si la fecha del gasto está entre desde y hasta (incluyente).
     public boolean estaEntre(LocalDate desde, LocalDate hasta) {
         if (fechaGasto == null || desde == null || hasta == null) {
             return false;
@@ -120,9 +114,9 @@ public final class Gasto {
         return !fechaGasto.isBefore(desde) && !fechaGasto.isAfter(hasta);
     }
 
-    /**
-     * Asigna idGasto desde el repositorio (uso interno del paquete).
-     */
+    
+     //Asigna idGasto desde el repositorio (uso interno del paquete).
+    
     void asignarId(int id) {
         if (id <= 0) {
             throw new IllegalArgumentException("El id debe ser positivo");
@@ -132,19 +126,27 @@ public final class Gasto {
         }
         this.idGasto = id;
     }
+    
+    
+    //AQUÍ LOS MÉTODOS EQUALS Y HASHCODE 
 
     @Override
     public boolean equals(Object o) {
+    	//si comparamos el objeto consigo mismo 
         if (this == o) {
             return true;
         }
+        //si o no es un gasto 
         if (!(o instanceof Gasto)) {
             return false;
         }
+        
+        //aquí ya sabemos que es un gasto, pues hacemos un casting para poder tratarlo como tal y acceder a sus campos (porque nos pasaron un object en la función)
         Gasto other = (Gasto) o;
         if (this.idGasto == 0 || other.idGasto == 0) {
             return false;
         }
+        //solo devuelve true si los id son iguales, porque se trata de una entidad 
         return this.idGasto == other.idGasto;
     }
 
