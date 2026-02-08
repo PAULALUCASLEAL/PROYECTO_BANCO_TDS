@@ -76,26 +76,59 @@ Se usa `removeIf(...)`:
 - Recorre y elimina los gastos que cumplan la condición.
 - Devuelve `boolean` para saber si se eliminó algo.
 
-## Ejemplos de uso
+## Filtros y patrón Composite
+
+### 1) ¿Por qué no filtrar directamente en el repositorio?
+Meter toda la lógica de filtrado en el repositorio lo haría crecer demasiado.
+El repositorio solo debe gestionar datos, no decidir cómo se filtran.
+El filtrado es una responsabilidad distinta.
+
+Esto aplica GRASP:
+- **Alta Cohesión**: el repositorio se centra en almacenamiento y acceso a datos.
+- **Bajo Acoplamiento**: los filtros no dependen del repositorio ni lo modifican.
+- **Experto en Información**: cada filtro conoce su propio criterio.
+
+### 2) Abstracción Filtro
+Existe una clase abstracta o interfaz `Filtro` con el método:
 
 ```java
-// Crear categoría y gasto
-RepositorioGastos repo = RepositorioGastos.INSTANCE;
-repo.anadirCategoria("Transporte");
-
-Gasto g = Gasto.crearGasto("Metro", 2.40, "Transporte");
-repo.anadirGasto(g);
+boolean filtrar(Gasto gasto);
 ```
 
-```java
-// Buscar por id
-Optional<Gasto> encontrado = repo.buscarPorId(1);
-```
+Representa un criterio de filtrado genérico.
+Cualquier filtro concreto solo tiene que implementar ese método.
 
-```java
-// Eliminar un gasto por id
-boolean eliminado = repo.eliminarGasto(1);
-```
+### 3) Filtros simples (hojas del Composite)
+Existen filtros simples como:
+- filtro por categoría,
+- filtro por intervalo de fechas,
+- filtro por meses.
+
+Cada uno:
+- encapsula su propia lógica,
+- sabe decidir si un gasto cumple o no el criterio,
+- no conoce otros filtros.
+
+### 4) Filtro compuesto (Composite)
+Existe un `FiltroCompuesto` que contiene una lista de `Filtro`.
+Su método `filtrar(Gasto)` devuelve `true` solo si todos los filtros internos devuelven `true` (AND lógico).
+Si no contiene filtros, no restringe (devuelve `true`).
+
+Justificación:
+- permite combinar filtros dinámicamente,
+- evita condicionales grandes,
+- hace el sistema extensible (añadir nuevos filtros sin tocar los existentes).
+
+### Relación con GRASP y con el patrón Composite
+El patrón Composite se usa cuando se quiere tratar de la misma forma a objetos simples y a conjuntos de objetos.
+Define una estructura en forma de árbol donde todos los elementos comparten una interfaz común, lo que permite usar un objeto individual o un conjunto de ellos sin distinguirlos.
+
+En este patrón existen tres tipos de elementos:
+- **Componente (`Filtro`)**: es la abstracción común. Define la operación que deben implementar todos los elementos, en este caso `filtrar(Gasto)`. Gracias a esto, cualquier filtro se puede usar de la misma manera.
+- **Hoja (filtros simples)**: son los objetos individuales que realizan una operación concreta. En el proyecto, corresponden a filtros como el de categoría, intervalo de fechas o meses. Cada hoja contiene la lógica de un único criterio de filtrado.
+- **Composite (`FiltroCompuesto`)**: es un objeto que contiene otros componentes (filtros). Implementa la misma interfaz que las hojas y combina el resultado de sus filtros internos, aplicando una lógica conjunta (AND lógico). De este modo permite construir filtros complejos a partir de filtros simples.
+
+El comportamiento clave es que el cliente no necesita saber si está usando un filtro simple o uno compuesto, ya que ambos se tratan igual. Esto hace el sistema más flexible, extensible y fácil de mantener.
 
 ## Dependencias Maven (solo lo relevante)
 - **JavaFX**: solo como consumidor del repositorio/controlador, sin entrar en detalles de UI.
