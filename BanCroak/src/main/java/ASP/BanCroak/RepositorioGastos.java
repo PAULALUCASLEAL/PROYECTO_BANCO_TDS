@@ -8,9 +8,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
+
 
 /**
- * Repositorio en memoria para gestionar gastos (singleton + CRUD) y categorías.
+ * Repositorio en memoria para gestionar gastos y categorías.
  * Flujo: primero se crean categorías; luego los gastos solo pueden usar categorías existentes.
  */
 public enum RepositorioGastos {
@@ -28,10 +30,11 @@ public enum RepositorioGastos {
 
     public void añadirGasto(Gasto gasto) {
         if (gasto == null) throw new IllegalArgumentException("El gasto no puede ser null");
-        String cat = normalizarCategoria(gasto.getCategoria());
-        if (cat.isEmpty()) throw new IllegalArgumentException("La categoría no puede estar vacía");
-        if (!categorias.contains(cat)) throw new IllegalArgumentException("La categoría no existe: " + cat);
-
+        String categoria = normalizarCategoria(gasto.getCategoria());
+        //ahora hacemos una comprobación extra
+        if (categoria.isEmpty()) throw new IllegalArgumentException("La categoría no puede estar vacía");
+        if (!categorias.contains(categoria)) throw new IllegalArgumentException("La categoría no existe: " + categoria);
+        //asignamos el id a gasto porque cuando lo creamos en gasto le hemos puesto idGasto = 0 
         if (gasto.getID() == 0) {
             gasto.asignarId(nextId++);
         } else if (buscarPorId(gasto.getID()).isPresent()) {
@@ -74,6 +77,7 @@ public enum RepositorioGastos {
     }
 
     public List<Gasto> getListaGastos() {
+    	//devolvemos una copia de la lista para que nadie la pueda modificar 
         return List.copyOf(listaGastos);
     }
 
@@ -81,11 +85,12 @@ public enum RepositorioGastos {
         if (filtro == null) {
             throw new IllegalArgumentException("El filtro no puede ser null");
         }
-        return listaGastos.stream().filter(filtro::filtrar)
-            .collect(java.util.stream.Collectors.toList());
+        return listaGastos.stream()
+        	.filter(g -> filtro.filtrar(g)) //devuelve true si el gasto pasa el filtro
+            .collect(Collectors.toList()); //devolvemos la lista de gastos que cumplen el filtro
     }
 
-    // --- Categorías (Set, sin duplicados) ---
+    // Categorías (Set, sin duplicados) 
     public void añadirCategoria(String categoria) {
         String cat = normalizarCategoria(categoria);
         if (cat.isEmpty()) throw new IllegalArgumentException("La categoría no puede estar vacía");
@@ -99,6 +104,7 @@ public enum RepositorioGastos {
     }
 
     public Set<String> getCategorias() {
+    	//lo mismo con la copia para que nadie pueda modificar la lista
         return Set.copyOf(categorias);
     }
 
@@ -107,7 +113,8 @@ public enum RepositorioGastos {
     }
 
     /**
-     * Limpia el repositorio y reinicia el contador de ids (útil para tests).
+     * Limpia el repositorio y reinicia el contador de ids.
+     * Deja el repositorio como recién creado. 
      */
     public void limpiar() {
         listaGastos.clear();
