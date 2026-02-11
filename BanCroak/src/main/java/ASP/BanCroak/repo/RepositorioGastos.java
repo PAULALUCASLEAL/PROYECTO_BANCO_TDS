@@ -1,5 +1,6 @@
-package ASP.BanCroak;
+package ASP.BanCroak.repo;
 
+import ASP.BanCroak.domain.Gasto;
 import ASP.BanCroak.filtros.Filtro;
 
 import java.time.LocalDate;
@@ -39,6 +40,8 @@ public enum RepositorioGastos {
             gasto.asignarId(nextId++);
         } else if (buscarPorId(gasto.getID()).isPresent()) {
             throw new IllegalArgumentException("Ya existe un gasto con el id " + gasto.getID());
+        } else if (gasto.getID() >= nextId) {
+            nextId = gasto.getID() + 1;
         }
         listaGastos.add(gasto);
     }
@@ -120,5 +123,16 @@ public enum RepositorioGastos {
         listaGastos.clear();
         categorias.clear();
         nextId = 1;
+    }
+
+    public int getNextId() {
+        return nextId;
+    }
+
+    public void setNextId(int nextId) {
+        if (nextId <= 0) {
+            throw new IllegalArgumentException("nextId debe ser positivo");
+        }
+        this.nextId = nextId;
     }
 }

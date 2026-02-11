@@ -1,4 +1,4 @@
-package ASP.BanCroak;
+package ASP.BanCroak.domain;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -6,6 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import ASP.BanCroak.repo.RepositorioGastos;
 
 public final class Cuenta {
     private static final double TOLERANCIA_SUMA = 0.01;

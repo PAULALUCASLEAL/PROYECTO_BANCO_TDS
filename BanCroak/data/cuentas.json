@@ -1,0 +1,11 @@
+{
+  "nextIdCuenta" : 2,
+  "cuentas" : [ {
+    "idCuenta" : 1,
+    "nombreCuenta" : "Mi Cuenta",
+    "miembros" : [ "Mi Cuenta" ],
+    "porcentajes" : {
+      "Mi Cuenta" : 100.0
+    }
+  } ]
+}

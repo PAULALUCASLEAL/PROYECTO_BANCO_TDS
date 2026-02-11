@@ -1,6 +1,6 @@
-package ASP.BanCroak.ui;
+package ASP.BanCroak.ui.gastos;
 
-import ASP.BanCroak.Gasto;
+import ASP.BanCroak.domain.Gasto;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -36,6 +36,9 @@ public class GastosView {
     private final DatePicker filtroHastaPicker;
     private final Button aplicarFiltroButton;
     private final Button limpiarFiltroButton;
+    private final Button graficasButton;
+    private final Button volverButton;
+    private final Label cuentaLabel;
 
     private final TableView<Gasto> tablaGastos;
     private final Button eliminarSeleccionadoButton;
@@ -60,6 +63,9 @@ public class GastosView {
         this.filtroHastaPicker = new DatePicker();
         this.aplicarFiltroButton = new Button("Aplicar filtros");
         this.limpiarFiltroButton = new Button("Limpiar filtros");
+        this.graficasButton = new Button("Gráficas");
+        this.volverButton = new Button("Volver");
+        this.cuentaLabel = new Label();
 
         this.tablaGastos = new TableView<>();
         this.eliminarSeleccionadoButton = new Button("Eliminar seleccionado");
@@ -114,10 +120,13 @@ public class GastosView {
         HBox filtrosRow3 = new HBox(10, new Label("Filtro fechas"), filtroDesdePicker, filtroHastaPicker);
         filtrosRow3.setAlignment(Pos.CENTER_LEFT);
 
-        HBox filtrosRow4 = new HBox(10, aplicarFiltroButton, limpiarFiltroButton);
+        HBox filtrosRow4 = new HBox(10, aplicarFiltroButton, limpiarFiltroButton, graficasButton);
         filtrosRow4.setAlignment(Pos.CENTER_LEFT);
 
-        VBox left = new VBox(12, form, addRow, categoriaRow, filtrosRow1, filtrosRow2, filtrosRow3, filtrosRow4);
+        HBox header = new HBox(10, volverButton, cuentaLabel);
+        header.setAlignment(Pos.CENTER_LEFT);
+
+        VBox left = new VBox(12, header, form, addRow, categoriaRow, filtrosRow1, filtrosRow2, filtrosRow3, filtrosRow4);
         left.setPadding(new Insets(0, 16, 0, 0));
 
         buildTabla();
@@ -212,6 +221,26 @@ public class GastosView {
 
     public Button getLimpiarFiltroButton() {
         return limpiarFiltroButton;
+    }
+
+    public Button getGraficasButton() {
+        return graficasButton;
+    }
+
+    public Button getVolverButton() {
+        return volverButton;
+    }
+
+    public Label getCuentaLabel() {
+        return cuentaLabel;
+    }
+
+    public void setIdCuenta(int idCuenta) {
+        idCuentaField.setText(String.valueOf(idCuenta));
+    }
+
+    public void setIdCuentaEditable(boolean editable) {
+        idCuentaField.setEditable(editable);
     }
 
     public TableView<Gasto> getTablaGastos() {

@@ -1,4 +1,19 @@
 {
-  "gastos" : [ ],
-  "categorias" : [ "PALETA" ]
+  "nextId" : 3,
+  "gastos" : [ {
+    "idGasto" : 1,
+    "idCuenta" : 1,
+    "categoria" : "PALETA",
+    "pagador" : "Paula",
+    "cantidad" : 100.0,
+    "fecha" : "2026-02-13"
+  }, {
+    "idGasto" : 2,
+    "idCuenta" : 1,
+    "categoria" : "COMIDA",
+    "pagador" : "PAULA",
+    "cantidad" : 8000.0,
+    "fecha" : "2026-02-02"
+  } ],
+  "categorias" : [ "PALETA", "COMIDA" ]
 }

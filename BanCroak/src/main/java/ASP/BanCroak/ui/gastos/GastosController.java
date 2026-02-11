@@ -1,41 +1,52 @@
-package ASP.BanCroak.ui;
+package ASP.BanCroak.ui.gastos;
 
-import ASP.BanCroak.Gasto;
-import ASP.BanCroak.RepositorioGastos;
-import ASP.BanCroak.filtros.Filtro;
+import ASP.BanCroak.domain.Gasto;
 import ASP.BanCroak.filtros.FiltroCategoria;
 import ASP.BanCroak.filtros.FiltroCompuesto;
 import ASP.BanCroak.filtros.FiltroIntervaloFechas;
 import ASP.BanCroak.filtros.FiltroMeses;
+import ASP.BanCroak.repo.RepositorioGastos;
+import ASP.BanCroak.ui.app.AppContext;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.stream.Collectors;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class GastosController {
+    private final AppContext context;
     private final RepositorioGastos repo;
     private final GastosView view;
+    private final int cuentaActivaId;
 
     private final ObservableList<Gasto> gastosData;
     private final ObservableList<String> categoriasData;
+    private FiltroCompuesto filtroActual;
 
-    public GastosController(RepositorioGastos repo, GastosView view) {
-        this.repo = repo;
+    public GastosController(AppContext context, GastosView view, int cuentaActivaId) {
+        this.context = context;
+        this.repo = context.getRepoGastos();
         this.view = view;
+        this.cuentaActivaId = cuentaActivaId;
         this.gastosData = FXCollections.observableArrayList();
         this.categoriasData = FXCollections.observableArrayList();
+        this.filtroActual = null;
 
         this.view.getTablaGastos().setItems(gastosData);
         this.view.getCategoriaCombo().setItems(categoriasData);
     }
 
     public void init() {
+        view.setIdCuenta(cuentaActivaId);
+        view.setIdCuentaEditable(false);
+        context.getCuentaActiva().ifPresent(cuenta ->
+            view.getCuentaLabel().setText("Cuenta activa: " + cuenta.getNombreCuenta())
+        );
         refreshAll();
 
         view.getAddGastoButton().setOnAction(e -> onAddGasto());
@@ -43,6 +54,8 @@ public class GastosController {
         view.getEliminarSeleccionadoButton().setOnAction(e -> onEliminarSeleccionado());
         view.getAplicarFiltroButton().setOnAction(e -> onAplicarFiltros());
         view.getLimpiarFiltroButton().setOnAction(e -> onLimpiarFiltros());
+        view.getGraficasButton().setOnAction(e -> onGraficas());
+        view.getVolverButton().setOnAction(e -> context.getNavigator().goToMain());
     }
 
     private void onAddGasto() {
@@ -52,7 +65,7 @@ public class GastosController {
             LocalDate fecha = view.getFechaPicker().getValue();
             String categoria = getCategoriaInput();
             String pagador = view.getPagadorField().getText().trim();
-            int idCuenta = Integer.parseInt(view.getIdCuentaField().getText().trim());
+            int idCuenta = cuentaActivaId;
 
             if (categoria.isEmpty()) {
                 throw new IllegalArgumentException("La categoría no puede estar vacía");
@@ -63,12 +76,13 @@ public class GastosController {
 
             Gasto gasto = Gasto.crearGasto(cantidad, fecha, categoria, pagador, idCuenta);
             repo.añadirGasto(gasto);
+            context.getGastosPersistence().save(repo);
 
             refreshAll();
             clearGastoInputs();
             view.getFeedbackLabel().setText("Guardado");
         } catch (NumberFormatException ex) {
-            showError("Cantidad o idCuenta no válido.", ex);
+            showError("Cantidad no válida.", ex);
         } catch (IllegalArgumentException ex) {
             showError(ex.getMessage(), ex);
         }
@@ -82,9 +96,10 @@ public class GastosController {
                 throw new IllegalArgumentException("La categoría no puede estar vacía");
             }
             repo.añadirCategoria(categoria);
+            context.getGastosPersistence().save(repo);
             refreshAll();
             view.getNuevaCategoriaField().clear();
-            view.getFeedbackLabel().setText("Guardado ");
+            view.getFeedbackLabel().setText("Guardado");
         } catch (IllegalArgumentException ex) {
             showError(ex.getMessage(), ex);
         }
@@ -99,40 +114,25 @@ public class GastosController {
         }
         try {
             repo.eliminarGasto(seleccionado);
+            context.getGastosPersistence().save(repo);
             refreshAll();
-            view.getFeedbackLabel().setText("Guardado ");
+            view.getFeedbackLabel().setText("Guardado");
         } catch (IllegalArgumentException ex) {
             showError(ex.getMessage(), ex);
         }
     }
 
     private void refreshAll() {
-        gastosData.setAll(repo.getListaGastos());
+        List<Gasto> filtrados = filtrarGastos();
+        gastosData.setAll(filtrados);
         categoriasData.setAll(repo.getCategorias().stream().sorted(Comparator.naturalOrder()).collect(Collectors.toList()));
     }
 
     private void onAplicarFiltros() {
         view.getFeedbackLabel().setText("");
         try {
-            FiltroCompuesto compuesto = new FiltroCompuesto();
-
-            List<String> categorias = parseLista(view.getFiltroCategoriasField().getText());
-            if (!categorias.isEmpty()) {
-                compuesto.añadirFiltro(new FiltroCategoria(categorias));
-            }
-
-            List<String> meses = parseLista(view.getFiltroMesesField().getText());
-            if (!meses.isEmpty()) {
-                compuesto.añadirFiltro(new FiltroMeses(meses));
-            }
-
-            LocalDate desde = view.getFiltroDesdePicker().getValue();
-            LocalDate hasta = view.getFiltroHastaPicker().getValue();
-            if (desde != null || hasta != null) {
-                compuesto.añadirFiltro(new FiltroIntervaloFechas(desde, hasta));
-            }
-
-            List<Gasto> filtrados = repo.filtrar(compuesto);
+            filtroActual = construirFiltro();
+            List<Gasto> filtrados = filtrarGastos();
             gastosData.setAll(filtrados);
             view.getFeedbackLabel().setText("Filtro aplicado (" + filtrados.size() + ")");
         } catch (IllegalArgumentException ex) {
@@ -145,8 +145,48 @@ public class GastosController {
         view.getFiltroMesesField().clear();
         view.getFiltroDesdePicker().setValue(null);
         view.getFiltroHastaPicker().setValue(null);
+        filtroActual = null;
         refreshAll();
         view.getFeedbackLabel().setText("Filtros limpiados");
+    }
+
+    private void onGraficas() {
+        List<Gasto> filtrados = filtrarGastos();
+        context.getNavigator().goToGraficas(cuentaActivaId, filtrados);
+    }
+
+    private List<Gasto> filtrarGastos() {
+        List<Gasto> base = repo.getListaGastos().stream()
+            .filter(g -> g.getIDCuenta() == cuentaActivaId)
+            .collect(Collectors.toList());
+        if (filtroActual == null) {
+            return base;
+        }
+        return base.stream()
+            .filter(filtroActual::filtrar)
+            .collect(Collectors.toList());
+    }
+
+    private FiltroCompuesto construirFiltro() {
+        FiltroCompuesto compuesto = new FiltroCompuesto();
+
+        List<String> categorias = parseLista(view.getFiltroCategoriasField().getText());
+        if (!categorias.isEmpty()) {
+            compuesto.añadirFiltro(new FiltroCategoria(categorias));
+        }
+
+        List<String> meses = parseLista(view.getFiltroMesesField().getText());
+        if (!meses.isEmpty()) {
+            compuesto.añadirFiltro(new FiltroMeses(meses));
+        }
+
+        LocalDate desde = view.getFiltroDesdePicker().getValue();
+        LocalDate hasta = view.getFiltroHastaPicker().getValue();
+        if (desde != null || hasta != null) {
+            compuesto.añadirFiltro(new FiltroIntervaloFechas(desde, hasta));
+        }
+
+        return compuesto;
     }
 
     private void clearGastoInputs() {
@@ -155,7 +195,6 @@ public class GastosController {
         view.getCategoriaCombo().getEditor().clear();
         view.getCategoriaCombo().setValue(null);
         view.getPagadorField().clear();
-        view.getIdCuentaField().clear();
     }
 
     private String getCategoriaInput() {

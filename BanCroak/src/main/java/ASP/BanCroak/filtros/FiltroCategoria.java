@@ -1,6 +1,6 @@
 package ASP.BanCroak.filtros;
 
-import ASP.BanCroak.Gasto;
+import ASP.BanCroak.domain.Gasto;
 
 import java.text.Normalizer;
 import java.util.ArrayList;

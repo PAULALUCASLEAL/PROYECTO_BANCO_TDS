@@ -1,8 +1,10 @@
-package ASP.BanCroak;
+package ASP.BanCroak.repo;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import ASP.BanCroak.domain.Cuenta;
 
 public enum RepositorioCuentas {
     INSTANCE;
@@ -55,5 +57,16 @@ public enum RepositorioCuentas {
     public void limpiar() {
         cuentas.clear();
         nextIdCuenta = 1;
+    }
+
+    public int getNextIdCuenta() {
+        return nextIdCuenta;
+    }
+
+    public void setNextIdCuenta(int nextIdCuenta) {
+        if (nextIdCuenta <= 0) {
+            throw new IllegalArgumentException("nextIdCuenta debe ser positivo");
+        }
+        this.nextIdCuenta = nextIdCuenta;
     }
 }

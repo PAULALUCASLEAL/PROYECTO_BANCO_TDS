@@ -1,4 +1,4 @@
-package ASP.BanCroak;
+package ASP.BanCroak.domain;
 
 import java.text.Normalizer;
 import java.time.LocalDate;
@@ -117,7 +117,7 @@ public final class Gasto {
     
      //Asigna idGasto desde el repositorio (uso interno del paquete).
     
-    void asignarId(int id) {
+    public void asignarId(int id) {
         if (id <= 0) {
             throw new IllegalArgumentException("El id debe ser positivo");
         }
