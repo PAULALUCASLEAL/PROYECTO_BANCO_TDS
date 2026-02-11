@@ -15,13 +15,13 @@ public enum RepositorioCuentas {
         this.nextIdCuenta = 1;
     }
 
-    public Cuenta crearCuentaConPartesIguales(String nombreCuenta, List<Persona> miembros) {
+    public Cuenta crearCuentaConPartesIguales(String nombreCuenta, List<String> miembros) {
         Cuenta cuenta = Cuenta.crearConPartesIguales(nextIdCuenta, nombreCuenta, miembros);
         añadirCuenta(cuenta);
         return cuenta;
     }
 
-    public Cuenta crearCuentaConPorcentajes(String nombreCuenta, List<Persona> miembros, java.util.Map<Persona, Double> porcentajes) {
+    public Cuenta crearCuentaConPorcentajes(String nombreCuenta, List<String> miembros, java.util.Map<String, Double> porcentajes) {
         Cuenta cuenta = Cuenta.crearConPorcentajes(nextIdCuenta, nombreCuenta, miembros, porcentajes);
         añadirCuenta(cuenta);
         return cuenta;

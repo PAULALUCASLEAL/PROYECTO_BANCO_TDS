@@ -12,14 +12,14 @@ public final class Cuenta {
 
     private final int idCuenta;
     private final String nombreCuenta;
-    private final List<Persona> miembros;
-    private final Map<Persona, Double> porcentajes;
+    private final List<String> miembros;
+    private final Map<String, Double> porcentajes;
 
-    private Cuenta(int idCuenta, String nombreCuenta, List<Persona> miembros, Map<Persona, Double> porcentajes) {
+    private Cuenta(int idCuenta, String nombreCuenta, List<String> miembros, Map<String, Double> porcentajes) {
         validarId(idCuenta);
         validarNombre(nombreCuenta);
-        List<Persona> miembrosValidados = validarYNormalizarMiembros(miembros);
-        Map<Persona, Double> porcentajesValidados = validarYNormalizarPorcentajes(miembrosValidados, porcentajes);
+        List<String> miembrosValidados = validarYNormalizarMiembros(miembros);
+        Map<String, Double> porcentajesValidados = validarYNormalizarPorcentajes(miembrosValidados, porcentajes);
 
         this.idCuenta = idCuenta;
         this.nombreCuenta = nombreCuenta.trim();
@@ -27,13 +27,13 @@ public final class Cuenta {
         this.porcentajes = Map.copyOf(porcentajesValidados);
     }
 
-    public static Cuenta crearConPartesIguales(int idCuenta, String nombreCuenta, List<Persona> miembros) {
-        List<Persona> miembrosValidados = validarYNormalizarMiembros(miembros);
-        Map<Persona, Double> reparto = repartoIgual(miembrosValidados);
+    public static Cuenta crearConPartesIguales(int idCuenta, String nombreCuenta, List<String> miembros) {
+        List<String> miembrosValidados = validarYNormalizarMiembros(miembros);
+        Map<String, Double> reparto = repartoIgual(miembrosValidados);
         return new Cuenta(idCuenta, nombreCuenta, miembrosValidados, reparto);
     }
 
-    public static Cuenta crearConPorcentajes(int idCuenta, String nombreCuenta, List<Persona> miembros, Map<Persona, Double> porcentajes) {
+    public static Cuenta crearConPorcentajes(int idCuenta, String nombreCuenta, List<String> miembros, Map<String, Double> porcentajes) {
         return new Cuenta(idCuenta, nombreCuenta, miembros, porcentajes);
     }
 
@@ -45,11 +45,11 @@ public final class Cuenta {
         return nombreCuenta;
     }
 
-    public List<Persona> getMiembros() {
+    public List<String> getMiembros() {
         return List.copyOf(miembros);
     }
 
-    public Map<Persona, Double> getPorcentajes() {
+    public Map<String, Double> getPorcentajes() {
         return Map.copyOf(porcentajes);
     }
 
@@ -57,7 +57,7 @@ public final class Cuenta {
         return miembros.size() == 1;
     }
 
-    public Map<Persona, Double> calcularReparto(double total) {
+    public Map<String, Double> calcularReparto(double total) {
         if (total < 0) {
             throw new IllegalArgumentException("El total no puede ser negativo");
         }
@@ -66,10 +66,10 @@ public final class Cuenta {
         }
 
         // Redondeo a 2 decimales y residuo al primer miembro para cuadrar el total.
-        List<Persona> orden = ordenDeterminista();
-        Map<Persona, Double> reparto = new LinkedHashMap<>();
+        List<String> orden = ordenDeterminista();
+        Map<String, Double> reparto = new LinkedHashMap<>();
         double suma = 0.0;
-        for (Persona miembro : orden) {
+        for (String miembro : orden) {
             double porcentaje = porcentajes.get(miembro);
             double parte = redondear2(total * (porcentaje / 100.0));
             reparto.put(miembro, parte);
@@ -77,7 +77,7 @@ public final class Cuenta {
         }
         double residuo = redondear2(total - suma);
         if (!orden.isEmpty() && Math.abs(residuo) > 0.0) {
-            Persona primero = orden.get(0);
+            String primero = orden.get(0);
             reparto.put(primero, redondear2(reparto.get(primero) + residuo));
         }
         return Map.copyOf(reparto);
@@ -127,16 +127,20 @@ public final class Cuenta {
         }
     }
 
-    private static List<Persona> validarYNormalizarMiembros(List<Persona> miembros) {
+    private static List<String> validarYNormalizarMiembros(List<String> miembros) {
         if (miembros == null || miembros.isEmpty()) {
             throw new IllegalArgumentException("La lista de miembros no puede ser null o vacia");
         }
-        List<Persona> copia = new ArrayList<>();
-        for (Persona p : miembros) {
+        List<String> copia = new ArrayList<>();
+        for (String p : miembros) {
             if (p == null) {
                 throw new IllegalArgumentException("No se permiten miembros null");
             }
-            copia.add(p);
+            String normalizado = p.trim();
+            if (normalizado.isEmpty()) {
+                throw new IllegalArgumentException("No se permiten miembros vacios");
+            }
+            copia.add(normalizado);
         }
         long distintos = copia.stream().distinct().count();
         if (distintos != copia.size()) {
@@ -145,24 +149,21 @@ public final class Cuenta {
         return copia;
     }
 
-    private static Map<Persona, Double> validarYNormalizarPorcentajes(List<Persona> miembros, Map<Persona, Double> porcentajes) {
+    private static Map<String, Double> validarYNormalizarPorcentajes(List<String> miembros, Map<String, Double> porcentajes) {
         if (porcentajes == null || porcentajes.isEmpty()) {
             throw new IllegalArgumentException("El mapa de porcentajes no puede ser null o vacio");
         }
-        if (porcentajes.size() != miembros.size()) {
-            throw new IllegalArgumentException("El mapa de porcentajes debe tener los mismos miembros");
-        }
-        for (Persona miembro : miembros) {
-            if (!porcentajes.containsKey(miembro)) {
-                throw new IllegalArgumentException("Falta porcentaje para el miembro: " + miembro);
-            }
-        }
+        Map<String, Double> normalizados = new LinkedHashMap<>();
         double suma = 0.0;
-        for (Map.Entry<Persona, Double> entry : porcentajes.entrySet()) {
-            Persona miembro = entry.getKey();
+        for (Map.Entry<String, Double> entry : porcentajes.entrySet()) {
+            String miembro = entry.getKey();
             Double porcentaje = entry.getValue();
             if (miembro == null) {
                 throw new IllegalArgumentException("No se permiten miembros null en porcentajes");
+            }
+            String normalizado = miembro.trim();
+            if (normalizado.isEmpty()) {
+                throw new IllegalArgumentException("No se permiten miembros vacios en porcentajes");
             }
             if (porcentaje == null) {
                 throw new IllegalArgumentException("El porcentaje no puede ser null");
@@ -170,25 +171,37 @@ public final class Cuenta {
             if (porcentaje < 0) {
                 throw new IllegalArgumentException("No se permiten porcentajes negativos");
             }
+            if (normalizados.containsKey(normalizado)) {
+                throw new IllegalArgumentException("No se permiten miembros duplicados en porcentajes");
+            }
+            normalizados.put(normalizado, porcentaje);
             suma += porcentaje;
+        }
+        if (normalizados.size() != miembros.size()) {
+            throw new IllegalArgumentException("El mapa de porcentajes debe tener los mismos miembros");
+        }
+        for (String miembro : miembros) {
+            if (!normalizados.containsKey(miembro)) {
+                throw new IllegalArgumentException("Falta porcentaje para el miembro: " + miembro);
+            }
         }
         if (Math.abs(100.0 - suma) > TOLERANCIA_SUMA) {
             throw new IllegalArgumentException("La suma de porcentajes debe ser 100");
         }
-        return new LinkedHashMap<>(porcentajes);
+        return new LinkedHashMap<>(normalizados);
     }
 
-    private static Map<Persona, Double> repartoIgual(List<Persona> miembros) {
-        Map<Persona, Double> reparto = new LinkedHashMap<>();
+    private static Map<String, Double> repartoIgual(List<String> miembros) {
+        Map<String, Double> reparto = new LinkedHashMap<>();
         double porcentaje = 100.0 / miembros.size();
         double suma = 0.0;
-        for (Persona miembro : miembros) {
+        for (String miembro : miembros) {
             reparto.put(miembro, porcentaje);
             suma += porcentaje;
         }
         double residuo = 100.0 - suma;
         if (Math.abs(residuo) > 0.0) {
-            Persona primero = miembros.get(0);
+            String primero = miembros.get(0);
             reparto.put(primero, reparto.get(primero) + residuo);
         }
         return reparto;
@@ -198,9 +211,9 @@ public final class Cuenta {
         return Math.round(valor * 100.0) / 100.0;
     }
 
-    private List<Persona> ordenDeterminista() {
+    private List<String> ordenDeterminista() {
         return miembros.stream()
-            .sorted(Comparator.comparingInt(Persona::getId))
+            .sorted(String.CASE_INSENSITIVE_ORDER)
             .collect(Collectors.toList());
     }
 }
