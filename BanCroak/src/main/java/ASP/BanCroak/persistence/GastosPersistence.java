@@ -32,7 +32,9 @@ public class GastosPersistence {
             GastosData data = mapper.readValue(path.toFile(), GastosData.class);
             if (data.categorias != null) {
                 for (String categoria : data.categorias) {
-                    repo.añadirCategoria(categoria);
+                    if (!repo.existeCategoria(categoria)) {
+                        repo.añadirCategoria(categoria);
+                    }
                 }
             }
             if (data.gastos != null) {

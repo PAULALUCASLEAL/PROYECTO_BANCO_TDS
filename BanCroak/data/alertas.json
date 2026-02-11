@@ -1,0 +1,16 @@
+{
+  "nextId" : 3,
+  "alertas" : [ {
+    "id" : 1,
+    "periodo" : "MENSUAL",
+    "limite" : 10000.0,
+    "categoria" : "comida",
+    "activa" : true
+  }, {
+    "id" : 2,
+    "periodo" : "MENSUAL",
+    "limite" : 30000.0,
+    "categoria" : null,
+    "activa" : true
+  } ]
+}

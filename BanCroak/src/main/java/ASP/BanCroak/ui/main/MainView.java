@@ -4,9 +4,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 
 public class MainView {
 
@@ -17,19 +17,29 @@ public class MainView {
 
     public MainView() {
         root = new BorderPane();
-        VBox centerBox = new VBox(20);
-        centerBox.setPadding(new Insets(40));
-        centerBox.setAlignment(Pos.CENTER);
+        root.getStyleClass().add("main-root");
+
+        Label title = new Label("BanCroak");
+        title.getStyleClass().add("main-title");
+
+        Label subtitle = new Label("Gestiona tus gastos y cuentas compartidas");
+        subtitle.getStyleClass().add("main-subtitle");
 
         miCuentaButton = new Button("MI CUENTA");
         otrasCuentasButton = new Button("OTRAS CUENTAS");
 
-        miCuentaButton.setPrefWidth(300);
-        otrasCuentasButton.setPrefWidth(300);
-        miCuentaButton.setFont(Font.font(20));
-        otrasCuentasButton.setFont(Font.font(20));
+        miCuentaButton.getStyleClass().addAll("card-button", "primary-button");
+        otrasCuentasButton.getStyleClass().addAll("card-button", "secondary-button");
 
-        centerBox.getChildren().addAll(miCuentaButton, otrasCuentasButton);
+        miCuentaButton.setMinWidth(360);
+        miCuentaButton.setMinHeight(80);
+        otrasCuentasButton.setMinWidth(360);
+        otrasCuentasButton.setMinHeight(80);
+
+        VBox centerBox = new VBox(18, title, subtitle, miCuentaButton, otrasCuentasButton);
+        centerBox.setPadding(new Insets(48));
+        centerBox.setAlignment(Pos.CENTER);
+
         root.setCenter(centerBox);
     }
 

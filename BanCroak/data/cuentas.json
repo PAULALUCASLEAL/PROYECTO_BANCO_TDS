@@ -1,11 +1,36 @@
 {
-  "nextIdCuenta" : 2,
+  "nextIdCuenta" : 5,
   "cuentas" : [ {
     "idCuenta" : 1,
     "nombreCuenta" : "Mi Cuenta",
     "miembros" : [ "Mi Cuenta" ],
     "porcentajes" : {
       "Mi Cuenta" : 100.0
+    }
+  }, {
+    "idCuenta" : 2,
+    "nombreCuenta" : "Paula",
+    "miembros" : [ "Sergio", "Paula" ],
+    "porcentajes" : {
+      "Paula" : 40.0,
+      "Sergio" : 60.0
+    }
+  }, {
+    "idCuenta" : 3,
+    "nombreCuenta" : "Puchaina",
+    "miembros" : [ "Sergio", "Paula", "Aaron" ],
+    "porcentajes" : {
+      "Paula" : 50.0,
+      "Sergio" : 40.0,
+      "Aaron" : 10.0
+    }
+  }, {
+    "idCuenta" : 4,
+    "nombreCuenta" : "BANCO",
+    "miembros" : [ "MARU", "SERGIO" ],
+    "porcentajes" : {
+      "SERGIO" : 50.0,
+      "MARU" : 50.0
     }
   } ]
 }

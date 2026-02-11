@@ -1,19 +1,54 @@
 {
-  "nextId" : 3,
+  "nextId" : 19,
   "gastos" : [ {
-    "idGasto" : 1,
-    "idCuenta" : 1,
-    "categoria" : "PALETA",
+    "idGasto" : 3,
+    "idCuenta" : 2,
+    "categoria" : "comida",
+    "pagador" : "paula",
+    "cantidad" : 100.0,
+    "fecha" : "2026-02-07"
+  }, {
+    "idGasto" : 4,
+    "idCuenta" : 3,
+    "categoria" : "comida",
     "pagador" : "Paula",
     "cantidad" : 100.0,
-    "fecha" : "2026-02-13"
+    "fecha" : "2026-02-05"
   }, {
-    "idGasto" : 2,
+    "idGasto" : 12,
     "idCuenta" : 1,
-    "categoria" : "COMIDA",
-    "pagador" : "PAULA",
-    "cantidad" : 8000.0,
-    "fecha" : "2026-02-02"
+    "categoria" : "viaje",
+    "pagador" : "Mi Cuenta",
+    "cantidad" : 200.0,
+    "fecha" : "2026-01-15"
+  }, {
+    "idGasto" : 13,
+    "idCuenta" : 1,
+    "categoria" : "paleta",
+    "pagador" : "Mi Cuenta",
+    "cantidad" : 3000.0,
+    "fecha" : "2026-03-24"
+  }, {
+    "idGasto" : 14,
+    "idCuenta" : 1,
+    "categoria" : "universidad",
+    "pagador" : "Mi Cuenta",
+    "cantidad" : 1200.0,
+    "fecha" : "2025-09-10"
+  }, {
+    "idGasto" : 17,
+    "idCuenta" : 1,
+    "categoria" : "ropa",
+    "pagador" : "Mi Cuenta",
+    "cantidad" : 20.0,
+    "fecha" : "2025-12-17"
+  }, {
+    "idGasto" : 18,
+    "idCuenta" : 1,
+    "categoria" : "navidad",
+    "pagador" : "Mi Cuenta",
+    "cantidad" : 250.0,
+    "fecha" : "2025-12-25"
   } ],
-  "categorias" : [ "PALETA", "COMIDA" ]
+  "categorias" : [ "navidad", "comida", "gimnasio", "viaje", "paleta", "universidad", "ropa" ]
 }

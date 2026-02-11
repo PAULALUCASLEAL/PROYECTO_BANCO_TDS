@@ -3,10 +3,12 @@ package ASP.BanCroak.repo;
 import ASP.BanCroak.domain.Gasto;
 import ASP.BanCroak.filtros.Filtro;
 
+import java.text.Normalizer;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -32,10 +34,12 @@ public enum RepositorioGastos {
     public void añadirGasto(Gasto gasto) {
         if (gasto == null) throw new IllegalArgumentException("El gasto no puede ser null");
         String categoria = normalizarCategoria(gasto.getCategoria());
-        //ahora hacemos una comprobación extra
         if (categoria.isEmpty()) throw new IllegalArgumentException("La categoría no puede estar vacía");
-        if (!categorias.contains(categoria)) throw new IllegalArgumentException("La categoría no existe: " + categoria);
-        //asignamos el id a gasto porque cuando lo creamos en gasto le hemos puesto idGasto = 0 
+        if (!categorias.contains(categoria)) throw new IllegalArgumentException("La categoría no existe");
+
+        // Normaliza la categoría almacenada en el gasto para mantener consistencia.
+        gasto.actualizarGasto(gasto.getCantidad(), gasto.getFecha(), categoria, gasto.getPagador());
+
         if (gasto.getID() == 0) {
             gasto.asignarId(nextId++);
         } else if (buscarPorId(gasto.getID()).isPresent()) {
@@ -51,7 +55,7 @@ public enum RepositorioGastos {
         if (id <= 0) throw new IllegalArgumentException("Id de gasto no válido");
         String cat = normalizarCategoria(categoria);
         if (cat.isEmpty()) throw new IllegalArgumentException("La categoría no puede estar vacía");
-        if (!categorias.contains(cat)) throw new IllegalArgumentException("La categoría no existe: " + cat);
+        if (!categorias.contains(cat)) throw new IllegalArgumentException("La categoría no existe");
 
         for (Gasto g : listaGastos) {
             if (g.getID() == id) {
@@ -80,7 +84,7 @@ public enum RepositorioGastos {
     }
 
     public List<Gasto> getListaGastos() {
-    	//devolvemos una copia de la lista para que nadie la pueda modificar 
+        //devolvemos una copia de la lista para que nadie la pueda modificar
         return List.copyOf(listaGastos);
     }
 
@@ -89,35 +93,51 @@ public enum RepositorioGastos {
             throw new IllegalArgumentException("El filtro no puede ser null");
         }
         return listaGastos.stream()
-        	.filter(g -> filtro.filtrar(g)) //devuelve true si el gasto pasa el filtro
+            .filter(g -> filtro.filtrar(g)) //devuelve true si el gasto pasa el filtro
             .collect(Collectors.toList()); //devolvemos la lista de gastos que cumplen el filtro
     }
 
-    // Categorías (Set, sin duplicados) 
+    // Categorías (Set, sin duplicados)
     public void añadirCategoria(String categoria) {
         String cat = normalizarCategoria(categoria);
         if (cat.isEmpty()) throw new IllegalArgumentException("La categoría no puede estar vacía");
+        if (categorias.contains(cat)) throw new IllegalArgumentException("La categoría ya existe");
         categorias.add(cat);
     }
 
     public void eliminarCategoria(String categoria) {
         String cat = normalizarCategoria(categoria);
         if (cat.isEmpty()) throw new IllegalArgumentException("La categoría no puede estar vacía");
-        if (!categorias.remove(cat)) throw new IllegalArgumentException("No existe la categoría: " + cat);
+        if (!categorias.remove(cat)) throw new IllegalArgumentException("La categoría no existe");
+    }
+
+    public boolean existeCategoria(String categoria) {
+        String cat = normalizarCategoria(categoria);
+        if (cat.isEmpty()) return false;
+        return categorias.contains(cat);
+    }
+
+    public String normalizarCategoriaPublic(String categoria) {
+        return normalizarCategoria(categoria);
     }
 
     public Set<String> getCategorias() {
-    	//lo mismo con la copia para que nadie pueda modificar la lista
+        //lo mismo con la copia para que nadie pueda modificar la lista
         return Set.copyOf(categorias);
     }
 
     private String normalizarCategoria(String categoria) {
-        return categoria == null ? "" : categoria.trim();
+        if (categoria == null) {
+            return "";
+        }
+        String normalized = Normalizer.normalize(categoria, Normalizer.Form.NFD);
+        String sinAcentos = normalized.replaceAll("\\p{M}", "");
+        return sinAcentos.trim().toLowerCase(Locale.ROOT);
     }
 
     /**
      * Limpia el repositorio y reinicia el contador de ids.
-     * Deja el repositorio como recién creado. 
+     * Deja el repositorio como recién creado.
      */
     public void limpiar() {
         listaGastos.clear();
