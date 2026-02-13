@@ -59,8 +59,11 @@ public GastosView(SceneManager sm) {
     importar.getStyleClass().add("label-sombreado");
 
     
-    String rutaSonido = getClass().getResource("/Audio/Boton .mp3").toExternalForm();
-    AudioClip sonidoRana = new AudioClip(rutaSonido);
+    String rutaSonidoRana = getClass().getResource("/Audio/Boton .mp3").toExternalForm();
+    AudioClip sonidoRana = new AudioClip(rutaSonidoRana);
+    String rutaSonidoNotificaion = getClass().getResource("/Audio/Notificacion.mp3").toExternalForm();
+    AudioClip sonidoNotificacion = new AudioClip(rutaSonidoNotificaion);
+
 
     ranaView.setOnMouseClicked(e -> {
         sonidoRana.play();}); 
@@ -160,9 +163,10 @@ public GastosView(SceneManager sm) {
         System.out.println(valor);
         if (valor== 0) {
             sm.showNotificacion("Se ha superado el limite de 100 eutos semanal en la categoria alimentacion");
+            sonidoNotificacion.play();
         }
-        
-        sonidoRana.play();
+        else 
+        	sonidoRana.play();
         
         sm.salto(ranaView);
         
