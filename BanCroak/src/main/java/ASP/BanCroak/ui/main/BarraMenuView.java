@@ -29,7 +29,7 @@ public class BarraMenuView extends MenuBar {
         //itemCrearCuentaCompartida.setOnAction(e -> sm.showVentanaCuentaCompartida());
         itemCrearNotificacion.setOnAction(e -> sm.showVentanaCrearNotificaciones());
         //itemTabla.setOnAction(e -> sm.showTabla());
-        //itemHistorial.setOnAction(e -> sm.showVentanaHistorialNotificaciones());*/
+        itemHistorial.setOnAction(e -> sm.showVentanaHistorialNotificaciones());
         itemSalir.setOnAction(e -> Platform.exit());
 
         menuMenu.getItems().addAll(itemCrearGasto, new SeparatorMenuItem(), itemCrearCuentaCompartida, new SeparatorMenuItem(),itemSalir);

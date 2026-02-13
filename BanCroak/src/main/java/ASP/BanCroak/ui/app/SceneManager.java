@@ -69,8 +69,12 @@ public class SceneManager {
 	    
 	    NotificacionView.mostrar(texto);
 	    
-	    //historial.actualizar(notificaciones);
+	    historial.actualizar(notificaciones);
 	}
+    public void showVentanaHistorialNotificaciones() {
+        cambiarVista(historial);
+    }
+    
     public void salto(ImageView ranaView) {
 		if (saltando) return;
 		TranslateTransition salto = new TranslateTransition(Duration.millis(200), ranaView);
