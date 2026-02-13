@@ -106,12 +106,8 @@ public class CuentasCompartidasView extends VBox{
     bCrear.setOnAction(ev -> {
         sonidoRana.play();
         
-        TranslateTransition salto = new TranslateTransition(Duration.millis(200), ranaView);
-        salto.setByY(-40);            
-        salto.setCycleCount(2);
-        salto.setAutoReverse(true);
-        salto.setInterpolator(javafx.animation.Interpolator.EASE_OUT);            
-        salto.play();
+        sm.salto(ranaView);
+        limpiarCuentas(nombre);
     });
 
     gastoVView.getChildren().addAll(lTitulo,lNombre,nombre,personas,bCrear);
@@ -131,6 +127,8 @@ public class CuentasCompartidasView extends VBox{
                 double valor = Double.parseDouble(teclado.getText());
                 rebalancearDesde(p, valor);
                 p.slider.setValue(valor); 
+                teclado.clear();
+
             });
             HBox fila = new HBox(15, new Label(p.nombre), p.slider, p.labelPorcentaje,teclado,bTeclado);
             fila.setPadding(new Insets(5));
@@ -186,6 +184,12 @@ public class CuentasCompartidasView extends VBox{
             p.labelPorcentaje.setText(String.format("%.1f%%", p.porcentaje));
         }
         ajustandoInternamente = false;
+    }
+    public void limpiarCuentas(TextField nombre) {
+    	
+    	nombre.clear();
+    	listaPersonas.clear();
+    	actualizarUI();
     }
  
 }
