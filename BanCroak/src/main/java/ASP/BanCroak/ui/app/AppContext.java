@@ -24,7 +24,7 @@ public class AppContext {
     private final CuentasPersistence cuentasPersistence;
     private final AlertasPersistence alertasPersistence;
     private final NotificacionesPersistence notificacionesPersistence;
-    private Navigator navigator;
+    private SceneManager navigator;
     private int cuentaActivaId;
 
     public AppContext() {
@@ -78,11 +78,11 @@ public class AppContext {
         return notificacionesPersistence;
     }
 
-    public Navigator getNavigator() {
+    public SceneManager getNavigator() {
         return navigator;
     }
 
-    public void setNavigator(Navigator navigator) {
+    public void setNavigator(SceneManager navigator) {
         this.navigator = navigator;
     }
 

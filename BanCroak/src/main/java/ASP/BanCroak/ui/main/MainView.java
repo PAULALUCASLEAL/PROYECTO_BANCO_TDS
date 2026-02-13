@@ -1,57 +1,51 @@
 package ASP.BanCroak.ui.main;
 
+
+import ASP.BanCroak.ui.app.SceneManager;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 
-public class MainView {
+public class MainView extends VBox{
 
-    private final BorderPane root;
 
-    private final Button miCuentaButton;
-    private final Button otrasCuentasButton;
+    public MainView(SceneManager sm) {
+    	this.setSpacing(20);
+        this.setAlignment(Pos.CENTER);
+        this.setId("estilo_MainView");
+        this.getStylesheets().add(getClass().getResource("/estilos.css").toExternalForm());
+        //BarraMenuView barra = new BarraMenuView(sm);
+        
+        Image logo = new Image(getClass().getResource("/Imagenes/BanCroak Logo.png").toExternalForm());
+        ImageView logoView = new ImageView(logo);
+        logoView.setFitHeight(450); 
+        logoView.setPreserveRatio(true);
+        logoView.fitWidthProperty().bind(this.widthProperty().multiply(0.4));
+        logoView.setPreserveRatio(true);
 
-    public MainView() {
-        root = new BorderPane();
-        root.getStyleClass().add("main-root");
+        Image rana = new Image(getClass().getResource("/Imagenes/Rana 1.png").toExternalForm());
+        ImageView ranaView = new ImageView(rana);
+        ranaView.setFitHeight(440); 
+        ranaView.setPreserveRatio(true);
+        ranaView.fitWidthProperty().bind(this.widthProperty().multiply(0.4));
+        ranaView.setPreserveRatio(true);
+        Label lInicio = new Label("Pulsa a la rana");
+        
+        
+        String rutaSonido = getClass().getResource("/Audio/Boton .mp3").toExternalForm();
+        AudioClip sonidoRana = new AudioClip(rutaSonido);
 
-        Label title = new Label("BanCroak");
-        title.getStyleClass().add("main-title");
+        ranaView.setOnMouseClicked(e -> {
+            sonidoRana.play();});    
 
-        Label subtitle = new Label("Gestiona tus gastos y cuentas compartidas");
-        subtitle.getStyleClass().add("main-subtitle");
-
-        miCuentaButton = new Button("MI CUENTA");
-        otrasCuentasButton = new Button("OTRAS CUENTAS");
-
-        miCuentaButton.getStyleClass().addAll("card-button", "primary-button");
-        otrasCuentasButton.getStyleClass().addAll("card-button", "secondary-button");
-
-        miCuentaButton.setMinWidth(360);
-        miCuentaButton.setMinHeight(80);
-        otrasCuentasButton.setMinWidth(360);
-        otrasCuentasButton.setMinHeight(80);
-
-        VBox centerBox = new VBox(18, title, subtitle, miCuentaButton, otrasCuentasButton);
-        centerBox.setPadding(new Insets(48));
-        centerBox.setAlignment(Pos.CENTER);
-
-        root.setCenter(centerBox);
+        this.getChildren().addAll( logoView, ranaView, lInicio);
     }
 
-    public Parent getRoot() {
-        return root;
-    }
-
-    public Button getMiCuentaButton() {
-        return miCuentaButton;
-    }
-
-    public Button getOtrasCuentasButton() {
-        return otrasCuentasButton;
-    }
 }

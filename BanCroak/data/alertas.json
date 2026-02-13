@@ -1,5 +1,5 @@
 {
-  "nextId" : 3,
+  "nextId" : 4,
   "alertas" : [ {
     "id" : 1,
     "periodo" : "MENSUAL",
@@ -11,6 +11,12 @@
     "periodo" : "MENSUAL",
     "limite" : 30000.0,
     "categoria" : null,
+    "activa" : true
+  }, {
+    "id" : 3,
+    "periodo" : "SEMANAL",
+    "limite" : 10.0,
+    "categoria" : "comida",
     "activa" : true
   } ]
 }

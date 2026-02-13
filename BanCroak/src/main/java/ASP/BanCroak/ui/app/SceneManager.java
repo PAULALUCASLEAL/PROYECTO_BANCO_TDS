@@ -7,41 +7,48 @@ import ASP.BanCroak.ui.gastos.GastosController;
 import ASP.BanCroak.ui.gastos.GastosView;
 import ASP.BanCroak.ui.graficas.GraficasController;
 import ASP.BanCroak.ui.graficas.GraficasView;
-import ASP.BanCroak.ui.main.MainController;
 import ASP.BanCroak.ui.main.MainView;
 import ASP.BanCroak.ui.notificaciones.NotificacionesController;
 import ASP.BanCroak.ui.notificaciones.NotificacionesView;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.util.List;
 
-public class Navigator {
+public class SceneManager {
     private final AppContext context;
     private Stage stage;
-    private Scene scene;
+    private Scene scenaActual;
+    private static final double ANCHO = 800; 
+    private static final double ALTO = 650;
 
-    public Navigator(AppContext context) {
+    public SceneManager(AppContext context) {
         this.context = context;
     }
 
-    public void init(Stage stage) {
+    public void inicializar(Stage stage) {
         this.stage = stage;
-        if (scene == null) {
-            scene = new Scene(new javafx.scene.layout.BorderPane(), 1100, 650);
-            String css = getClass().getResource("/estilos.css").toExternalForm();
-            scene.getStylesheets().add(css);
-            String mainCss = getClass().getResource("/styles/bancroak.css").toExternalForm();
-            scene.getStylesheets().add(mainCss);
-        }
-        stage.setScene(scene);
+		this.stage.setTitle("BanCroak");
+		Image icono = new Image(getClass().getResource("/Imagenes/Nenúfar 1.png").toExternalForm());
+        this.stage.getIcons().add(icono);
+        this.stage.setMinWidth(ANCHO);
+        this.stage.setMinHeight(ALTO);
     }
 
-    public void goToMain() {
-        MainView view = new MainView();
-        new MainController(context, view);
-        setRoot(view.getRoot());
+    private void cambiarVista(Parent nuevaVista) {
+        if (scenaActual == null) {
+            scenaActual = new Scene(nuevaVista, ANCHO, ALTO); 
+            stage.setScene(scenaActual);
+            stage.show();
+        } else {
+            scenaActual.setRoot(nuevaVista);
+        }
+    }
+    public void showVentanaPrincipal() {
+        MainView vista = new MainView(this);
+        cambiarVista(vista);
     }
 
     public void goToGastos(int cuentaId) {
@@ -73,12 +80,4 @@ public class Navigator {
         setRoot(view.getRoot());
     }
 
-    private void setRoot(Parent root) {
-        if (scene == null) {
-            scene = new Scene(root, 1100, 650);
-            stage.setScene(scene);
-            return;
-        }
-        scene.setRoot(root);
-    }
 }

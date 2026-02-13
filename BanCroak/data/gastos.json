@@ -1,5 +1,5 @@
 {
-  "nextId" : 19,
+  "nextId" : 21,
   "gastos" : [ {
     "idGasto" : 3,
     "idCuenta" : 2,
@@ -40,7 +40,7 @@
     "idCuenta" : 1,
     "categoria" : "ropa",
     "pagador" : "Mi Cuenta",
-    "cantidad" : 20.0,
+    "cantidad" : 201.0,
     "fecha" : "2025-12-17"
   }, {
     "idGasto" : 18,
@@ -49,6 +49,20 @@
     "pagador" : "Mi Cuenta",
     "cantidad" : 250.0,
     "fecha" : "2025-12-25"
+  }, {
+    "idGasto" : 19,
+    "idCuenta" : 1,
+    "categoria" : "gimnasio",
+    "pagador" : "Mi Cuenta",
+    "cantidad" : 2.0,
+    "fecha" : "2026-01-31"
+  }, {
+    "idGasto" : 20,
+    "idCuenta" : 1,
+    "categoria" : "comida",
+    "pagador" : "Mi Cuenta",
+    "cantidad" : 11.0,
+    "fecha" : "2026-02-12"
   } ],
-  "categorias" : [ "navidad", "comida", "gimnasio", "viaje", "paleta", "universidad", "ropa" ]
+  "categorias" : [ "navidad", "comida", "paleta", "viaje", "gimnasio", "lll", "universidad", "ropa" ]
 }

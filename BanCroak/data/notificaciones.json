@@ -1,5 +1,5 @@
 {
-  "nextId" : 3,
+  "nextId" : 4,
   "notificaciones" : [ {
     "id" : 1,
     "timestamp" : "2026-02-11T13:10:05.191566",
@@ -17,6 +17,15 @@
     "periodoKey" : "MES-2026-02",
     "totalDetectado" : 50000.0,
     "categoria" : null,
+    "leida" : false
+  }, {
+    "id" : 3,
+    "timestamp" : "2026-02-11T23:47:02.894791300",
+    "mensaje" : "Alerta semanal: superado el límite de 10.00 € en SEM-2026-07. Total: 11.00 € (la categoría 'comida')",
+    "alertaId" : 3,
+    "periodoKey" : "SEM-2026-07",
+    "totalDetectado" : 11.0,
+    "categoria" : "comida",
     "leida" : false
   } ]
 }
