@@ -8,6 +8,7 @@ import ASP.BanCroak.ui.notificaciones.NotificacionesView;
 import ASP.BanCroak.ui.notificaciones.NotificacionView;
 import ASP.BanCroak.ui.notificaciones.HistorialNotificacionesView;
 import ASP.BanCroak.ui.cuentas.CuentasCompartidasView;
+import ASP.BanCroak.ui.graficas.TablaView;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -78,6 +79,11 @@ public class SceneManager {
     
     public void showVentanaCuentaCompartida() {
     	CuentasCompartidasView vista = new CuentasCompartidasView(this); 
+        cambiarVista(vista);
+    }
+    
+    public void showTabla() {
+    	TablaView vista = new TablaView(this); 
         cambiarVista(vista);
     }
     public void salto(ImageView ranaView) {
