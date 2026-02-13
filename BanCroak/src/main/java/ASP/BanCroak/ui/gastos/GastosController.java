@@ -89,7 +89,6 @@ public class GastosController {
         view.getAplicarFiltroButton().setOnAction(e -> onAplicarFiltros());
         view.getLimpiarFiltroButton().setOnAction(e -> onLimpiarFiltros());
         view.getGraficasButton().setOnAction(e -> onGraficas());
-        view.getVolverButton().setOnAction(e -> context.getNavigator().goToMain());
         view.getCrearAlertaButton().setOnAction(e -> onCrearAlerta());
         view.getHistorialButton().setOnAction(e -> context.getNavigator().goToHistorialNotificaciones());
 

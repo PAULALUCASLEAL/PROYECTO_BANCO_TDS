@@ -17,7 +17,7 @@ public class MainView extends VBox{
         this.setAlignment(Pos.CENTER);
         this.setId("estilo_MainView");
         this.getStylesheets().add(getClass().getResource("/estilos.css").toExternalForm());
-        //BarraMenuView barra = new BarraMenuView(sm);
+        BarraMenuView barra = new BarraMenuView(sm);
         
         Image logo = new Image(getClass().getResource("/Imagenes/BanCroak Logo.png").toExternalForm());
         ImageView logoView = new ImageView(logo);
@@ -41,7 +41,7 @@ public class MainView extends VBox{
         ranaView.setOnMouseClicked(e -> {
             sonidoRana.play();});    
 
-        this.getChildren().addAll( logoView, ranaView, lInicio);
+        this.getChildren().addAll( barra,logoView, ranaView, lInicio);
     }
 
 }

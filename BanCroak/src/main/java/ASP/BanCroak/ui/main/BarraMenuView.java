@@ -25,8 +25,8 @@ public class BarraMenuView extends MenuBar {
         
         
 
-        /*itemCrearGasto.setOnAction(e -> sm.showVentanaCrearGasto());
-        itemCrearCuentaCompartida.setOnAction(e -> sm.showVentanaCuentaCompartida());
+        itemCrearGasto.setOnAction(e -> sm.showVentanaCrearGasto());
+        /*itemCrearCuentaCompartida.setOnAction(e -> sm.showVentanaCuentaCompartida());
         itemCrearNotificacion.setOnAction(e -> sm.showVentanaCrearNotificaciones());
         itemTabla.setOnAction(e -> sm.showTabla());
         itemHistorial.setOnAction(e -> sm.showVentanaHistorialNotificaciones());*/
