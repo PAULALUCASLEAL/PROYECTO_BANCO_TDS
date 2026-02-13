@@ -159,7 +159,7 @@ public GastosView(SceneManager sm) {
         double valor = cantidad.getText().isEmpty() ? 0 : Double.parseDouble(cantidad.getText());
         System.out.println(valor);
         if (valor== 0) {
-            //sm.showNotificacion("Se ha superado el limite de 100 eutos semanal en la categoria alimentacion");
+            sm.showNotificacion("Se ha superado el limite de 100 eutos semanal en la categoria alimentacion");
         }
         
         sonidoRana.play();

@@ -5,6 +5,8 @@ import ASP.BanCroak.ui.gastos.GastosView;
 
 import ASP.BanCroak.ui.main.MainView;
 import ASP.BanCroak.ui.notificaciones.NotificacionesView;
+import ASP.BanCroak.ui.notificaciones.NotificacionView;
+import ASP.BanCroak.ui.notificaciones.HistorialNotificacionesView;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SceneManager {
@@ -22,6 +25,8 @@ public class SceneManager {
     private static boolean saltando = false;
     private static final double ANCHO = 800; 
     private static final double ALTO = 650;
+    private final List<NotificacionView> notificaciones = new ArrayList<>();
+	HistorialNotificacionesView historial = new HistorialNotificacionesView(this);
 
     public SceneManager(AppContext context) {
         this.context = context;
@@ -58,7 +63,14 @@ public class SceneManager {
         NotificacionesView vista = new NotificacionesView(this); 
         cambiarVista(vista);
     }
-    
+    public void showNotificacion(String texto) {
+	    NotificacionView notificacion = new NotificacionView(texto);
+	    notificaciones.add(notificacion);
+	    
+	    NotificacionView.mostrar(texto);
+	    
+	    //historial.actualizar(notificaciones);
+	}
     public void salto(ImageView ranaView) {
 		if (saltando) return;
 		TranslateTransition salto = new TranslateTransition(Duration.millis(200), ranaView);
