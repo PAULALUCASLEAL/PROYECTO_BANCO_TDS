@@ -41,7 +41,7 @@ public class MainView extends VBox{
         ranaView.setOnMouseClicked(e -> {
             sonidoRana.play();});    
 
-        this.getChildren().addAll( barra,logoView, ranaView, lInicio);
+        this.getChildren().addAll(barra, logoView, ranaView, lInicio);
     }
 
 }

@@ -165,12 +165,8 @@ public GastosView(SceneManager sm) {
         
         sonidoRana.play();
         
-        TranslateTransition salto = new TranslateTransition(Duration.millis(200), ranaView);
-        salto.setByY(-40);            
-        salto.setCycleCount(2);
-        salto.setAutoReverse(true);
-        salto.setInterpolator(javafx.animation.Interpolator.EASE_OUT);            
-        salto.play();
+        sm.salto(ranaView);
+        
     });
     
     HBox.setHgrow(categoriaH, Priority.ALWAYS);

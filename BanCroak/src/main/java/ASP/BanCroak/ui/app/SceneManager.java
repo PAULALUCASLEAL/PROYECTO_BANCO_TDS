@@ -1,20 +1,16 @@
 package ASP.BanCroak.ui.app;
 
-import ASP.BanCroak.domain.Gasto;
-import ASP.BanCroak.ui.cuentas.CuentasCompartidasController;
-import ASP.BanCroak.ui.cuentas.CuentasCompartidasView;
-import ASP.BanCroak.ui.gastos.GastosController;
+
 import ASP.BanCroak.ui.gastos.GastosView;
-import ASP.BanCroak.ui.graficas.GraficasController;
-import ASP.BanCroak.ui.graficas.GraficasView;
+
 import ASP.BanCroak.ui.main.MainView;
-import ASP.BanCroak.ui.notificaciones.NotificacionesController;
-import ASP.BanCroak.ui.notificaciones.NotificacionesView;
-import ASP.BanCroak.vista.GastoView;
+import javafx.animation.TranslateTransition;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.List;
 
@@ -22,6 +18,7 @@ public class SceneManager {
     private final AppContext context;
     private Stage stage;
     private Scene scenaActual;
+    private static boolean saltando = false;
     private static final double ANCHO = 800; 
     private static final double ALTO = 650;
 
@@ -56,5 +53,17 @@ public class SceneManager {
         GastosView vista = new GastosView(this); 
         cambiarVista(vista);
     }
+    public void salto(ImageView ranaView) {
+		if (saltando) return;
+		TranslateTransition salto = new TranslateTransition(Duration.millis(200), ranaView);
+        salto.setByY(-40);            
+        salto.setCycleCount(2);
+        salto.setAutoReverse(true);
+        salto.setInterpolator(javafx.animation.Interpolator.EASE_OUT);   
+        saltando = true;
+
+        salto.setOnFinished(e -> saltando = false);
+        salto.play();
+	}
 
 }
