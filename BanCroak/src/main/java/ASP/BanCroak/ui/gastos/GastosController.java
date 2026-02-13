@@ -21,20 +21,21 @@ public class GastosController {
         this.repoCuentas = context.getRepoCuentas();
     }
 
-    public List<Cuenta> obtenerCuentas() {
-        return repoCuentas.listarCuentas();
+    public List<String> getCuentas() {
+        return repoCuentas.listarCuentas().stream()
+                .map(Cuenta::getNombreCuenta)
+                .collect(Collectors.toList());
     }
 
-    public List<String> obtenerPersonasDeCuenta(int cuentaId) {
-    	return repoCuentas.buscarPorId(cuentaId)
-                .get()                          
-                .getMiembros()                  
-                .stream()                       
+    public List<String> getPersonasDeCuenta(String nombreCuenta) {
+    	return repoCuentas.listarCuentas().stream()
+    			.filter(c -> c.getNombreCuenta().equals(nombreCuenta))
+                .flatMap(c -> c.getMiembros().stream()) 
                 .collect(Collectors.toList());
     }
 
 
-    public Set<String> obtenerCategorias() {
+    public Set<String> getCategorias() {
         return repoGastos.getCategorias();
     }
 
@@ -42,6 +43,7 @@ public class GastosController {
     public void añadirCategoria(String nombre) {
         try {
             repoGastos.añadirCategoria(nombre);
+            context.getGastosPersistence().save(repoGastos);
         } catch (IllegalArgumentException e) {
             System.err.println("Error al añadir categoría: " + e.getMessage());
             throw e; 

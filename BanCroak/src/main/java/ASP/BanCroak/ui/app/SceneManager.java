@@ -33,6 +33,9 @@ public class SceneManager {
     public SceneManager(AppContext context) {
         this.context = context;
     }
+    public AppContext getContext() {
+        return this.context;
+    }
 
     public void inicializar(Stage stage) {
         this.stage = stage;

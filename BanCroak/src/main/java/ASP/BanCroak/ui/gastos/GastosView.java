@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import ASP.BanCroak.ui.app.SceneManager;
 import ASP.BanCroak.ui.main.BarraMenuView;
 import javafx.geometry.Pos;
@@ -27,7 +28,10 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class GastosView  extends VBox{
+	
 public GastosView(SceneManager sm) {
+	
+	GastosController controller= new GastosController(sm.getContext());
 	this.setSpacing(0);
     this.setAlignment(Pos.CENTER);
     this.setId("estilo_GastoView");
@@ -75,12 +79,8 @@ public GastosView(SceneManager sm) {
     }); 
     Label lTitulo = new Label("AÑADIR GASTO");
 
-    Map<String, List<String>> cuentaPersonalYCompartidas = new HashMap<>();
-    cuentaPersonalYCompartidas.put("Personal", Arrays.asList("Yo"));
-    cuentaPersonalYCompartidas.put("ConAmigos", Arrays.asList("Yo", "Ruben", "Maria"));
-
     ComboBox<String> cuenta = new ComboBox<>();
-    cuenta.getItems().addAll(cuentaPersonalYCompartidas.keySet()); //falta funcion
+    cuenta.getItems().addAll(controller.getCuentas());
     cuenta.setPromptText("Cuenta");
     cuenta.setMaxWidth(Double.MAX_VALUE);
     
@@ -91,10 +91,15 @@ public GastosView(SceneManager sm) {
 
     
     cuenta.valueProperty().addListener((observable, viejaCuenta, nuevaCuenta) -> {
-        if (nuevaCuenta != null) {
-        	cuentaNombrePersona.setDisable(false);
-        	cuentaNombrePersona.getItems().setAll(cuentaPersonalYCompartidas.get(nuevaCuenta));
+    	if (nuevaCuenta != null) {
+            cuentaNombrePersona.setDisable(false);           
+            List<String> miembros = controller.getPersonasDeCuenta(nuevaCuenta);         
+            cuentaNombrePersona.getItems().setAll(miembros);
+            
             cuentaNombrePersona.getSelectionModel().selectFirst();
+        } else {
+            cuentaNombrePersona.setDisable(true);
+            cuentaNombrePersona.getItems().clear();
         }
     });
     
@@ -110,7 +115,7 @@ public GastosView(SceneManager sm) {
     Label lCategoria = new Label("Categoría:");
     HBox categoriaH = new HBox(0);
     ComboBox<String> categoria = new ComboBox<>();
-    categoria.getItems().addAll("Alimentación", "Transporte", "entretenimiento");//hace falta una funcion
+    categoria.getItems().addAll(controller.getCategorias());
     categoria.setPromptText("Selecciona...");
     categoria.setMaxWidth(Double.MAX_VALUE); 
     HBox.setHgrow(categoria, Priority.ALWAYS);
@@ -136,7 +141,8 @@ public GastosView(SceneManager sm) {
             if (!nombre.isEmpty()) {
 
             	if (!categoria.getItems().contains(nombre)) {
-                    categoria.getItems().add(nombre); //funcion para crear la categoria de verdad
+                    categoria.getItems().add(nombre); 
+                    controller.añadirCategoria(nombre);
                 }
                 categoria.getSelectionModel().select(nombre);
                 

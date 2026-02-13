@@ -18,11 +18,11 @@
   }, {
     "idCuenta" : 3,
     "nombreCuenta" : "Puchaina",
-    "miembros" : [ "Sergio", "Paula", "Aaron" ],
+    "miembros" : [ "Sergio", "Paula", "Aarón" ],
     "porcentajes" : {
       "Paula" : 50.0,
       "Sergio" : 40.0,
-      "Aaron" : 10.0
+      "Aarón" : 10.0
     }
   }, {
     "idCuenta" : 4,

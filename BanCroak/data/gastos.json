@@ -64,5 +64,5 @@
     "cantidad" : 11.0,
     "fecha" : "2026-02-12"
   } ],
-  "categorias" : [ "navidad", "comida", "paleta", "viaje", "gimnasio", "lll", "universidad", "ropa" ]
+  "categorias" : [ "navidad", "viaje", "primavera", "entretenimiento", "transporte", "comida", "alimentacion", "gimnasio", "lll", "universidad", "ropa", "paleta" ]
 }
