@@ -7,6 +7,7 @@ import ASP.BanCroak.ui.main.MainView;
 import ASP.BanCroak.ui.notificaciones.NotificacionesView;
 import ASP.BanCroak.ui.notificaciones.NotificacionView;
 import ASP.BanCroak.ui.notificaciones.HistorialNotificacionesView;
+import ASP.BanCroak.ui.cuentas.CuentasCompartidasView;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -23,7 +24,7 @@ public class SceneManager {
     private Stage stage;
     private Scene scenaActual;
     private static boolean saltando = false;
-    private static final double ANCHO = 800; 
+    private static final double ANCHO = 900; 
     private static final double ALTO = 650;
     private final List<NotificacionView> notificaciones = new ArrayList<>();
 	HistorialNotificacionesView historial = new HistorialNotificacionesView(this);
@@ -75,6 +76,10 @@ public class SceneManager {
         cambiarVista(historial);
     }
     
+    public void showVentanaCuentaCompartida() {
+    	CuentasCompartidasView vista = new CuentasCompartidasView(this); 
+        cambiarVista(vista);
+    }
     public void salto(ImageView ranaView) {
 		if (saltando) return;
 		TranslateTransition salto = new TranslateTransition(Duration.millis(200), ranaView);

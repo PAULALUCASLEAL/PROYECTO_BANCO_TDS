@@ -1,242 +1,191 @@
 package ASP.BanCroak.ui.cuentas;
 
-import ASP.BanCroak.domain.Cuenta;
+
+import ASP.BanCroak.ui.main.BarraMenuView;
+import ASP.BanCroak.ui.app.SceneManager;
+import javafx.animation.TranslateTransition;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Separator;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.control.SplitPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
+import javafx.util.Duration;
 
-public class CuentasCompartidasView {
-    private final BorderPane root;
-    private final TextField nombreCuentaField;
-    private final TextField miembroNombreField;
-    private final Spinner<Integer> porcentajeSpinner;
-    private final Button addMiembroButton;
-    private final Button repartoEquitativoButton;
-    private final TableView<MiembroPorcentajeRow> tablaMiembros;
-    private final TableColumn<MiembroPorcentajeRow, Void> colEliminarMiembro;
-    private final Label totalPorcentajeLabel;
-    private final Button crearButton;
-    private final Button abrirButton;
-    private final Button volverButton;
-    private final TableView<Cuenta> tablaCuentas;
-    private final Label feedbackLabel;
+public class CuentasCompartidasView extends VBox{
+	
+	
+	public static class Persona {
+	    String nombre;
+	    double porcentaje;
+	    Slider slider = new Slider(0, 100, 0);
+	    Label labelPorcentaje = new Label("0.0%");
 
-    public CuentasCompartidasView() {
-        this.root = new BorderPane();
-        this.nombreCuentaField = new TextField();
-        this.miembroNombreField = new TextField();
-        this.porcentajeSpinner = new Spinner<>();
-        this.addMiembroButton = new Button("Añadir miembro");
-        this.repartoEquitativoButton = new Button("Reparto equitativo");
-        this.tablaMiembros = new TableView<>();
-        this.colEliminarMiembro = new TableColumn<>("Acción");
-        this.totalPorcentajeLabel = new Label("Total: 0%");
-        this.crearButton = new Button("Crear cuenta");
-        this.abrirButton = new Button("Abrir cuenta");
-        this.volverButton = new Button("Volver");
-        this.tablaCuentas = new TableView<>();
-        this.feedbackLabel = new Label();
+	    Persona(String nombre, double porcentaje) {
+	        this.nombre = nombre;
+	        this.porcentaje = porcentaje;
+	        this.slider.setValue(porcentaje);
+	    }
+	}
+	
+	private ObservableList<Persona> listaPersonas = FXCollections.observableArrayList();
+    private VBox contenedorLista = new VBox(10);
+    private boolean ajustandoInternamente = false; 
+	
+	public CuentasCompartidasView(SceneManager sm) {
+	this.setSpacing(0);
+    this.setAlignment(Pos.CENTER);
+    this.setId("estilo_CuentaCompartidaView");
+    this.getStylesheets().add(getClass().getResource("/estilos.css").toExternalForm());
+    BarraMenuView barra = new BarraMenuView(sm);
+    
+    
+    HBox gastoHView = new HBox(10);
+    gastoHView.setAlignment(Pos.CENTER);
+    VBox gastoVView = new VBox(10);
+    VBox.setVgrow(gastoHView, Priority.ALWAYS);
+    
+    Image rana = new Image(getClass().getResource("/Imagenes/Rana 2.png").toExternalForm());
+    ImageView ranaView = new ImageView(rana);
+    ranaView.setFitHeight(260); 
+    ranaView.setPreserveRatio(true);
+    ranaView.fitWidthProperty().bind(this.widthProperty().multiply(0.4));
+    ranaView.setPreserveRatio(true);
+    
+    Image nenufar = new Image(getClass().getResource("/Imagenes/Nenúfar 1.png").toExternalForm());
+    ImageView nenufarView = new ImageView(nenufar);
+    nenufarView.setFitHeight(150); 
+    nenufarView.setPreserveRatio(true);
+    nenufarView.fitWidthProperty().bind(this.widthProperty().multiply(0.4));
+    nenufarView.setPreserveRatio(true);
 
-        build();
-    }
 
-    private void build() {
-        root.setPadding(new Insets(18));
-        root.getStyleClass().add("app-root");
+    
+    String rutaSonido = getClass().getResource("/Audio/Boton .mp3").toExternalForm();
+    AudioClip sonidoRana = new AudioClip(rutaSonido);
 
-        crearButton.getStyleClass().add("primary-button");
-        addMiembroButton.getStyleClass().add("secondary-button");
-        repartoEquitativoButton.getStyleClass().add("secondary-button");
-        abrirButton.getStyleClass().add("primary-button");
-        volverButton.getStyleClass().add("ghost-button");
-        feedbackLabel.getStyleClass().add("summary-label");
+    ranaView.setOnMouseClicked(e -> {
+        sonidoRana.play();}); 
 
-        Label titulo = new Label("Cuentas compartidas");
-        titulo.getStyleClass().add("view-title");
+    Label lTitulo = new Label("CREAR CUENTA COMPARTIDA");
+    Label lNombre = new Label("Nombre:");
+    TextField nombre = new TextField();
+    nombre.setPromptText("Nombre de la cuenta");
+    
+    
 
-        HBox header = new HBox(12, volverButton, titulo);
-        header.setAlignment(Pos.CENTER_LEFT);
-        header.getStyleClass().add("header-bar");
-        root.setTop(header);
+    TextField nombrePersona = new TextField();
+    nombrePersona.setPromptText("Nombre de la persona");
+    Button bAnadir = new Button("Añadir Persona");
 
-        VBox left = buildCrearCuentaPanel();
-        VBox right = buildListadoPanel();
-
-        SplitPane split = new SplitPane(left, right);
-        split.setDividerPositions(0.48);
-        split.setStyle("-fx-background-color: transparent;");
-
-        root.setCenter(split);
-    }
-
-    private VBox buildCrearCuentaPanel() {
-        Label section = new Label("Nueva cuenta");
-        section.getStyleClass().add("section-title");
-
-        nombreCuentaField.setPromptText("Nombre de la cuenta");
-        nombreCuentaField.getStyleClass().add("input-field");
-
-        HBox nombreRow = new HBox(10, new Label("Nombre"), nombreCuentaField);
-        nombreRow.setAlignment(Pos.CENTER_LEFT);
-        HBox.setHgrow(nombreCuentaField, Priority.ALWAYS);
-
-        Label addTitle = new Label("Añadir miembro");
-        addTitle.getStyleClass().add("subsection-title");
-
-        miembroNombreField.setPromptText("Nombre del miembro");
-        miembroNombreField.getStyleClass().add("input-field");
-
-        porcentajeSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 50));
-        porcentajeSpinner.setEditable(true);
-        porcentajeSpinner.getStyleClass().add("input-field");
-        porcentajeSpinner.setPrefWidth(100);
-
-        HBox addRow = new HBox(10, miembroNombreField, porcentajeSpinner, addMiembroButton);
-        addRow.setAlignment(Pos.CENTER_LEFT);
-        HBox.setHgrow(miembroNombreField, Priority.ALWAYS);
-
-        buildTablaMiembros();
-        VBox.setVgrow(tablaMiembros, Priority.ALWAYS);
-
-        totalPorcentajeLabel.getStyleClass().add("summary-label");
-        HBox acciones = new HBox(12, crearButton, repartoEquitativoButton, totalPorcentajeLabel, feedbackLabel);
-        acciones.setAlignment(Pos.CENTER_LEFT);
-
-        VBox card = new VBox(12, section, nombreRow, addTitle, addRow, tablaMiembros, acciones);
-        card.getStyleClass().add("panel-card");
-        VBox.setVgrow(card, Priority.ALWAYS);
-        return card;
-    }
-
-    private VBox buildListadoPanel() {
-        Label section = new Label("Cuentas creadas");
-        section.getStyleClass().add("section-title");
-
-        buildTablaCuentas();
-        tablaCuentas.setPlaceholder(new Label("Sin cuentas compartidas"));
-        VBox.setVgrow(tablaCuentas, Priority.ALWAYS);
-
-        HBox acciones = new HBox(10, abrirButton);
-        acciones.setAlignment(Pos.CENTER_LEFT);
-
-        VBox card = new VBox(12, section, tablaCuentas, acciones);
-        card.getStyleClass().add("panel-card");
-        VBox.setVgrow(card, Priority.ALWAYS);
-        return card;
-    }
-
-    private void buildTablaMiembros() {
-        TableColumn<MiembroPorcentajeRow, String> colNombre = new TableColumn<>("Miembro");
-        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-
-        TableColumn<MiembroPorcentajeRow, Integer> colPorcentaje = new TableColumn<>("Porcentaje");
-        colPorcentaje.setCellValueFactory(new PropertyValueFactory<>("porcentaje"));
-
-        colEliminarMiembro.setMinWidth(90);
-
-        tablaMiembros.getColumns().addAll(colNombre, colPorcentaje, colEliminarMiembro);
-        tablaMiembros.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
-        tablaMiembros.setPrefHeight(220);
-    }
-
-    private void buildTablaCuentas() {
-        TableColumn<Cuenta, Integer> colId = new TableColumn<>("Id");
-        colId.setCellValueFactory(new PropertyValueFactory<>("idCuenta"));
-        colId.setMaxWidth(80);
-
-        TableColumn<Cuenta, String> colNombre = new TableColumn<>("Nombre");
-        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombreCuenta"));
-
-        TableColumn<Cuenta, String> colMiembros = new TableColumn<>("Miembros");
-        colMiembros.setCellValueFactory(cell -> new javafx.beans.property.SimpleStringProperty(
-            String.join(", ", cell.getValue().getMiembros())
-        ));
-
-        TableColumn<Cuenta, String> colReparto = new TableColumn<>("Reparto");
-        colReparto.setCellValueFactory(cell -> new javafx.beans.property.SimpleStringProperty(
-            cell.getValue().getPorcentajes().entrySet().stream()
-                .map(e -> e.getKey() + " " + formatPorcentaje(e.getValue()))
-                .reduce((a, b) -> a + " | " + b)
-                .orElse("")
-        ));
-
-        tablaCuentas.getColumns().addAll(colId, colNombre, colMiembros, colReparto);
-        tablaCuentas.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
-    }
-
-    private String formatPorcentaje(double valor) {
-        if (Math.abs(valor - Math.round(valor)) < 0.001) {
-            return String.format("%.0f%%", valor);
+    bAnadir.setOnAction(e -> {
+        if (!nombrePersona.getText().isEmpty()) {
+            añadirPersona(nombrePersona.getText());
+            nombrePersona.clear();
         }
-        return String.format("%.2f%%", valor);
+    });
+
+    HBox nombrePersonaH = new HBox(10, nombrePersona, bAnadir);
+
+    ScrollPane scroll = new ScrollPane(contenedorLista);
+    scroll.setFitToWidth(true);
+    VBox personas = new VBox(10, nombrePersonaH, new Separator(), scroll);
+
+    Button bCrear = new Button("Crear cuenta");
+    bCrear.setMaxWidth(Double.MAX_VALUE);
+    bCrear.setOnAction(ev -> {
+        sonidoRana.play();
+        
+        TranslateTransition salto = new TranslateTransition(Duration.millis(200), ranaView);
+        salto.setByY(-40);            
+        salto.setCycleCount(2);
+        salto.setAutoReverse(true);
+        salto.setInterpolator(javafx.animation.Interpolator.EASE_OUT);            
+        salto.play();
+    });
+
+    gastoVView.getChildren().addAll(lTitulo,lNombre,nombre,personas,bCrear);
+    gastoHView.getChildren().addAll(nenufarView,gastoVView,ranaView);
+    this.getChildren().addAll(barra ,gastoHView );
+}
+	
+	
+	private void actualizarUI() {
+        contenedorLista.getChildren().clear();
+        for (Persona p : listaPersonas) {
+        	TextField teclado = new TextField();
+        	teclado.setPrefWidth(50);
+        	teclado.setPromptText("%");
+        	Button bTeclado = new Button("Aplicar");
+        	bTeclado.setOnAction(e -> {
+                double valor = Double.parseDouble(teclado.getText());
+                rebalancearDesde(p, valor);
+                p.slider.setValue(valor); 
+            });
+            HBox fila = new HBox(15, new Label(p.nombre), p.slider, p.labelPorcentaje,teclado,bTeclado);
+            fila.setPadding(new Insets(5));
+            HBox.setHgrow(p.slider, Priority.ALWAYS);
+            contenedorLista.getChildren().add(fila);
+        }
+    }
+	private void añadirPersona(String nombre) {
+        Persona nueva = new Persona(nombre, 0);
+        
+        nueva.slider.valueProperty().addListener((observer, viejoValor, nuevoValor) -> {
+            rebalancearDesde(nueva, nuevoValor.doubleValue());
+        });
+
+        listaPersonas.add(nueva);
+        actualizarUI();
+        repartirEquitativamente();
     }
 
-    public Parent getRoot() {
-        return root;
+    private void repartirEquitativamente() {
+        ajustandoInternamente = true;
+        double equitativo = 100.0 / listaPersonas.size();
+        for (Persona p : listaPersonas) {
+            p.porcentaje = equitativo;
+            p.slider.setValue(equitativo);
+            p.labelPorcentaje.setText(String.format("%.1f%%", equitativo));
+        }
+        ajustandoInternamente = false;
     }
 
-    public TextField getNombreCuentaField() {
-        return nombreCuentaField;
-    }
+    private void rebalancearDesde(Persona editada, double nuevoValor) {
+        if (ajustandoInternamente || listaPersonas.size() <= 1) return;
 
-    public TextField getMiembroNombreField() {
-        return miembroNombreField;
-    }
+        ajustandoInternamente = true;
+        editada.porcentaje = nuevoValor;
+        
+        double sumaOtros = 0;
+        for (Persona p : listaPersonas) {
+            if (p != editada) sumaOtros += p.porcentaje;
+        }
 
-    public Spinner<Integer> getPorcentajeSpinner() {
-        return porcentajeSpinner;
-    }
+        double resto = 100.0 - nuevoValor;
 
-    public Button getAddMiembroButton() {
-        return addMiembroButton;
+        for (Persona p : listaPersonas) {
+            if (p != editada) {
+                if (sumaOtros == 0) {
+                    p.porcentaje = resto / (listaPersonas.size() - 1);
+                } else {
+                    p.porcentaje = (p.porcentaje / sumaOtros) * resto;
+                }
+                p.slider.setValue(p.porcentaje);
+            }
+            p.labelPorcentaje.setText(String.format("%.1f%%", p.porcentaje));
+        }
+        ajustandoInternamente = false;
     }
-
-    public Button getRepartoEquitativoButton() {
-        return repartoEquitativoButton;
-    }
-
-    public TableView<MiembroPorcentajeRow> getTablaMiembros() {
-        return tablaMiembros;
-    }
-
-    public TableColumn<MiembroPorcentajeRow, Void> getColEliminarMiembro() {
-        return colEliminarMiembro;
-    }
-
-    public Label getTotalPorcentajeLabel() {
-        return totalPorcentajeLabel;
-    }
-
-    public Button getCrearButton() {
-        return crearButton;
-    }
-
-    public Button getAbrirButton() {
-        return abrirButton;
-    }
-
-    public Button getVolverButton() {
-        return volverButton;
-    }
-
-    public TableView<Cuenta> getTablaCuentas() {
-        return tablaCuentas;
-    }
-
-    public Label getFeedbackLabel() {
-        return feedbackLabel;
-    }
+ 
 }
