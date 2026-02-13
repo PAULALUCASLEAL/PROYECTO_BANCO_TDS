@@ -3,6 +3,7 @@ package ASP.BanCroak.ui.graficas;
 import ASP.BanCroak.ui.main.BarraMenuView;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ASP.BanCroak.ui.app.SceneManager;
@@ -10,7 +11,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
@@ -53,6 +56,6 @@ public class TablaView extends VBox{
 	    bFiltro.setOnAction(e -> new FiltroView(sm));
 	    this.getChildren().addAll(barra,bFiltro,tabla);
 	}
-	
+
 
 	}
