@@ -4,6 +4,7 @@ package ASP.BanCroak.ui.app;
 import ASP.BanCroak.ui.gastos.GastosView;
 
 import ASP.BanCroak.ui.main.MainView;
+import ASP.BanCroak.ui.notificaciones.NotificacionesView;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -53,6 +54,11 @@ public class SceneManager {
         GastosView vista = new GastosView(this); 
         cambiarVista(vista);
     }
+    public void showVentanaCrearNotificaciones() {
+        NotificacionesView vista = new NotificacionesView(this); 
+        cambiarVista(vista);
+    }
+    
     public void salto(ImageView ranaView) {
 		if (saltando) return;
 		TranslateTransition salto = new TranslateTransition(Duration.millis(200), ranaView);

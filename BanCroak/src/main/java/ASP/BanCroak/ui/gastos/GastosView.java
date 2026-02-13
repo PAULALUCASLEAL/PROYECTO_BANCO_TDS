@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import ASP.BanCroak.ui.app.SceneManager;
 import ASP.BanCroak.ui.main.BarraMenuView;
-import javafx.animation.TranslateTransition;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

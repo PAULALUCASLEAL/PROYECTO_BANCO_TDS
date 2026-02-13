@@ -26,7 +26,7 @@ public class NotificacionesController {
 
     public void init() {
         refresh();
-        view.getVolverButton().setOnAction(e -> context.getNavigator().goToGastos(context.getCuentaActivaId()));
+        view.getVolverButton().setOnAction(e -> context.getNavigator().showVentanaCrearGasto());
     }
 
     private void refresh() {
