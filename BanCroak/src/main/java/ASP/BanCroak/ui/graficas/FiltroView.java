@@ -13,6 +13,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -22,7 +23,8 @@ public class FiltroView extends Stage {
 	public FiltroView(SceneManager sm) {
         this.initModality(Modality.APPLICATION_MODAL);
         this.setTitle("Filtrar Gastos");
-
+        Image icono = new Image(getClass().getResource("/Imagenes/Nenúfar 2.png").toExternalForm());
+        this.getIcons().add(icono);
         VBox filtroV = new VBox(20);
         filtroV.setPadding(new Insets(25));
         filtroV.setAlignment(Pos.CENTER_LEFT);
@@ -33,6 +35,7 @@ public class FiltroView extends Stage {
         Label lMeses = new Label("Meses:");
         MenuButton comboMeses = new MenuButton("Seleccionar meses...");
         comboMeses.setMaxWidth(Double.MAX_VALUE);
+        comboMeses.getStyleClass().add("MenuButtonEstilo");
         String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
                           "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
         for (String m : meses) {
@@ -42,6 +45,7 @@ public class FiltroView extends Stage {
         Label lCat = new Label("Categorías:");
         MenuButton comboCategorias = new MenuButton("Seleccionar categorías...");
         comboCategorias.setMaxWidth(Double.MAX_VALUE);
+        comboCategorias.getStyleClass().add("MenuButtonEstilo");
         String[] categorias = {"Transporte", "Comida", "Ocio", "Salud", "Hogar"};
         for (String c : categorias) {
             comboCategorias.getItems().add(new CheckMenuItem(c));

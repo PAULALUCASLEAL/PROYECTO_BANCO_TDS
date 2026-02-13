@@ -160,7 +160,6 @@ public GastosView(SceneManager sm) {
         System.out.println("Se ha registrado en la cuenta " +cuenta.getValue()+ " por parte de " +cuentaNombrePersona.getValue()+" la cantidad de " + cantidad.getText()+ "€ el día "+fecha.getValue()+" en "+categoria.getValue());
         limpiarGasto(cuenta,cuentaNombrePersona,cantidad,fecha,categoria);
         double valor = cantidad.getText().isEmpty() ? 0 : Double.parseDouble(cantidad.getText());
-        System.out.println(valor);
         if (valor== 0) {
             sm.showNotificacion("Se ha superado el limite de 100 eutos semanal en la categoria alimentacion");
             sonidoNotificacion.play();

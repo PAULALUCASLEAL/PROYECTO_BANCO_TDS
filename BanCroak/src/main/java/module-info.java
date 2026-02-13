@@ -4,6 +4,8 @@ module ASP.BanCroak {
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.annotation;
 	requires javafx.media;
+	requires javafx.base;
+	requires javafx.graphics;
     exports ASP.BanCroak.domain;
     exports ASP.BanCroak.repo;
     exports ASP.BanCroak.filtros;

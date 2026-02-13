@@ -47,6 +47,21 @@
 	-fx-font-family: 'Times New Roman';
 	
 }
+#estilo_TablaView{
+	-fx-background-color: #318A83; 
+	-fx-alignment: top_center;
+	-fx-font-size: 24px;
+	-fx-font-weight:bold;
+	-fx-font-family: 'Times New Roman';
+	
+}
+.MenuButtonEstilo .menu-item {
+    -fx-background-color: #a497ba; 
+}
+
+.MenuButtonEstilo .menu-item:focused {
+    -fx-background-color: #7f69a5; 
+}
 .menu-bar {
     -fx-background-color: #2e7d32; 
 	-fx-font-size: 14px;
