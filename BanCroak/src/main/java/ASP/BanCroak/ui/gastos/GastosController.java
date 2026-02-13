@@ -51,17 +51,17 @@ public class GastosController {
     }
 
 
-    public void registrarGasto(double cantidad, LocalDate fecha, String categoria, String pagador, int idCuenta) {
-        try {
-            Gasto gasto = Gasto.crearGasto(cantidad, fecha, categoria, pagador, idCuenta);
+    public void registrarGasto(double cantidad, LocalDate fecha, String categoria, String pagador, String nombreCuenta) {
+    	int idCuenta = repoCuentas.listarCuentas().stream()
+                .filter(c -> c.getNombreCuenta().equals(nombreCuenta))
+                .map(Cuenta::getIdCuenta)
+                .findFirst()
+                .get();
+        Gasto gasto = Gasto.crearGasto(cantidad, fecha, categoria, pagador, idCuenta);
 
-            repoGastos.añadirGasto(gasto);
-            context.getGastosPersistence().save(repoGastos);
-            
-            System.out.println("Gasto registrado en la cuenta: " + idCuenta);
-        } catch (Exception e) {
-            System.err.println("Error al registrar gasto: " + e.getMessage());
-            throw e;
-        }
+        repoGastos.añadirGasto(gasto);
+        context.getGastosPersistence().save(repoGastos);
+
+
     }
 }

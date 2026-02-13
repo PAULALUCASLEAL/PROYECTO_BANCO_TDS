@@ -163,15 +163,14 @@ public GastosView(SceneManager sm) {
     Button bGuardar = new Button("Registrar Gasto");
     bGuardar.setMaxWidth(Double.MAX_VALUE);
     bGuardar.setOnAction(ev -> {
-        System.out.println("Se ha registrado en la cuenta " +cuenta.getValue()+ " por parte de " +cuentaNombrePersona.getValue()+" la cantidad de " + cantidad.getText()+ "€ el día "+fecha.getValue()+" en "+categoria.getValue());
+    	controller.registrarGasto(Double.parseDouble(cantidad.getText()),fecha.getValue(),categoria.getValue(),cuentaNombrePersona.getValue(),cuenta.getValue());
         limpiarGasto(cuenta,cuentaNombrePersona,cantidad,fecha,categoria);
-        double valor = cantidad.getText().isEmpty() ? 0 : Double.parseDouble(cantidad.getText());
-        if (valor== 0) {
+        /*if (valor== 0) {
             sm.showNotificacion("Se ha superado el limite de 100 eutos semanal en la categoria alimentacion");
             sonidoNotificacion.play();
-        }
-        else 
-        	sonidoRana.play();
+        }*/
+
+        sonidoRana.play();
         
         sm.salto(ranaView);
         
