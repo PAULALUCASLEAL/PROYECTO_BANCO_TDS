@@ -1,5 +1,5 @@
 {
-  "nextIdCuenta" : 5,
+  "nextIdCuenta" : 9,
   "cuentas" : [ {
     "idCuenta" : 1,
     "nombreCuenta" : "Mi Cuenta",
@@ -12,25 +12,41 @@
     "nombreCuenta" : "Paula",
     "miembros" : [ "Sergio", "Paula" ],
     "porcentajes" : {
-      "Paula" : 40.0,
-      "Sergio" : 60.0
+      "Sergio" : 60.0,
+      "Paula" : 40.0
     }
   }, {
     "idCuenta" : 3,
     "nombreCuenta" : "Puchaina",
     "miembros" : [ "Sergio", "Paula", "Aarón" ],
     "porcentajes" : {
-      "Paula" : 50.0,
+      "Aarón" : 10.0,
       "Sergio" : 40.0,
-      "Aarón" : 10.0
+      "Paula" : 50.0
     }
   }, {
     "idCuenta" : 4,
     "nombreCuenta" : "BANCO",
     "miembros" : [ "MARU", "SERGIO" ],
     "porcentajes" : {
-      "SERGIO" : 50.0,
-      "MARU" : 50.0
+      "MARU" : 50.0,
+      "SERGIO" : 50.0
+    }
+  }, {
+    "idCuenta" : 5,
+    "nombreCuenta" : "Club de los bandidos",
+    "miembros" : [ "Brayas", "Bobby Bolsillos" ],
+    "porcentajes" : {
+      "Bobby Bolsillos" : 50.0,
+      "Brayas" : 50.0
+    }
+  }, {
+    "idCuenta" : 8,
+    "nombreCuenta" : "RedondeoArregledo",
+    "miembros" : [ "Si", "No" ],
+    "porcentajes" : {
+      "No" : 78.9,
+      "Si" : 21.1
     }
   } ]
 }

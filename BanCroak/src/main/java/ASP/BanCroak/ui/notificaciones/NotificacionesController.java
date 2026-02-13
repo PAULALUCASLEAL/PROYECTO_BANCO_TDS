@@ -21,18 +21,7 @@ public class NotificacionesController {
         this.repo = context.getRepoNotificaciones();
         this.view = view;
         this.data = FXCollections.observableArrayList();
-        this.view.getTabla().setItems(data);
     }
 
-    public void init() {
-        refresh();
-        view.getVolverButton().setOnAction(e -> context.getNavigator().showVentanaCrearGasto());
-    }
 
-    private void refresh() {
-        List<Notificacion> ordenadas = repo.listarNotificaciones().stream()
-            .sorted(Comparator.comparing(Notificacion::getTimestamp).reversed())
-            .collect(Collectors.toList());
-        data.setAll(ordenadas);
-    }
 }

@@ -24,7 +24,7 @@ import javafx.util.Duration;
 
 public class CuentasCompartidasView extends VBox{
 	
-	
+	private CuentasCompartidasController controller;
 	public static class Persona {
 	    String nombre;
 	    double porcentaje;
@@ -33,9 +33,14 @@ public class CuentasCompartidasView extends VBox{
 
 	    Persona(String nombre, double porcentaje) {
 	        this.nombre = nombre;
-	        this.porcentaje = porcentaje;
-	        this.slider.setValue(porcentaje);
+	        redondeo(porcentaje);
 	    }
+
+		private void redondeo(double nuevoPorcentaje) {
+			this.porcentaje = Math.round(nuevoPorcentaje * 10.0) / 10.0;
+	        this.slider.setValue(this.porcentaje);
+	        this.labelPorcentaje.setText(String.format("%.1f%%", this.porcentaje));
+		}
 	}
 	
 	private ObservableList<Persona> listaPersonas = FXCollections.observableArrayList();
@@ -43,76 +48,78 @@ public class CuentasCompartidasView extends VBox{
     private boolean ajustandoInternamente = false; 
 	
 	public CuentasCompartidasView(SceneManager sm) {
-	this.setSpacing(0);
-    this.setAlignment(Pos.CENTER);
-    this.setId("estilo_CuentaCompartidaView");
-    this.getStylesheets().add(getClass().getResource("/estilos.css").toExternalForm());
-    BarraMenuView barra = new BarraMenuView(sm);
-    
-    
-    HBox gastoHView = new HBox(10);
-    gastoHView.setAlignment(Pos.CENTER);
-    VBox gastoVView = new VBox(10);
-    VBox.setVgrow(gastoHView, Priority.ALWAYS);
-    
-    Image rana = new Image(getClass().getResource("/Imagenes/Rana 2.png").toExternalForm());
-    ImageView ranaView = new ImageView(rana);
-    ranaView.setFitHeight(260); 
-    ranaView.setPreserveRatio(true);
-    ranaView.fitWidthProperty().bind(this.widthProperty().multiply(0.4));
-    ranaView.setPreserveRatio(true);
-    
-    Image nenufar = new Image(getClass().getResource("/Imagenes/Nenúfar 1.png").toExternalForm());
-    ImageView nenufarView = new ImageView(nenufar);
-    nenufarView.setFitHeight(150); 
-    nenufarView.setPreserveRatio(true);
-    nenufarView.fitWidthProperty().bind(this.widthProperty().multiply(0.4));
-    nenufarView.setPreserveRatio(true);
-
-
-    
-    String rutaSonido = getClass().getResource("/Audio/Boton .mp3").toExternalForm();
-    AudioClip sonidoRana = new AudioClip(rutaSonido);
-
-    ranaView.setOnMouseClicked(e -> {
-        sonidoRana.play();}); 
-
-    Label lTitulo = new Label("CREAR CUENTA COMPARTIDA");
-    Label lNombre = new Label("Nombre:");
-    TextField nombre = new TextField();
-    nombre.setPromptText("Nombre de la cuenta");
-    
-    
-
-    TextField nombrePersona = new TextField();
-    nombrePersona.setPromptText("Nombre de la persona");
-    Button bAnadir = new Button("Añadir Persona");
-
-    bAnadir.setOnAction(e -> {
-        if (!nombrePersona.getText().isEmpty()) {
-            añadirPersona(nombrePersona.getText());
-            nombrePersona.clear();
-        }
-    });
-
-    HBox nombrePersonaH = new HBox(10, nombrePersona, bAnadir);
-
-    ScrollPane scroll = new ScrollPane(contenedorLista);
-    scroll.setFitToWidth(true);
-    VBox personas = new VBox(10, nombrePersonaH, new Separator(), scroll);
-
-    Button bCrear = new Button("Crear cuenta");
-    bCrear.setMaxWidth(Double.MAX_VALUE);
-    bCrear.setOnAction(ev -> {
-        sonidoRana.play();
-        
-        sm.salto(ranaView);
-        limpiarCuentas(nombre);
-    });
-
-    gastoVView.getChildren().addAll(lTitulo,lNombre,nombre,personas,bCrear);
-    gastoHView.getChildren().addAll(nenufarView,gastoVView,ranaView);
-    this.getChildren().addAll(barra ,gastoHView );
+		this.controller = new CuentasCompartidasController(sm.getContext());
+		this.setSpacing(0);
+	    this.setAlignment(Pos.CENTER);
+	    this.setId("estilo_CuentaCompartidaView");
+	    this.getStylesheets().add(getClass().getResource("/estilos.css").toExternalForm());
+	    BarraMenuView barra = new BarraMenuView(sm);
+	    
+	    
+	    HBox gastoHView = new HBox(10);
+	    gastoHView.setAlignment(Pos.CENTER);
+	    VBox gastoVView = new VBox(10);
+	    VBox.setVgrow(gastoHView, Priority.ALWAYS);
+	    
+	    Image rana = new Image(getClass().getResource("/Imagenes/Rana 2.png").toExternalForm());
+	    ImageView ranaView = new ImageView(rana);
+	    ranaView.setFitHeight(260); 
+	    ranaView.setPreserveRatio(true);
+	    ranaView.fitWidthProperty().bind(this.widthProperty().multiply(0.4));
+	    ranaView.setPreserveRatio(true);
+	    
+	    Image nenufar = new Image(getClass().getResource("/Imagenes/Nenúfar 1.png").toExternalForm());
+	    ImageView nenufarView = new ImageView(nenufar);
+	    nenufarView.setFitHeight(150); 
+	    nenufarView.setPreserveRatio(true);
+	    nenufarView.fitWidthProperty().bind(this.widthProperty().multiply(0.4));
+	    nenufarView.setPreserveRatio(true);
+	
+	
+	    
+	    String rutaSonido = getClass().getResource("/Audio/Boton .mp3").toExternalForm();
+	    AudioClip sonidoRana = new AudioClip(rutaSonido);
+	
+	    ranaView.setOnMouseClicked(e -> {
+	        sonidoRana.play();}); 
+	
+	    Label lTitulo = new Label("CREAR CUENTA COMPARTIDA");
+	    Label lNombre = new Label("Nombre:");
+	    TextField nombre = new TextField();
+	    nombre.setPromptText("Nombre de la cuenta");
+	    
+	    
+	
+	    TextField nombrePersona = new TextField();
+	    nombrePersona.setPromptText("Nombre de la persona");
+	    Button bAnadir = new Button("Añadir Persona");
+	
+	    bAnadir.setOnAction(e -> {
+	        if (!nombrePersona.getText().isEmpty()) {
+	            añadirPersona(nombrePersona.getText());
+	            nombrePersona.clear();
+	        }
+	    });
+	
+	    HBox nombrePersonaH = new HBox(10, nombrePersona, bAnadir);
+	
+	    ScrollPane scroll = new ScrollPane(contenedorLista);
+	    scroll.setFitToWidth(true);
+	    VBox personas = new VBox(10, nombrePersonaH, new Separator(), scroll);
+	
+	    Button bCrear = new Button("Crear cuenta");
+	    bCrear.setMaxWidth(Double.MAX_VALUE);
+	    bCrear.setOnAction(ev -> {
+	    	controller.crearCuenta(nombre.getText(), listaPersonas);
+	        sonidoRana.play();
+	        
+	        sm.salto(ranaView);
+	        limpiarCuentas(nombre);
+	    });
+	
+	    gastoVView.getChildren().addAll(lTitulo,lNombre,nombre,personas,bCrear);
+	    gastoHView.getChildren().addAll(nenufarView,gastoVView,ranaView);
+	    this.getChildren().addAll(barra ,gastoHView );
 }
 	
 	
@@ -150,38 +157,25 @@ public class CuentasCompartidasView extends VBox{
 
     private void repartirEquitativamente() {
         ajustandoInternamente = true;
-        double equitativo = 100.0 / listaPersonas.size();
         for (Persona p : listaPersonas) {
-            p.porcentaje = equitativo;
-            p.slider.setValue(equitativo);
-            p.labelPorcentaje.setText(String.format("%.1f%%", equitativo));
+            p.redondeo(100.0 / listaPersonas.size());
         }
         ajustandoInternamente = false;
     }
 
     private void rebalancearDesde(Persona editada, double nuevoValor) {
-        if (ajustandoInternamente || listaPersonas.size() <= 1) return;
-
+    	if (ajustandoInternamente || listaPersonas.size() <= 1) return;
         ajustandoInternamente = true;
-        editada.porcentaje = nuevoValor;
-        
-        double sumaOtros = 0;
-        for (Persona p : listaPersonas) {
-            if (p != editada) sumaOtros += p.porcentaje;
-        }
 
-        double resto = 100.0 - nuevoValor;
+        editada.redondeo(nuevoValor); 
+        double resto = 100.0 - editada.porcentaje;
+        double sumaOtros = listaPersonas.stream().filter(p -> p != editada).mapToDouble(p -> p.porcentaje).sum();
 
         for (Persona p : listaPersonas) {
             if (p != editada) {
-                if (sumaOtros == 0) {
-                    p.porcentaje = resto / (listaPersonas.size() - 1);
-                } else {
-                    p.porcentaje = (p.porcentaje / sumaOtros) * resto;
-                }
-                p.slider.setValue(p.porcentaje);
+                double nuevoRatio = (sumaOtros == 0) ? (resto / (listaPersonas.size() - 1)) : (p.porcentaje / sumaOtros) * resto;
+                p.redondeo(nuevoRatio); 
             }
-            p.labelPorcentaje.setText(String.format("%.1f%%", p.porcentaje));
         }
         ajustandoInternamente = false;
     }

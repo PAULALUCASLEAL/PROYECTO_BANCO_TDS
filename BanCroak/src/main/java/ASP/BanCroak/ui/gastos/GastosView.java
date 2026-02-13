@@ -28,10 +28,10 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class GastosView  extends VBox{
-	
+	private GastosController controller;
 public GastosView(SceneManager sm) {
 	
-	GastosController controller= new GastosController(sm.getContext());
+	this.controller= new GastosController(sm.getContext());
 	this.setSpacing(0);
     this.setAlignment(Pos.CENTER);
     this.setId("estilo_GastoView");
