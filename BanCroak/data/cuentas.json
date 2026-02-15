@@ -1,5 +1,5 @@
 {
-  "nextIdCuenta" : 15,
+  "nextIdCuenta" : 16,
   "cuentas" : [ {
     "idCuenta" : 1,
     "nombreCuenta" : "Mi Cuenta",
@@ -80,9 +80,9 @@
     "nombreCuenta" : "nopuuuuuc",
     "miembros" : [ "nopuc", "paleta", "reina" ],
     "porcentajes" : {
+      "paleta" : 34.3,
       "reina" : 40.0,
-      "nopuc" : 25.7,
-      "paleta" : 34.3
+      "nopuc" : 25.7
     }
   }, {
     "idCuenta" : 13,
@@ -100,6 +100,14 @@
       "leal" : 10.0,
       "lucas" : 50.0,
       "paula" : 40.0
+    }
+  }, {
+    "idCuenta" : 15,
+    "nombreCuenta" : "pro foi",
+    "miembros" : [ "sdns", "ksdibajdc" ],
+    "porcentajes" : {
+      "ksdibajdc" : 60.0,
+      "sdns" : 40.0
     }
   } ]
 }
