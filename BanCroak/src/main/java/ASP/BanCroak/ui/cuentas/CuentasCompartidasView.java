@@ -1,13 +1,8 @@
 package ASP.BanCroak.ui.cuentas;
 
 
-import ASP.BanCroak.ui.gastos.GastoEditorDialog;
-import ASP.BanCroak.ui.gastos.GastosTableFactory;
 import ASP.BanCroak.ui.main.BarraMenuView;
-import ASP.BanCroak.ui.visualizar.GastosFilterPane;
-import ASP.BanCroak.ui.visualizar.VisualizarViewModel;
 import ASP.BanCroak.ui.app.SceneManager;
-import ASP.BanCroak.domain.Gasto;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -19,16 +14,18 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TableView;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.util.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CuentasCompartidasView extends VBox{
 	
@@ -36,7 +33,6 @@ public class CuentasCompartidasView extends VBox{
 	public static class Persona {
 	    String nombre;
 	    double porcentaje;
-	    Slider slider = new Slider(0, 100, 0);
 	    Label labelPorcentaje = new Label("0.0%");
 
 	    Persona(String nombre, double porcentaje) {
@@ -46,14 +42,16 @@ public class CuentasCompartidasView extends VBox{
 
 		private void redondeo(double nuevoPorcentaje) {
 			this.porcentaje = Math.round(nuevoPorcentaje * 10.0) / 10.0;
-	        this.slider.setValue(this.porcentaje);
 	        this.labelPorcentaje.setText(String.format("%.1f%%", this.porcentaje));
 		}
 	}
 	
-	private ObservableList<Persona> listaPersonas = FXCollections.observableArrayList();
+    private ObservableList<Persona> listaPersonas = FXCollections.observableArrayList();
     private VBox contenedorLista = new VBox(10);
     private boolean ajustandoInternamente = false; 
+    private boolean porcentajesEditables = false;
+    private final Label totalPorcentajeLabel = new Label("Total: 0.0%");
+    private final Map<Persona, TextField> inputsPorcentaje = new HashMap<>();
 	
 	public CuentasCompartidasView(SceneManager sm) {
 		this.controller = new CuentasCompartidasController(sm.getContext());
@@ -66,8 +64,7 @@ public class CuentasCompartidasView extends VBox{
         TabPane tabs = new TabPane();
         tabs.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         tabs.getTabs().addAll(
-            new Tab("Cuenta compartida", buildCuentaPane(sm)),
-            new Tab("Gastos", buildGastosHub(sm))
+            new Tab("Cuenta compartida", buildCuentaPane(sm))
         );
 
         VBox contenedor = new VBox(12, tabs);
@@ -120,120 +117,108 @@ public class CuentasCompartidasView extends VBox{
 
         HBox nombrePersonaH = new HBox(10, nombrePersona, bAnadir);
 
-        ScrollPane scroll = new ScrollPane(contenedorLista);
-        scroll.setFitToWidth(true);
-        VBox personas = new VBox(10, nombrePersonaH, new Separator(), scroll);
+        Button bDefinirPorcentajes = new Button("Definir porcentajes");
+        bDefinirPorcentajes.setOnAction(e -> {
+            if (listaPersonas.isEmpty()) {
+                mostrarAviso("Añade al menos una persona.");
+                return;
+            }
+            porcentajesEditables = true;
+            nombrePersona.setDisable(true);
+            bAnadir.setDisable(true);
+            actualizarUI();
+        });
 
         Button bCrear = new Button("Crear cuenta");
         bCrear.setMaxWidth(Double.MAX_VALUE);
         bCrear.setOnAction(ev -> {
+            if (!porcentajesEditables) {
+                mostrarAviso("Define los porcentajes antes de crear la cuenta.");
+                return;
+            }
+            if (!aplicarTodosDesdeInputs()) {
+                return;
+            }
+            double total = calcularTotalPorcentaje();
+            if (total > 100.0 + 0.01) {
+                mostrarAviso("La suma de porcentajes no puede superar 100%.");
+                return;
+            }
+            if (Math.abs(total - 100.0) > 0.01) {
+                mostrarAviso("La suma de porcentajes debe ser exactamente 100%.");
+                return;
+            }
+            boolean fueraRango = listaPersonas.stream().anyMatch(per -> per.porcentaje < 0 || per.porcentaje > 100);
+            if (fueraRango) {
+                mostrarAviso("Cada porcentaje debe estar entre 0 y 100.");
+                return;
+            }
             controller.crearCuenta(nombre.getText(), listaPersonas);
             sonidoRana.play();
             sm.salto(ranaView);
-            limpiarCuentas(nombre);
+            limpiarCuentas(nombre, nombrePersona, bAnadir);
         });
 
-        gastoVView.getChildren().addAll(lTitulo, lNombre, nombre, personas, bCrear);
+        ScrollPane scroll = new ScrollPane(contenedorLista);
+        scroll.setFitToWidth(true);
+        scroll.setPrefViewportHeight(180);
+        scroll.setMinHeight(180);
+        VBox personas = new VBox(10, nombrePersonaH, bDefinirPorcentajes, totalPorcentajeLabel, bCrear, new Separator(), scroll);
+
+        gastoVView.getChildren().addAll(lTitulo, lNombre, nombre, personas);
         gastoHView.getChildren().addAll(nenufarView, gastoVView, ranaView);
         return new VBox(gastoHView);
     }
 
-    private VBox buildGastosHub(SceneManager sm) {
-        VisualizarViewModel viewModel = new VisualizarViewModel(sm.getContext());
-        GastosFilterPane filtros = new GastosFilterPane(sm.getContext(), viewModel.getStore(), viewModel.getFilterState());
-
-        Label titulo = new Label("Qué puedo hacer con los gastos");
-        titulo.getStyleClass().add("section-title");
-
-        Button bNuevo = new Button("Añadir gasto");
-        bNuevo.setOnAction(e -> sm.showVentanaCrearGasto());
-        Button bEditar = new Button("Editar gasto");
-        Button bEliminar = new Button("Eliminar gasto");
-        Button bHistorial = new Button("Ver historial");
-        bHistorial.setOnAction(e -> sm.showVentanaHistorialNotificaciones());
-        Button bExportar = new Button("Exportar");
-        bExportar.setDisable(true);
-
-        HBox acciones = new HBox(10, bNuevo, bEditar, bEliminar, bHistorial, bExportar);
-        acciones.setAlignment(Pos.CENTER_LEFT);
-
-        TableView<Gasto> tabla = GastosTableFactory.crearTabla(sm.getContext(), viewModel.getStore());
-        tabla.setItems(viewModel.getGastosFiltrados());
-        VBox.setVgrow(tabla, Priority.ALWAYS);
-
-        bEditar.setOnAction(e -> {
-            Gasto gasto = tabla.getSelectionModel().getSelectedItem();
-            if (gasto == null) {
-                mostrarSeleccionRequerida();
-                return;
-            }
-            new GastoEditorDialog(sm.getContext(), viewModel.getStore(), gasto);
-        });
-
-        bEliminar.setOnAction(e -> {
-            Gasto gasto = tabla.getSelectionModel().getSelectedItem();
-            if (gasto == null) {
-                mostrarSeleccionRequerida();
-                return;
-            }
-            if (GastosTableFactory.confirmarEliminar()) {
-                viewModel.getStore().eliminarGasto(gasto);
-            }
-        });
-
-        VBox repoPane = new VBox(12, acciones, tabla);
-        VBox.setVgrow(tabla, Priority.ALWAYS);
-
-        VBox filtrosPane = new VBox(12, filtros);
-        filtrosPane.setPadding(new Insets(10, 0, 0, 0));
-
-        TabPane tabs = new TabPane();
-        tabs.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
-        tabs.getTabs().addAll(
-            new Tab("Repositorio", repoPane),
-            new Tab("Filtros", filtrosPane)
-        );
-
-        VBox contenedor = new VBox(12, titulo, tabs);
-        VBox.setVgrow(tabs, Priority.ALWAYS);
-        return contenedor;
-    }
-
-    private void mostrarSeleccionRequerida() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Selecciona un gasto");
-        alert.setHeaderText(null);
-        alert.setContentText("Selecciona un gasto en la tabla para continuar.");
-        alert.showAndWait();
-    }
-	
-	
 	private void actualizarUI() {
         contenedorLista.getChildren().clear();
+        inputsPorcentaje.clear();
         for (Persona p : listaPersonas) {
         	TextField teclado = new TextField();
-        	teclado.setPrefWidth(50);
+        	teclado.setPrefWidth(70);
         	teclado.setPromptText("%");
-        	Button bTeclado = new Button("Aplicar");
-        	bTeclado.setOnAction(e -> {
-                double valor = Double.parseDouble(teclado.getText());
-                rebalancearDesde(p, valor);
-                p.slider.setValue(valor); 
-                teclado.clear();
-
+            teclado.setDisable(!porcentajesEditables);
+            teclado.setText(String.format("%.1f", p.porcentaje));
+            teclado.setTextFormatter(new TextFormatter<>(c -> {
+                String nuevo = c.getControlNewText();
+                return nuevo.matches("\\d{0,3}([\\.,]\\d{0,1})?") ? c : null;
+            }));
+            Runnable aplicar = () -> {
+                if (!porcentajesEditables) return;
+                String texto = teclado.getText();
+                if (texto == null || texto.isBlank()) return;
+                try {
+                    double valor = Double.parseDouble(texto.replace(',', '.'));
+                    if (valor < 0 || valor > 100) {
+                        mostrarAviso("Cada porcentaje debe estar entre 0 y 100.");
+                        return;
+                    }
+                    p.redondeo(valor);
+                    actualizarTotal();
+                } catch (NumberFormatException ex) {
+                    mostrarAviso("Introduce un porcentaje válido.");
+                }
+            };
+            teclado.setOnAction(e -> aplicar.run());
+            teclado.focusedProperty().addListener((obs, oldV, newV) -> {
+                if (!newV) aplicar.run();
             });
-            HBox fila = new HBox(15, new Label(p.nombre), p.slider, p.labelPorcentaje,teclado,bTeclado);
-            fila.setPadding(new Insets(5));
-            HBox.setHgrow(p.slider, Priority.ALWAYS);
+            inputsPorcentaje.put(p, teclado);
+            Label nombreLabel = new Label(p.nombre);
+            nombreLabel.setStyle("-fx-text-fill: #1d1d1d;");
+            nombreLabel.setMinWidth(140);
+            Region spacer = new Region();
+            HBox.setHgrow(spacer, Priority.ALWAYS);
+            HBox fila = new HBox(12, nombreLabel, spacer, p.labelPorcentaje, teclado);
+            fila.setAlignment(Pos.CENTER_LEFT);
+            fila.setPadding(new Insets(6, 8, 6, 8));
+            fila.setMinHeight(36);
             contenedorLista.getChildren().add(fila);
         }
+        actualizarTotal();
     }
 	private void añadirPersona(String nombre) {
         Persona nueva = new Persona(nombre, 0);
-        
-        nueva.slider.valueProperty().addListener((observer, viejoValor, nuevoValor) -> {
-            rebalancearDesde(nueva, nuevoValor.doubleValue());
-        });
 
         listaPersonas.add(nueva);
         actualizarUI();
@@ -246,29 +231,64 @@ public class CuentasCompartidasView extends VBox{
             p.redondeo(100.0 / listaPersonas.size());
         }
         ajustandoInternamente = false;
+        actualizarTotal();
     }
 
-    private void rebalancearDesde(Persona editada, double nuevoValor) {
-    	if (ajustandoInternamente || listaPersonas.size() <= 1) return;
-        ajustandoInternamente = true;
-
-        editada.redondeo(nuevoValor); 
-        double resto = 100.0 - editada.porcentaje;
-        double sumaOtros = listaPersonas.stream().filter(p -> p != editada).mapToDouble(p -> p.porcentaje).sum();
-
-        for (Persona p : listaPersonas) {
-            if (p != editada) {
-                double nuevoRatio = (sumaOtros == 0) ? (resto / (listaPersonas.size() - 1)) : (p.porcentaje / sumaOtros) * resto;
-                p.redondeo(nuevoRatio); 
-            }
-        }
-        ajustandoInternamente = false;
-    }
-    public void limpiarCuentas(TextField nombre) {
+    public void limpiarCuentas(TextField nombre, TextField nombrePersona, Button bAnadir) {
     	
     	nombre.clear();
+        nombrePersona.clear();
+        nombrePersona.setDisable(false);
+        bAnadir.setDisable(false);
+        porcentajesEditables = false;
     	listaPersonas.clear();
     	actualizarUI();
+    }
+
+    private double calcularTotalPorcentaje() {
+        return listaPersonas.stream().mapToDouble(p -> p.porcentaje).sum();
+    }
+
+    private void actualizarTotal() {
+        totalPorcentajeLabel.setText(String.format("Total: %.1f%%", calcularTotalPorcentaje()));
+    }
+
+    private boolean aplicarTodosDesdeInputs() {
+        double total = 0.0;
+        for (Map.Entry<Persona, TextField> entry : inputsPorcentaje.entrySet()) {
+            Persona p = entry.getKey();
+            String texto = entry.getValue().getText();
+            if (texto == null || texto.isBlank()) {
+                mostrarAviso("Todos los porcentajes deben estar rellenados.");
+                return false;
+            }
+            try {
+                double valor = Double.parseDouble(texto.replace(',', '.'));
+                if (valor < 0 || valor > 100) {
+                    mostrarAviso("Cada porcentaje debe estar entre 0 y 100.");
+                    return false;
+                }
+                p.redondeo(valor);
+                total += p.porcentaje;
+            } catch (NumberFormatException ex) {
+                mostrarAviso("Introduce un porcentaje válido.");
+                return false;
+            }
+        }
+        actualizarTotal();
+        if (total > 100.0 + 0.01) {
+            mostrarAviso("La suma de porcentajes no puede superar 100%.");
+            return false;
+        }
+        return true;
+    }
+
+    private void mostrarAviso(String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Aviso");
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
     }
  
 }

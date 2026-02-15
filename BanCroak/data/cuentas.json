@@ -1,5 +1,5 @@
 {
-  "nextIdCuenta" : 9,
+  "nextIdCuenta" : 15,
   "cuentas" : [ {
     "idCuenta" : 1,
     "nombreCuenta" : "Mi Cuenta",
@@ -21,8 +21,8 @@
     "miembros" : [ "Sergio", "Paula", "Aarón" ],
     "porcentajes" : {
       "Aarón" : 10.0,
-      "Sergio" : 40.0,
-      "Paula" : 50.0
+      "Paula" : 50.0,
+      "Sergio" : 40.0
     }
   }, {
     "idCuenta" : 4,
@@ -47,6 +47,59 @@
     "porcentajes" : {
       "No" : 78.9,
       "Si" : 21.1
+    }
+  }, {
+    "idCuenta" : 9,
+    "nombreCuenta" : "pruebadeporcentajes",
+    "miembros" : [ "PAULA", "SERGIO" ],
+    "porcentajes" : {
+      "SERGIO" : 40.0,
+      "PAULA" : 60.0
+    }
+  }, {
+    "idCuenta" : 10,
+    "nombreCuenta" : "nopuc",
+    "miembros" : [ "PUAL A", "serfgio", "rad" ],
+    "porcentajes" : {
+      "rad" : 60.0,
+      "serfgio" : 21.2,
+      "PUAL A" : 18.8
+    }
+  }, {
+    "idCuenta" : 11,
+    "nombreCuenta" : "nopucmes",
+    "miembros" : [ "ayuda", "no", "puc", "mes" ],
+    "porcentajes" : {
+      "puc" : 48.6,
+      "no" : 9.1,
+      "ayuda" : 2.3,
+      "mes" : 40.0
+    }
+  }, {
+    "idCuenta" : 12,
+    "nombreCuenta" : "nopuuuuuc",
+    "miembros" : [ "nopuc", "paleta", "reina" ],
+    "porcentajes" : {
+      "reina" : 40.0,
+      "nopuc" : 25.7,
+      "paleta" : 34.3
+    }
+  }, {
+    "idCuenta" : 13,
+    "nombreCuenta" : "porfavorfuncioa",
+    "miembros" : [ "paula", "myke" ],
+    "porcentajes" : {
+      "paula" : 50.0,
+      "myke" : 50.0
+    }
+  }, {
+    "idCuenta" : 14,
+    "nombreCuenta" : "por fa",
+    "miembros" : [ "paula", "lucas", "leal" ],
+    "porcentajes" : {
+      "leal" : 10.0,
+      "lucas" : 50.0,
+      "paula" : 40.0
     }
   } ]
 }
