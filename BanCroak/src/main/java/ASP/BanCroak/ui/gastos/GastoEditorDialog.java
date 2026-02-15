@@ -97,6 +97,7 @@ public class GastoEditorDialog extends Stage {
 
                 validar(valor, fechaValor, categoriaValor, pagadorValor);
                 store.editarGasto(gasto.getID(), valor, fechaValor, categoriaValor, pagadorValor);
+                context.evaluarAlertasYNotificar(gasto.getIDCuenta());
                 mostrarConfirmacion();
                 close();
             } catch (IllegalArgumentException ex) {

@@ -1,22 +1,32 @@
 {
-  "nextId" : 4,
+  "nextId" : 7,
   "alertas" : [ {
     "id" : 1,
+    "nombre" : "Alerta 1",
     "periodo" : "MENSUAL",
     "limite" : 10000.0,
     "categoria" : "comida",
-    "activa" : true
+    "activa" : false
   }, {
     "id" : 2,
+    "nombre" : "Alerta 2",
     "periodo" : "MENSUAL",
     "limite" : 30000.0,
     "categoria" : null,
     "activa" : true
   }, {
     "id" : 3,
+    "nombre" : "Alerta 3",
     "periodo" : "SEMANAL",
     "limite" : 10.0,
     "categoria" : "comida",
+    "activa" : true
+  }, {
+    "id" : 6,
+    "nombre" : "Sergio",
+    "periodo" : "SEMANAL",
+    "limite" : 6.0E9,
+    "categoria" : null,
     "activa" : true
   } ]
 }

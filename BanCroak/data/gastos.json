@@ -1,5 +1,5 @@
 {
-  "nextId" : 23,
+  "nextId" : 27,
   "gastos" : [ {
     "idGasto" : 3,
     "idCuenta" : 2,
@@ -70,6 +70,34 @@
     "pagador" : "ayuda",
     "cantidad" : 5000.0,
     "fecha" : "2026-02-26"
+  }, {
+    "idGasto" : 23,
+    "idCuenta" : 1,
+    "categoria" : "navidad",
+    "pagador" : "Mi Cuenta",
+    "cantidad" : 6.0000000001E10,
+    "fecha" : "2026-02-15"
+  }, {
+    "idGasto" : 24,
+    "idCuenta" : 1,
+    "categoria" : "universidad",
+    "pagador" : "Mi Cuenta",
+    "cantidad" : 6.0E10,
+    "fecha" : "2026-02-15"
+  }, {
+    "idGasto" : 25,
+    "idCuenta" : 1,
+    "categoria" : "universidad",
+    "pagador" : "Mi Cuenta",
+    "cantidad" : 6.0000000001E10,
+    "fecha" : "2026-02-15"
+  }, {
+    "idGasto" : 26,
+    "idCuenta" : 1,
+    "categoria" : "universidad",
+    "pagador" : "Mi Cuenta",
+    "cantidad" : 6.0000000000001E13,
+    "fecha" : "2026-02-15"
   } ],
-  "categorias" : [ "universidad", "primavera", "entretenimiento", "gimnasio", "lll", "paleta", "transporte", "viaje", "navidad", "ropa", "disfrutar de la vida", "alimentacion", "comida" ]
+  "categorias" : [ "universidad", "comida", "alimentacion", "disfrutar de la vida", "ropa", "navidad", "viaje", "transporte", "paleta", "lll", "gimnasio", "entretenimiento", "primavera" ]
 }

@@ -191,3 +191,151 @@
     -fx-text-fill: #0f1f1d;
     -fx-font-weight: bold;
 }
+
+/* Historial de notificaciones */
+.notif-card {
+    -fx-background-color: #f7fbfa;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-color: #d3e3e1;
+    -fx-border-width: 1;
+    -fx-padding: 12 14 12 14;
+    -fx-effect: dropshadow(three-pass-box, rgba(15,31,29,0.12), 6, 0.25, 0, 2);
+}
+
+.notif-card-unread {
+    -fx-border-color: #1f7a6f;
+}
+
+.notif-card-read {
+    -fx-background-color: #eef4f3;
+    -fx-border-color: #c7d6d4;
+    -fx-opacity: 0.9;
+}
+
+.notif-card-weekly {
+    -fx-border-width: 1 1 1 6;
+    -fx-border-color: #cfe6e3 #d3e3e1 #d3e3e1 #2f8f86;
+}
+
+.notif-card-monthly {
+    -fx-border-width: 1 1 1 6;
+    -fx-border-color: #d7e3f0 #d3e3e1 #d3e3e1 #3f7abf;
+}
+
+.notif-time {
+    -fx-text-fill: #233534;
+    -fx-font-weight: bold;
+}
+
+.notif-message {
+    -fx-text-fill: #0f1f1d;
+    -fx-font-size: 13.5px;
+}
+
+.notif-check .text {
+    -fx-fill: #0f1f1d;
+}
+
+.icon-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #0f1f1d;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 2 6 2 6;
+    -fx-background-radius: 8;
+    -fx-border-color: #c7d6d4;
+    -fx-border-radius: 8;
+}
+
+.icon-button:hover {
+    -fx-background-color: rgba(15,31,29,0.08);
+}
+
+.alerts-table {
+    -fx-background-color: rgba(255,255,255,0.95);
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #d7e3e1;
+}
+
+.alerts-table .table-row-cell {
+    -fx-background-color: transparent;
+}
+
+.alerts-content {
+    -fx-padding: 8 8 8 8;
+}
+
+.alerts-content .card {
+    -fx-background-color: rgba(255,255,255,0.94);
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-border-color: #d7e3e1;
+    -fx-padding: 16 18 16 18;
+    -fx-effect: dropshadow(three-pass-box, rgba(15,31,29,0.18), 8, 0.2, 0, 2);
+}
+
+.alerts-split {
+    -fx-background-color: transparent;
+}
+
+.alerts-split .split-pane-divider {
+    -fx-padding: 0 6 0 6;
+    -fx-background-color: transparent;
+}
+
+/* Toasts */
+.toast-container {
+    -fx-pick-on-bounds: false;
+}
+
+.toast-card {
+    -fx-background-color: rgba(255,255,255,0.96);
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-border-color: #d3e3e1;
+    -fx-border-width: 1;
+    -fx-padding: 12 14 12 14;
+    -fx-effect: dropshadow(three-pass-box, rgba(15,31,29,0.22), 10, 0.25, 0, 3);
+    -fx-min-width: 320;
+    -fx-max-width: 360;
+}
+
+.toast-weekly {
+    -fx-border-width: 1 1 1 6;
+    -fx-border-color: #d3e3e1 #d3e3e1 #d3e3e1 #2f8f86;
+}
+
+.toast-monthly {
+    -fx-border-width: 1 1 1 6;
+    -fx-border-color: #d3e3e1 #d3e3e1 #d3e3e1 #3f7abf;
+}
+
+.toast-generic {
+    -fx-border-width: 1 1 1 6;
+    -fx-border-color: #d3e3e1 #d3e3e1 #d3e3e1 #1f7a6f;
+}
+
+.toast-title {
+    -fx-text-fill: #0f1f1d;
+    -fx-font-weight: bold;
+    -fx-font-size: 14.5px;
+}
+
+.toast-message {
+    -fx-text-fill: #203434;
+    -fx-font-size: 13px;
+}
+
+.toast-close {
+    -fx-background-color: transparent;
+    -fx-text-fill: #0f1f1d;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 2 6 2 6;
+}
+
+.toast-close:hover {
+    -fx-background-color: rgba(15,31,29,0.08);
+}

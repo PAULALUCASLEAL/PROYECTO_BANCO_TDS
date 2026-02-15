@@ -31,7 +31,8 @@ public class AlertasPersistence {
             AlertasData data = mapper.readValue(path.toFile(), AlertasData.class);
             if (data.alertas != null) {
                 for (AlertaData a : data.alertas) {
-                    AlertaGasto alerta = new AlertaGasto(a.id, AlertaGasto.Periodo.valueOf(a.periodo), a.limite, a.categoria, a.activa);
+                    String nombre = a.nombre == null || a.nombre.isBlank() ? "Alerta " + a.id : a.nombre;
+                    AlertaGasto alerta = new AlertaGasto(a.id, nombre, AlertaGasto.Periodo.valueOf(a.periodo), a.limite, a.categoria, a.activa);
                     repo.añadirAlerta(alerta);
                 }
             }
@@ -53,6 +54,7 @@ public class AlertasPersistence {
         for (AlertaGasto a : repo.listarAlertas()) {
             AlertaData ad = new AlertaData();
             ad.id = a.getId();
+            ad.nombre = a.getNombre();
             ad.periodo = a.getPeriodo().name();
             ad.limite = a.getLimite();
             ad.categoria = a.getCategoria();
@@ -81,6 +83,7 @@ public class AlertasPersistence {
 
     public static class AlertaData {
         public int id;
+        public String nombre;
         public String periodo;
         public double limite;
         public String categoria;

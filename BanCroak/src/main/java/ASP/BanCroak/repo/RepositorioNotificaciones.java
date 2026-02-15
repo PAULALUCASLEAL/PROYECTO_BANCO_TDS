@@ -1,5 +1,6 @@
 package ASP.BanCroak.repo;
 
+import ASP.BanCroak.domain.AlertaGasto;
 import ASP.BanCroak.domain.Notificacion;
 
 import java.util.ArrayList;
@@ -38,8 +39,9 @@ public enum RepositorioNotificaciones {
         }
     }
 
-    public Notificacion crearNotificacion(String mensaje, int alertaId, String periodoKey, double totalDetectado, String categoria) {
-        Notificacion n = new Notificacion(nextId, java.time.LocalDateTime.now(), mensaje, alertaId, periodoKey, totalDetectado, categoria, false);
+    public Notificacion crearNotificacion(String mensaje, int alertaId, String alertaNombre, AlertaGasto.Periodo periodo,
+                                          String periodoKey, double limite, double totalDetectado, String categoria) {
+        Notificacion n = new Notificacion(nextId, java.time.LocalDateTime.now(), mensaje, alertaId, alertaNombre, periodo, periodoKey, limite, totalDetectado, categoria, false);
         notificaciones.add(n);
         nextId++;
         return n;
@@ -49,7 +51,29 @@ public enum RepositorioNotificaciones {
         if (periodoKey == null || periodoKey.isBlank()) {
             return false;
         }
-        return notificaciones.stream().anyMatch(n -> n.getAlertaId() == alertaId && periodoKey.equals(n.getPeriodoKey()));
+        return notificaciones.stream().anyMatch(n -> n.getAlertaId() == alertaId && mismaClavePeriodo(periodoKey, n.getPeriodoKey()));
+    }
+
+    private boolean mismaClavePeriodo(String key, String stored) {
+        if (stored == null || stored.isBlank()) {
+            return false;
+        }
+        if (key.equals(stored)) {
+            return true;
+        }
+        if (stored.startsWith("SEM-") && stored.substring(4).equals(key)) {
+            return true;
+        }
+        if (stored.startsWith("MES-") && stored.substring(4).equals(key)) {
+            return true;
+        }
+        if (key.startsWith("SEM-") && key.substring(4).equals(stored)) {
+            return true;
+        }
+        if (key.startsWith("MES-") && key.substring(4).equals(stored)) {
+            return true;
+        }
+        return false;
     }
 
     public List<Notificacion> listarNotificaciones() {
@@ -59,6 +83,24 @@ public enum RepositorioNotificaciones {
     public Optional<Notificacion> buscarPorId(int id) {
         if (id <= 0) return Optional.empty();
         return notificaciones.stream().filter(n -> n.getId() == id).findFirst();
+    }
+
+    public void eliminarNotificacion(int id) {
+        boolean removed = notificaciones.removeIf(n -> n.getId() == id);
+        if (!removed) {
+            throw new IllegalArgumentException("No existe una notificacion con el id " + id);
+        }
+    }
+
+    public void marcarLeida(int id, boolean leida) {
+        Notificacion n = buscarPorId(id).orElseThrow(() -> new IllegalArgumentException("No existe una notificacion con el id " + id));
+        n.setLeida(leida);
+    }
+
+    public void marcarTodasLeidas() {
+        for (Notificacion n : notificaciones) {
+            n.setLeida(true);
+        }
     }
 
     public void limpiar() {

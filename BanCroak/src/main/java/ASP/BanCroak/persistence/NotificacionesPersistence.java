@@ -1,5 +1,6 @@
 package ASP.BanCroak.persistence;
 
+import ASP.BanCroak.domain.AlertaGasto;
 import ASP.BanCroak.domain.Notificacion;
 import ASP.BanCroak.repo.RepositorioNotificaciones;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,12 +34,18 @@ public class NotificacionesPersistence {
             if (data.notificaciones != null) {
                 for (NotificacionData n : data.notificaciones) {
                     LocalDateTime ts = n.timestamp == null ? LocalDateTime.now() : LocalDateTime.parse(n.timestamp);
+                    String alertaNombre = n.alertaNombre == null || n.alertaNombre.isBlank() ? ("Alerta " + n.alertaId) : n.alertaNombre;
+                    AlertaGasto.Periodo periodo = resolvePeriodo(n.periodo, n.periodoKey, n.mensaje);
+                    double limite = n.limite < 0 ? 0 : n.limite;
                     Notificacion notificacion = new Notificacion(
                         n.id,
                         ts,
                         n.mensaje,
                         n.alertaId,
+                        alertaNombre,
+                        periodo,
                         n.periodoKey,
+                        limite,
                         n.totalDetectado,
                         n.categoria,
                         n.leida
@@ -67,7 +74,10 @@ public class NotificacionesPersistence {
             nd.timestamp = n.getTimestamp().toString();
             nd.mensaje = n.getMensaje();
             nd.alertaId = n.getAlertaId();
+            nd.alertaNombre = n.getAlertaNombre();
+            nd.periodo = n.getPeriodo().name();
             nd.periodoKey = n.getPeriodoKey();
+            nd.limite = n.getLimite();
             nd.totalDetectado = n.getTotalDetectado();
             nd.categoria = n.getCategoria();
             nd.leida = n.isLeida();
@@ -98,9 +108,36 @@ public class NotificacionesPersistence {
         public String timestamp;
         public String mensaje;
         public int alertaId;
+        public String alertaNombre;
+        public String periodo;
         public String periodoKey;
+        public double limite;
         public double totalDetectado;
         public String categoria;
         public boolean leida;
+    }
+
+    private AlertaGasto.Periodo resolvePeriodo(String periodo, String periodoKey, String mensaje) {
+        if (periodo != null && !periodo.isBlank()) {
+            try {
+                return AlertaGasto.Periodo.valueOf(periodo);
+            } catch (IllegalArgumentException ignored) {
+            }
+        }
+        if (periodoKey != null) {
+            if (periodoKey.startsWith("SEM-")) {
+                return AlertaGasto.Periodo.SEMANAL;
+            }
+            if (periodoKey.startsWith("MES-")) {
+                return AlertaGasto.Periodo.MENSUAL;
+            }
+        }
+        if (mensaje != null) {
+            String lower = mensaje.toLowerCase();
+            if (lower.contains("semanal")) {
+                return AlertaGasto.Periodo.SEMANAL;
+            }
+        }
+        return AlertaGasto.Periodo.MENSUAL;
     }
 }

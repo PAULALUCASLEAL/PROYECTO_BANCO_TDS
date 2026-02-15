@@ -9,9 +9,12 @@ import ASP.BanCroak.repo.RepositorioAlertas;
 import ASP.BanCroak.repo.RepositorioCuentas;
 import ASP.BanCroak.repo.RepositorioGastos;
 import ASP.BanCroak.repo.RepositorioNotificaciones;
+import ASP.BanCroak.service.AlertaService;
 import ASP.BanCroak.service.FilterState;
+import ASP.BanCroak.domain.Notificacion;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Optional;
 
 public class AppContext {
@@ -90,6 +93,27 @@ public class AppContext {
 
     public NotificacionesPersistence getNotificacionesPersistence() {
         return notificacionesPersistence;
+    }
+
+    public List<Notificacion> evaluarAlertasYNotificar() {
+        return evaluarAlertasYNotificar(cuentaActivaId);
+    }
+
+    public List<Notificacion> evaluarAlertasYNotificar(int cuentaId) {
+        if (cuentaId <= 0) {
+            return List.of();
+        }
+        AlertaService service = new AlertaService();
+        List<Notificacion> nuevas = service.evaluarYNotificar(cuentaId, repoGastos, repoAlertas, repoNotificaciones);
+        if (!nuevas.isEmpty()) {
+            notificacionesPersistence.save(repoNotificaciones);
+            if (navigator != null) {
+                for (Notificacion n : nuevas) {
+                    navigator.showNotificacion(n.getMensaje());
+                }
+            }
+        }
+        return nuevas;
     }
 
     public SceneManager getNavigator() {

@@ -17,8 +17,8 @@ public enum RepositorioAlertas {
         this.nextId = 1;
     }
 
-    public AlertaGasto crearAlerta(AlertaGasto.Periodo periodo, double limite, String categoria, boolean activa) {
-        AlertaGasto alerta = new AlertaGasto(nextId, periodo, limite, categoria, activa);
+    public AlertaGasto crearAlerta(String nombre, AlertaGasto.Periodo periodo, double limite, String categoria, boolean activa) {
+        AlertaGasto alerta = new AlertaGasto(nextId, nombre, periodo, limite, categoria, activa);
         alertas.add(alerta);
         nextId++;
         return alerta;
@@ -42,6 +42,11 @@ public enum RepositorioAlertas {
         if (!removed) {
             throw new IllegalArgumentException("No existe una alerta con el id " + id);
         }
+    }
+
+    public void actualizarEstado(int id, boolean activa) {
+        AlertaGasto alerta = buscarPorId(id).orElseThrow(() -> new IllegalArgumentException("No existe una alerta con el id " + id));
+        alerta.setActiva(activa);
     }
 
     public List<AlertaGasto> listarAlertas() {

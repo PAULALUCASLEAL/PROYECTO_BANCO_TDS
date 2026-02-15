@@ -1,10 +1,14 @@
 package ASP.BanCroak.ui.notificaciones;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import ASP.BanCroak.domain.Notificacion;
 import ASP.BanCroak.ui.app.SceneManager;
 import ASP.BanCroak.ui.main.BarraMenuView;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
@@ -17,7 +21,10 @@ import javafx.scene.media.AudioClip;
 
 public class HistorialNotificacionesView extends VBox{
 	private VBox historial = new VBox(10);
+    private final NotificacionesController controller;
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 public HistorialNotificacionesView(SceneManager sm) {
+    this.controller = new NotificacionesController(sm.getContext());
 	this.setSpacing(0);
     this.setAlignment(Pos.CENTER);
     this.setId("estilo_HistorialNotificacionesView");
@@ -53,32 +60,71 @@ public HistorialNotificacionesView(SceneManager sm) {
         sonidoRana.play();}); 
 
     Label lTitulo = new Label("HISTORIAL DE NOTIFICACIONES");
+    Button bMarcarTodas = new Button("Marcar todas como leídas");
+    bMarcarTodas.setOnAction(e -> {
+        controller.marcarTodasLeidas();
+        refresh();
+    });
     ScrollPane scroll = new ScrollPane(historial);
     scroll.setFitToWidth(true);
     scroll.setPrefHeight(300);
     scroll.setStyle("-fx-border-color: #2e7d32; -fx-border-width: 5;-fx-background-color: #2e7d32; ");
     VBox.setVgrow(scroll, Priority.ALWAYS);
-    gastoVView.getChildren().addAll(lTitulo,scroll);
+    gastoVView.getChildren().addAll(lTitulo,bMarcarTodas,scroll);
     gastoHView.getChildren().addAll(nenufarView,gastoVView,ranaView);
     this.getChildren().addAll(barra,gastoHView);
         
 }
-public void actualizar(List<NotificacionView> lista) {
+public void refresh() {
+    actualizar(controller.listarNotificacionesOrdenadas());
+}
+
+public void actualizar(List<Notificacion> lista) {
     historial.getChildren().clear();
     
-    for (NotificacionView n : lista) {
+    for (Notificacion n : lista) {
 
-    	HBox fila = new HBox(10);
-        fila.setStyle("-fx-background-color: white; -fx-border-color: #eee;");
+        HBox fila = new HBox(10);
+        fila.getStyleClass().add("notif-card");
+        if (!n.isLeida()) {
+            fila.getStyleClass().add("notif-card-unread");
+        } else {
+            fila.getStyleClass().add("notif-card-read");
+        }
+        if (n.getPeriodo() == ASP.BanCroak.domain.AlertaGasto.Periodo.SEMANAL) {
+            fila.getStyleClass().add("notif-card-weekly");
+        } else {
+            fila.getStyleClass().add("notif-card-monthly");
+        }
 
-        Label lHora = new Label("[" + n.getHora() + "]");
+        Label lHora = new Label("[" + formatter.format(n.getTimestamp()) + "]");
         Label lNotificacion = new Label(n.getMensaje());
+        lHora.getStyleClass().add("notif-time");
+        lNotificacion.getStyleClass().add("notif-message");
         lNotificacion.setWrapText(true);
         lHora.setMinWidth(Region.USE_PREF_SIZE);
         HBox.setHgrow(lNotificacion, Priority.ALWAYS);
-        fila.getChildren().addAll(lHora, lNotificacion);
+        CheckBox leida = new CheckBox("Leída");
+        leida.getStyleClass().add("notif-check");
+        leida.setSelected(n.isLeida());
+        leida.selectedProperty().addListener((obs, oldVal, newVal) -> {
+            controller.marcarLeida(n.getId(), newVal);
+            fila.getStyleClass().removeAll("notif-card-unread", "notif-card-read");
+            fila.getStyleClass().add(newVal ? "notif-card-read" : "notif-card-unread");
+        });
+        Button eliminar = new Button("✕");
+        eliminar.setGraphic(null);
+        eliminar.setText("✕");
+        eliminar.getStyleClass().add("icon-button");
+        eliminar.setOnAction(e -> {
+            controller.eliminarNotificacion(n.getId());
+            refresh();
+        });
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+        fila.getChildren().addAll(lHora, lNotificacion, spacer, leida, eliminar);
         
-        historial.getChildren().add(0, fila);
+        historial.getChildren().add(fila);
     }
 }
 }

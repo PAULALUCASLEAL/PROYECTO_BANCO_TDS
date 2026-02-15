@@ -20,7 +20,7 @@ public class BarraMenuView extends MenuBar {
         MenuItem itemBarras = new MenuItem("Barras");
         MenuItem itemCirculares = new MenuItem("Circulares");
         MenuItem itemCalendario = new MenuItem("Calendario");
-        MenuItem itemCrearNotificacion = new MenuItem("Crear notificación");
+        MenuItem itemCrearNotificacion = new MenuItem("Crear alerta");
         MenuItem itemHistorial = new MenuItem("Historial de notificaciones");
         
         

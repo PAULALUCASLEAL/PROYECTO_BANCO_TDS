@@ -65,6 +65,7 @@ public class GastosController {
         Gasto gasto = Gasto.crearGasto(cantidad, fecha, categoria, pagador, idCuenta);
 
         gastosStore.añadirGasto(gasto);
+        context.evaluarAlertasYNotificar(idCuenta);
 
 
     }

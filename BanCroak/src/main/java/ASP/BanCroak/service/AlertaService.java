@@ -38,7 +38,10 @@ public class AlertaService {
                 Notificacion n = repoNotificaciones.crearNotificacion(
                     mensaje,
                     alerta.getId(),
+                    alerta.getNombre(),
+                    alerta.getPeriodo(),
                     periodoKey,
+                    alerta.getLimite(),
                     total,
                     alerta.getCategoria()
                 );
@@ -86,18 +89,19 @@ public class AlertaService {
 
     private String calcularPeriodoKey(AlertaGasto.Periodo periodo, LocalDate hoy) {
         if (periodo == AlertaGasto.Periodo.MENSUAL) {
-            return String.format("MES-%d-%02d", hoy.getYear(), hoy.getMonthValue());
+            return String.format("%d-%02d", hoy.getYear(), hoy.getMonthValue());
         }
         WeekFields wf = WeekFields.ISO;
         int week = hoy.get(wf.weekOfWeekBasedYear());
         int year = hoy.get(wf.weekBasedYear());
-        return String.format("SEM-%d-%02d", year, week);
+        return String.format("%d-%02d", year, week);
     }
 
     private String construirMensaje(AlertaGasto alerta, double total, String periodoKey) {
         String categoria = alerta.getCategoria() == null || alerta.getCategoria().isBlank() ? "todas las categorías" : "la categoría '" + alerta.getCategoria() + "'";
         return String.format(Locale.ROOT,
-            "Alerta %s: superado el límite de %.2f € en %s. Total: %.2f € (%s)",
+            "Alerta '%s' %s: superado el límite de %.2f € en %s. Total: %.2f € (%s)",
+            alerta.getNombre(),
             alerta.getPeriodo().name().toLowerCase(Locale.ROOT),
             alerta.getLimite(),
             periodoKey,

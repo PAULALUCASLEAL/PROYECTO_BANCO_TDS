@@ -5,8 +5,8 @@ import ASP.BanCroak.ui.gastos.GastosView;
 
 import ASP.BanCroak.ui.main.MainView;
 import ASP.BanCroak.ui.notificaciones.NotificacionesView;
-import ASP.BanCroak.ui.notificaciones.NotificacionView;
 import ASP.BanCroak.ui.notificaciones.HistorialNotificacionesView;
+import ASP.BanCroak.ui.notificaciones.ToastManager;
 import ASP.BanCroak.ui.cuentas.CuentasCompartidasView;
 import ASP.BanCroak.ui.visualizar.VisualizarTab;
 import ASP.BanCroak.ui.visualizar.VisualizarView;
@@ -15,24 +15,25 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SceneManager {
     private final AppContext context;
     private Stage stage;
     private Scene scenaActual;
+    private StackPane rootStack;
     private static boolean saltando = false;
     private static final double ANCHO = 900; 
     private static final double ALTO = 650;
-    private final List<NotificacionView> notificaciones = new ArrayList<>();
-	HistorialNotificacionesView historial = new HistorialNotificacionesView(this);
+	private HistorialNotificacionesView historial;
+    private final ToastManager toastManager;
 
     public SceneManager(AppContext context) {
         this.context = context;
+        this.historial = new HistorialNotificacionesView(this);
+        this.toastManager = new ToastManager();
     }
     public AppContext getContext() {
         return this.context;
@@ -49,11 +50,23 @@ public class SceneManager {
 
     private void cambiarVista(Parent nuevaVista) {
         if (scenaActual == null) {
-            scenaActual = new Scene(nuevaVista, ANCHO, ALTO); 
+            rootStack = new StackPane();
+            rootStack.getChildren().addAll(nuevaVista, toastManager.getContainer());
+            scenaActual = new Scene(rootStack, ANCHO, ALTO); 
             stage.setScene(scenaActual);
             stage.show();
         } else {
-            scenaActual.setRoot(nuevaVista);
+            if (rootStack == null) {
+                rootStack = new StackPane();
+                rootStack.getChildren().addAll(nuevaVista, toastManager.getContainer());
+                scenaActual.setRoot(rootStack);
+            } else {
+                if (rootStack.getChildren().isEmpty()) {
+                    rootStack.getChildren().addAll(nuevaVista, toastManager.getContainer());
+                } else {
+                    rootStack.getChildren().set(0, nuevaVista);
+                }
+            }
         }
     }
     public void showVentanaPrincipal() {
@@ -70,14 +83,11 @@ public class SceneManager {
         cambiarVista(vista);
     }
     public void showNotificacion(String texto) {
-	    NotificacionView notificacion = new NotificacionView(texto);
-	    notificaciones.add(notificacion);
-	    
-	    NotificacionView.mostrar(texto);
-	    
-	    historial.actualizar(notificaciones);
+	    toastManager.showToast("Alerta", texto, ToastManager.Tipo.fromMessage(texto));
+	    historial.refresh();
 	}
     public void showVentanaHistorialNotificaciones() {
+        historial.refresh();
         cambiarVista(historial);
     }
     
