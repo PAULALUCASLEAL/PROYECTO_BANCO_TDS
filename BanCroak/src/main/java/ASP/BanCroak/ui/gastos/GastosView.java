@@ -75,7 +75,9 @@ public GastosView(SceneManager sm) {
     	FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Seleccionar archivo para importar gasto");
         File archivo = fileChooser.showOpenDialog(this.getScene().getWindow());
-        //funcion para importar
+        if (archivo != null) {
+            controller.importar(archivo);
+        }
     }); 
     Label lTitulo = new Label("AÑADIR GASTO");
 

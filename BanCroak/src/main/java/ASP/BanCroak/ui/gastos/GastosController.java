@@ -6,6 +6,8 @@ import ASP.BanCroak.repo.RepositorioCuentas;
 import ASP.BanCroak.repo.RepositorioGastos;
 import ASP.BanCroak.ui.app.AppContext;
 import ASP.BanCroak.ui.app.GastosStore;
+
+import java.io.File;
 import java.time.LocalDate;
 import java.util.stream.Collectors;
 import java.util.List;
@@ -65,5 +67,39 @@ public class GastosController {
         gastosStore.añadirGasto(gasto);
 
 
+    }
+    public void importar(File archivo) {
+        try {
+            GastoImportarCSV importer = new GastoImportarCSV();
+            List<GastoImportado> gastos = importer.importar(archivo);
+
+            for (GastoImportado gasto : gastos) {
+            	int id;
+            	if(importer.esMiCuenta(gasto.cuenta)) {
+            		id=1;
+            		gasto.pagador="Mi Cuenta";
+            		}
+            	else {
+                id = repoCuentas.listarCuentas().stream()
+                        .filter(c -> c.getNombreCuenta().equalsIgnoreCase(gasto.cuenta))
+                        .map(Cuenta::getIdCuenta)
+                        .findFirst()
+                        .orElse(context.getCuentaActivaId()); 
+            	}
+                Gasto nuevoGasto = Gasto.crearGasto(
+                	gasto.cantidad, 
+                	gasto.fecha, 
+                	gasto.categoria, 
+                	gasto.pagador, 
+                    id
+                );
+
+                repoGastos.añadirGasto(nuevoGasto);
+            }
+
+            context.getGastosPersistence().save(repoGastos);
+        } catch (Exception e) {
+            System.err.println("Error al importar gastos del archivo: " + e.getMessage());
+        }
     }
 }

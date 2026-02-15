@@ -1,0 +1,31 @@
+{
+  "nextId" : 4,
+  "notificaciones" : [ {
+    "id" : 1,
+    "timestamp" : "2026-02-11T13:10:05.191566",
+    "mensaje" : "Alerta mensual: superado el límite de 10000.00 € en MES-2026-02. Total: 18200.00 € (la categoría 'comida')",
+    "alertaId" : 1,
+    "periodoKey" : "MES-2026-02",
+    "totalDetectado" : 18200.0,
+    "categoria" : "comida",
+    "leida" : false
+  }, {
+    "id" : 2,
+    "timestamp" : "2026-02-11T17:22:32.571682",
+    "mensaje" : "Alerta mensual: superado el límite de 30000.00 € en MES-2026-02. Total: 50000.00 € (todas las categorías)",
+    "alertaId" : 2,
+    "periodoKey" : "MES-2026-02",
+    "totalDetectado" : 50000.0,
+    "categoria" : null,
+    "leida" : false
+  }, {
+    "id" : 3,
+    "timestamp" : "2026-02-11T23:47:02.894791300",
+    "mensaje" : "Alerta semanal: superado el límite de 10.00 € en SEM-2026-07. Total: 11.00 € (la categoría 'comida')",
+    "alertaId" : 3,
+    "periodoKey" : "SEM-2026-07",
+    "totalDetectado" : 11.0,
+    "categoria" : "comida",
+    "leida" : false
+  } ]
+}
