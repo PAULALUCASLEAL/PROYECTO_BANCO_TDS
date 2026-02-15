@@ -15,6 +15,7 @@ module ASP.BanCroak {
     exports ASP.BanCroak.ui.gastos;
     exports ASP.BanCroak.ui.cuentas;
     exports ASP.BanCroak.ui.graficas;
+    exports ASP.BanCroak.ui.visualizar;
     exports ASP.BanCroak.ui.notificaciones;
     exports ASP.BanCroak.service;
 

@@ -21,16 +21,16 @@ public class MainView extends VBox{
         
         Image logo = new Image(getClass().getResource("/Imagenes/BanCroak Logo.png").toExternalForm());
         ImageView logoView = new ImageView(logo);
-        logoView.setFitHeight(450); 
+        logoView.setFitHeight(280); 
         logoView.setPreserveRatio(true);
-        logoView.fitWidthProperty().bind(this.widthProperty().multiply(0.4));
+        logoView.fitWidthProperty().bind(this.widthProperty().multiply(0.28));
         logoView.setPreserveRatio(true);
 
         Image rana = new Image(getClass().getResource("/Imagenes/Rana 1.png").toExternalForm());
         ImageView ranaView = new ImageView(rana);
-        ranaView.setFitHeight(440); 
+        ranaView.setFitHeight(260); 
         ranaView.setPreserveRatio(true);
-        ranaView.fitWidthProperty().bind(this.widthProperty().multiply(0.4));
+        ranaView.fitWidthProperty().bind(this.widthProperty().multiply(0.25));
         ranaView.setPreserveRatio(true);
         Label lInicio = new Label("Pulsa a la rana");
         

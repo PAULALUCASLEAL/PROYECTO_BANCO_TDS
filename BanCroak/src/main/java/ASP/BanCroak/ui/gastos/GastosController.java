@@ -5,6 +5,7 @@ import ASP.BanCroak.domain.Gasto;
 import ASP.BanCroak.repo.RepositorioCuentas;
 import ASP.BanCroak.repo.RepositorioGastos;
 import ASP.BanCroak.ui.app.AppContext;
+import ASP.BanCroak.ui.app.GastosStore;
 import java.time.LocalDate;
 import java.util.stream.Collectors;
 import java.util.List;
@@ -14,11 +15,13 @@ public class GastosController {
 	private final AppContext context;
     private final RepositorioGastos repoGastos;
     private final RepositorioCuentas repoCuentas;
+    private final GastosStore gastosStore;
 
     public GastosController(AppContext context) {
         this.context = context;
         this.repoGastos = context.getRepoGastos();
         this.repoCuentas = context.getRepoCuentas();
+        this.gastosStore = context.getGastosStore();
     }
 
     public List<String> getCuentas() {
@@ -59,8 +62,7 @@ public class GastosController {
                 .get();
         Gasto gasto = Gasto.crearGasto(cantidad, fecha, categoria, pagador, idCuenta);
 
-        repoGastos.añadirGasto(gasto);
-        context.getGastosPersistence().save(repoGastos);
+        gastosStore.añadirGasto(gasto);
 
 
     }

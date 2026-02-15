@@ -48,16 +48,16 @@ public GastosView(SceneManager sm) {
     
     Image rana = new Image(getClass().getResource("/Imagenes/Rana 2.png").toExternalForm());
     ImageView ranaView = new ImageView(rana);
-    ranaView.setFitHeight(260); 
+    ranaView.setFitHeight(180); 
     ranaView.setPreserveRatio(true);
-    ranaView.fitWidthProperty().bind(this.widthProperty().multiply(0.4));
+    ranaView.fitWidthProperty().bind(this.widthProperty().multiply(0.25));
     ranaView.setPreserveRatio(true);
     
     Image nenufar = new Image(getClass().getResource("/Imagenes/Nenúfar 2.png").toExternalForm());
     ImageView nenufarView = new ImageView(nenufar);
-    nenufarView.setFitHeight(150); 
+    nenufarView.setFitHeight(110); 
     nenufarView.setPreserveRatio(true);
-    nenufarView.fitWidthProperty().bind(this.widthProperty().multiply(0.4));
+    nenufarView.fitWidthProperty().bind(this.widthProperty().multiply(0.2));
     nenufarView.setPreserveRatio(true);
 	Label importar = new Label("Importar Gasto");
     importar.getStyleClass().add("label-sombreado");

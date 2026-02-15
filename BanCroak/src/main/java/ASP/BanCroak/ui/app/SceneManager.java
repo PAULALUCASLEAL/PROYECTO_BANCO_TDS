@@ -8,7 +8,8 @@ import ASP.BanCroak.ui.notificaciones.NotificacionesView;
 import ASP.BanCroak.ui.notificaciones.NotificacionView;
 import ASP.BanCroak.ui.notificaciones.HistorialNotificacionesView;
 import ASP.BanCroak.ui.cuentas.CuentasCompartidasView;
-import ASP.BanCroak.ui.graficas.TablaView;
+import ASP.BanCroak.ui.visualizar.VisualizarTab;
+import ASP.BanCroak.ui.visualizar.VisualizarView;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -86,8 +87,24 @@ public class SceneManager {
     }
     
     public void showTabla() {
-    	TablaView vista = new TablaView(this); 
+    	showVisualizar(VisualizarTab.TABLA);
+    }
+
+    public void showVisualizar(VisualizarTab tab) {
+        VisualizarView vista = new VisualizarView(this, tab);
         cambiarVista(vista);
+    }
+
+    public void showBarras() {
+        showVisualizar(VisualizarTab.BARRAS);
+    }
+
+    public void showCirculares() {
+        showVisualizar(VisualizarTab.PIE);
+    }
+
+    public void showCalendario() {
+        showVisualizar(VisualizarTab.CALENDARIO);
     }
     public void salto(ImageView ranaView) {
 		if (saltando) return;

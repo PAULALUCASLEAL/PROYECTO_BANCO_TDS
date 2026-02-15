@@ -9,6 +9,7 @@ import ASP.BanCroak.repo.RepositorioAlertas;
 import ASP.BanCroak.repo.RepositorioCuentas;
 import ASP.BanCroak.repo.RepositorioGastos;
 import ASP.BanCroak.repo.RepositorioNotificaciones;
+import ASP.BanCroak.service.FilterState;
 
 import java.nio.file.Path;
 import java.util.Optional;
@@ -24,6 +25,8 @@ public class AppContext {
     private final CuentasPersistence cuentasPersistence;
     private final AlertasPersistence alertasPersistence;
     private final NotificacionesPersistence notificacionesPersistence;
+    private final GastosStore gastosStore;
+    private final FilterState filterState;
     private SceneManager navigator;
     private int cuentaActivaId;
 
@@ -41,6 +44,9 @@ public class AppContext {
         gastosPersistence.load(repoGastos);
         alertasPersistence.load(repoAlertas);
         notificacionesPersistence.load(repoNotificaciones);
+
+        this.gastosStore = new GastosStore(repoGastos, gastosPersistence);
+        this.filterState = new FilterState();
 
         Cuenta personal = getCuentaPersonal().orElse(null);
         this.cuentaActivaId = personal == null ? 0 : personal.getIdCuenta();
@@ -64,6 +70,14 @@ public class AppContext {
 
     public GastosPersistence getGastosPersistence() {
         return gastosPersistence;
+    }
+
+    public GastosStore getGastosStore() {
+        return gastosStore;
+    }
+
+    public FilterState getFilterState() {
+        return filterState;
     }
 
     public CuentasPersistence getCuentasPersistence() {
