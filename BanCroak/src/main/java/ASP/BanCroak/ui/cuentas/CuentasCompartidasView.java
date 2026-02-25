@@ -23,7 +23,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
-import javafx.util.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,7 +47,6 @@ public class CuentasCompartidasView extends VBox{
 	
     private ObservableList<Persona> listaPersonas = FXCollections.observableArrayList();
     private VBox contenedorLista = new VBox(10);
-    private boolean ajustandoInternamente = false; 
     private boolean porcentajesEditables = false;
     private final Label totalPorcentajeLabel = new Label("Total: 0.0%");
     private final Map<Persona, TextField> inputsPorcentaje = new HashMap<>();
@@ -61,14 +59,9 @@ public class CuentasCompartidasView extends VBox{
 	    this.getStylesheets().add(getClass().getResource("/estilos.css").toExternalForm());
 	    BarraMenuView barra = new BarraMenuView(sm);
 	    
-        TabPane tabs = new TabPane();
-        tabs.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
-        tabs.getTabs().addAll(
-            new Tab("Cuenta compartida", buildCuentaPane(sm))
-        );
-
-        VBox contenedor = new VBox(12, tabs);
-        VBox.setVgrow(tabs, Priority.ALWAYS);
+        
+        VBox contenedor = buildCuentaPane(sm);
+        VBox.setVgrow(contenedor, Priority.ALWAYS);
         contenedor.setPadding(new Insets(12, 20, 20, 20));
         this.getChildren().addAll(barra, contenedor);
 }
@@ -109,8 +102,8 @@ public class CuentasCompartidasView extends VBox{
         Button bAnadir = new Button("Añadir Persona");
 
         bAnadir.setOnAction(e -> {
-            if (!nombrePersona.getText().isEmpty()) {
-                añadirPersona(nombrePersona.getText());
+            if (!nombrePersona.getText().trim().isEmpty()) {
+                añadirPersona(nombrePersona.getText().trim());
                 nombrePersona.clear();
             }
         });
@@ -132,25 +125,20 @@ public class CuentasCompartidasView extends VBox{
         Button bCrear = new Button("Crear cuenta");
         bCrear.setMaxWidth(Double.MAX_VALUE);
         bCrear.setOnAction(ev -> {
+        	if (nombre.getText().trim().isEmpty()) {
+                mostrarAviso("Añade un nombre a la cuenta.");
+                return;
+            }
             if (!porcentajesEditables) {
                 mostrarAviso("Define los porcentajes antes de crear la cuenta.");
                 return;
             }
-            if (!aplicarTodosDesdeInputs()) {
+            if (!aplicarTodosDesdeInputs()) 
                 return;
-            }
+            
             double total = calcularTotalPorcentaje();
-            if (total > 100.0 + 0.01) {
-                mostrarAviso("La suma de porcentajes no puede superar 100%.");
-                return;
-            }
-            if (Math.abs(total - 100.0) > 0.01) {
-                mostrarAviso("La suma de porcentajes debe ser exactamente 100%.");
-                return;
-            }
-            boolean fueraRango = listaPersonas.stream().anyMatch(per -> per.porcentaje < 0 || per.porcentaje > 100);
-            if (fueraRango) {
-                mostrarAviso("Cada porcentaje debe estar entre 0 y 100.");
+            if (Math.abs(total - 100.0) > 0.1) {
+                mostrarAviso("La suma de porcentajes debe dar 100%.");
                 return;
             }
             controller.crearCuenta(nombre.getText(), listaPersonas);
@@ -178,28 +166,21 @@ public class CuentasCompartidasView extends VBox{
         	teclado.setPrefWidth(70);
         	teclado.setPromptText("%");
             teclado.setDisable(!porcentajesEditables);
-            teclado.setText(String.format("%.1f", p.porcentaje));
+            teclado.setText(String.format("%.1f", p.porcentaje).replace(',', '.'));
             teclado.setTextFormatter(new TextFormatter<>(c -> {
                 String nuevo = c.getControlNewText();
                 return nuevo.matches("\\d{0,3}([\\.,]\\d{0,1})?") ? c : null;
             }));
             Runnable aplicar = () -> {
-                if (!porcentajesEditables) return;
-                String texto = teclado.getText();
-                if (texto == null || texto.isBlank()) return;
+            	if (!porcentajesEditables || teclado.getText().isBlank()) return;
                 try {
-                    double valor = Double.parseDouble(texto.replace(',', '.'));
-                    if (valor < 0 || valor > 100) {
-                        mostrarAviso("Cada porcentaje debe estar entre 0 y 100.");
-                        return;
-                    }
+                    double valor = Double.parseDouble(teclado.getText().replace(',', '.'));
                     p.redondeo(valor);
                     actualizarTotal();
                 } catch (NumberFormatException ex) {
                     mostrarAviso("Introduce un porcentaje válido.");
                 }
             };
-            teclado.setOnAction(e -> aplicar.run());
             teclado.focusedProperty().addListener((obs, oldV, newV) -> {
                 if (!newV) aplicar.run();
             });
@@ -218,19 +199,22 @@ public class CuentasCompartidasView extends VBox{
         actualizarTotal();
     }
 	private void añadirPersona(String nombre) {
-        Persona nueva = new Persona(nombre, 0);
-
-        listaPersonas.add(nueva);
-        actualizarUI();
+        listaPersonas.add(new Persona(nombre, 0));
         repartirEquitativamente();
+        actualizarUI();
     }
 
     private void repartirEquitativamente() {
-        ajustandoInternamente = true;
-        for (Persona p : listaPersonas) {
-            p.redondeo(100.0 / listaPersonas.size());
+    	int n = listaPersonas.size();
+    	if (n == 0) return;
+    	double base = Math.floor((100.0 / n) * 10.0) / 10.0;
+        double suma = 0;
+        for (int i = 0; i < n - 1; i++) {
+            listaPersonas.get(i).redondeo(base);
+            suma += base;
         }
-        ajustandoInternamente = false;
+        double resto = 100.0 - suma; //La ultima persona se lleva el resto
+        listaPersonas.get(n - 1).redondeo(resto);
         actualizarTotal();
     }
 
@@ -254,32 +238,16 @@ public class CuentasCompartidasView extends VBox{
     }
 
     private boolean aplicarTodosDesdeInputs() {
-        double total = 0.0;
-        for (Map.Entry<Persona, TextField> entry : inputsPorcentaje.entrySet()) {
-            Persona p = entry.getKey();
-            String texto = entry.getValue().getText();
-            if (texto == null || texto.isBlank()) {
-                mostrarAviso("Todos los porcentajes deben estar rellenados.");
-                return false;
-            }
+    	for (Map.Entry<Persona, TextField> entry : inputsPorcentaje.entrySet()) {
             try {
-                double valor = Double.parseDouble(texto.replace(',', '.'));
-                if (valor < 0 || valor > 100) {
-                    mostrarAviso("Cada porcentaje debe estar entre 0 y 100.");
-                    return false;
-                }
-                p.redondeo(valor);
-                total += p.porcentaje;
-            } catch (NumberFormatException ex) {
-                mostrarAviso("Introduce un porcentaje válido.");
+                double valor = Double.parseDouble(entry.getValue().getText().replace(',', '.'));
+                entry.getKey().redondeo(valor);
+            } catch (Exception e) {
+                mostrarAviso("Revisa que los porcentajes sean válidos.");
                 return false;
             }
         }
         actualizarTotal();
-        if (total > 100.0 + 0.01) {
-            mostrarAviso("La suma de porcentajes no puede superar 100%.");
-            return false;
-        }
         return true;
     }
 

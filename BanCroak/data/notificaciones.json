@@ -1,28 +1,4 @@
 {
   "nextId" : 7,
-  "notificaciones" : [ {
-    "id" : 3,
-    "timestamp" : "2026-02-11T23:47:02.894791300",
-    "mensaje" : "Alerta semanal: superado el límite de 10.00 € en SEM-2026-07. Total: 11.00 € (la categoría 'comida')",
-    "alertaId" : 3,
-    "alertaNombre" : "Alerta 3",
-    "periodo" : "SEMANAL",
-    "periodoKey" : "SEM-2026-07",
-    "limite" : 0.0,
-    "totalDetectado" : 11.0,
-    "categoria" : "comida",
-    "leida" : false
-  }, {
-    "id" : 4,
-    "timestamp" : "2026-02-15T21:44:30.699695400",
-    "mensaje" : "Alerta 'Hola' semanal: superado el límite de 6000000000.00 € en 2026-07. Total: 60000000012.00 € (todas las categorías)",
-    "alertaId" : 4,
-    "alertaNombre" : "Hola",
-    "periodo" : "SEMANAL",
-    "periodoKey" : "2026-07",
-    "limite" : 6.0E9,
-    "totalDetectado" : 6.0000000012E10,
-    "categoria" : null,
-    "leida" : false
-  } ]
+  "notificaciones" : [ ]
 }

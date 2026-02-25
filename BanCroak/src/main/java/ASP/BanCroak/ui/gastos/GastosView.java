@@ -80,6 +80,8 @@ public GastosView(SceneManager sm) {
         }
     }); 
     Label lTitulo = new Label("AÑADIR GASTO");
+    lTitulo.getStyleClass().add("section-title");
+
 
     ComboBox<String> cuenta = new ComboBox<>();
     cuenta.getItems().addAll(controller.getCuentas());

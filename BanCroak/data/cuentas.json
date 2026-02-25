@@ -1,5 +1,5 @@
 {
-  "nextIdCuenta" : 16,
+  "nextIdCuenta" : 17,
   "cuentas" : [ {
     "idCuenta" : 1,
     "nombreCuenta" : "Mi Cuenta",
@@ -20,17 +20,17 @@
     "nombreCuenta" : "Puchaina",
     "miembros" : [ "Sergio", "Paula", "Aarón" ],
     "porcentajes" : {
-      "Aarón" : 10.0,
       "Paula" : 50.0,
-      "Sergio" : 40.0
+      "Sergio" : 40.0,
+      "Aarón" : 10.0
     }
   }, {
     "idCuenta" : 4,
     "nombreCuenta" : "BANCO",
     "miembros" : [ "MARU", "SERGIO" ],
     "porcentajes" : {
-      "MARU" : 50.0,
-      "SERGIO" : 50.0
+      "SERGIO" : 50.0,
+      "MARU" : 50.0
     }
   }, {
     "idCuenta" : 5,
@@ -61,19 +61,19 @@
     "nombreCuenta" : "nopuc",
     "miembros" : [ "PUAL A", "serfgio", "rad" ],
     "porcentajes" : {
-      "rad" : 60.0,
       "serfgio" : 21.2,
-      "PUAL A" : 18.8
+      "PUAL A" : 18.8,
+      "rad" : 60.0
     }
   }, {
     "idCuenta" : 11,
     "nombreCuenta" : "nopucmes",
     "miembros" : [ "ayuda", "no", "puc", "mes" ],
     "porcentajes" : {
-      "puc" : 48.6,
-      "no" : 9.1,
       "ayuda" : 2.3,
-      "mes" : 40.0
+      "mes" : 40.0,
+      "puc" : 48.6,
+      "no" : 9.1
     }
   }, {
     "idCuenta" : 12,
@@ -81,8 +81,8 @@
     "miembros" : [ "nopuc", "paleta", "reina" ],
     "porcentajes" : {
       "paleta" : 34.3,
-      "reina" : 40.0,
-      "nopuc" : 25.7
+      "nopuc" : 25.7,
+      "reina" : 40.0
     }
   }, {
     "idCuenta" : 13,
@@ -97,9 +97,9 @@
     "nombreCuenta" : "por fa",
     "miembros" : [ "paula", "lucas", "leal" ],
     "porcentajes" : {
-      "leal" : 10.0,
       "lucas" : 50.0,
-      "paula" : 40.0
+      "paula" : 40.0,
+      "leal" : 10.0
     }
   }, {
     "idCuenta" : 15,
@@ -108,6 +108,15 @@
     "porcentajes" : {
       "ksdibajdc" : 60.0,
       "sdns" : 40.0
+    }
+  }, {
+    "idCuenta" : 16,
+    "nombreCuenta" : "Compartida 1",
+    "miembros" : [ "Anthony", "Stephani", "Mark" ],
+    "porcentajes" : {
+      "Stephani" : 33.3,
+      "Anthony" : 33.3,
+      "Mark" : 33.4
     }
   } ]
 }
