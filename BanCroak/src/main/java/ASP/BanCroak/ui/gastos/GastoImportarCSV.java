@@ -12,7 +12,7 @@ public class GastoImportarCSV implements GastoImportar {
     @Override
     public List<GastoImportado> importar(File archivo) throws Exception {
         List<GastoImportado> resultados = new ArrayList<>();
-        DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("d/M/yyyy H:m");
+        DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("M/d/yyyy H:m");
 
         try (Scanner lector = new Scanner(archivo, StandardCharsets.UTF_8)) {
             if (lector.hasNextLine()) lector.nextLine(); // Salta la cabecera del CSV
