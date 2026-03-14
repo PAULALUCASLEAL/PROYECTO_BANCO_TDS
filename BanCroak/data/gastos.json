@@ -1,5 +1,5 @@
 {
-  "nextId" : 87,
+  "nextId" : 88,
   "gastos" : [ {
     "idGasto" : 3,
     "idCuenta" : 2,
@@ -518,6 +518,13 @@
     "pagador" : "Stephani",
     "cantidad" : 16.0,
     "fecha" : "2022-02-20"
+  }, {
+    "idGasto" : 87,
+    "idCuenta" : 16,
+    "categoria" : "ocio",
+    "pagador" : "Me",
+    "cantidad" : 3.0,
+    "fecha" : "1992-04-23"
   } ],
-  "categorias" : [ "transporte", "alimentacion", "gimnasio", "universidad", "gastos medicos", "ropa", "gasolina", "paleta", "navidad", "transporte publico", "primavera", "regalos", "disfrutar de la vida", "comida", "viaje", "entretenimiento", "ocio", "reparaciones", "lll" ]
+  "categorias" : [ "navidad", "paleta", "gasolina", "ropa", "gastos medicos", "universidad", "gimnasio", "alimentacion", "transporte", "lll", "reparaciones", "ocio", "entretenimiento", "viaje", "regalos", "disfrutar de la vida", "comida", "primavera", "transporte publico" ]
 }

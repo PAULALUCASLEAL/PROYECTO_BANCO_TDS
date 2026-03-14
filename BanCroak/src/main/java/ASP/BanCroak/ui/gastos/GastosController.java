@@ -11,6 +11,7 @@ import java.io.File;
 import java.time.LocalDate;
 import java.util.stream.Collectors;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public class GastosController {
@@ -44,6 +45,9 @@ public class GastosController {
         return repoGastos.getCategorias();
     }
 
+    public List<Gasto> getListaGastos() {
+    	return repoGastos.getListaGastos();
+    }
 
     public void añadirCategoria(String nombre) {
         try {
@@ -66,9 +70,15 @@ public class GastosController {
 
         gastosStore.añadirGasto(gasto);
         context.evaluarAlertasYNotificar(idCuenta);
-
-
     }
+    
+    public void borrarGasto(int id) {
+    	repoGastos.buscarPorId(id).ifPresent(repoGastos::eliminarGasto);    
+    	}
+    public void modificarGasto(int id, double cantidad, LocalDate fecha, String categoria, String pagador) {
+    	repoGastos.editarGasto(id,  cantidad,  fecha,  categoria, pagador);
+    }
+    
     public void importar(File archivo) {
         try {
             GastoImportarCSV importer = new GastoImportarCSV();
