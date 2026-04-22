@@ -81,6 +81,8 @@ public GastosView(SceneManager sm) {
     }); 
     Label lTitulo = new Label("AÑADIR GASTO");
     lTitulo.getStyleClass().add("section-title");
+    lTitulo.setMaxWidth(Double.MAX_VALUE);
+    lTitulo.setAlignment(Pos.CENTER);
 
 
     ComboBox<String> cuenta = new ComboBox<>();

@@ -1,13 +1,6 @@
 {
-  "nextId" : 88,
+  "nextId" : 90,
   "gastos" : [ {
-    "idGasto" : 3,
-    "idCuenta" : 2,
-    "categoria" : "comida",
-    "pagador" : "paula",
-    "cantidad" : 100.0,
-    "fecha" : "2026-02-07"
-  }, {
     "idGasto" : 4,
     "idCuenta" : 3,
     "categoria" : "comida",
@@ -525,6 +518,20 @@
     "pagador" : "Me",
     "cantidad" : 3.0,
     "fecha" : "1992-04-23"
+  }, {
+    "idGasto" : 88,
+    "idCuenta" : 1,
+    "categoria" : "comida",
+    "pagador" : "Mi Cuenta",
+    "cantidad" : 1.0E11,
+    "fecha" : "2026-04-23"
+  }, {
+    "idGasto" : 89,
+    "idCuenta" : 2,
+    "categoria" : "ocio",
+    "pagador" : "Paula",
+    "cantidad" : 40.0,
+    "fecha" : "2026-04-14"
   } ],
-  "categorias" : [ "navidad", "paleta", "gasolina", "ropa", "gastos medicos", "universidad", "gimnasio", "alimentacion", "transporte", "lll", "reparaciones", "ocio", "entretenimiento", "viaje", "regalos", "disfrutar de la vida", "comida", "primavera", "transporte publico" ]
+  "categorias" : [ "ropa", "paleta", "viaje", "entretenimiento", "reparaciones", "disfrutar de la vida", "ocio", "gasolina", "primavera", "prueba", "gastos medicos", "regalos", "universidad", "transporte publico", "gimnasio", "lll", "comida", "navidad", "alimentacion", "transporte" ]
 }

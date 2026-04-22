@@ -1,15 +1,14 @@
 package ASP.BanCroak.ui.visualizar;
 
 import ASP.BanCroak.domain.Gasto;
-import ASP.BanCroak.service.GastosQueryService;
 import ASP.BanCroak.ui.app.SceneManager;
-import ASP.BanCroak.ui.gastos.GastoEditorDialog;
 import ASP.BanCroak.ui.gastos.GastosTableFactory;
 import ASP.BanCroak.ui.main.BarraMenuView;
-import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.chart.BarChart;
@@ -17,18 +16,15 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-import java.time.LocalDate;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class VisualizarView extends VBox {
     private final VisualizarViewModel viewModel;
@@ -42,7 +38,6 @@ public class VisualizarView extends VBox {
         this.getStylesheets().add(getClass().getResource("/estilos.css").toExternalForm());
 
         BarraMenuView barra = new BarraMenuView(sm);
-        GastosFilterPane filtros = new GastosFilterPane(sm.getContext(), viewModel.getStore(), viewModel.getFilterState());
 
         Label titulo = new Label(tituloPara(initialTab));
         titulo.getStyleClass().add("section-title");
@@ -51,7 +46,13 @@ public class VisualizarView extends VBox {
         contenido.getChildren().add(construirContenido(sm, initialTab));
         VBox.setVgrow(contenido, Priority.ALWAYS);
 
-        VBox contenedor = new VBox(12, titulo, filtros, contenido);
+        VBox contenedor = new VBox(12);
+        contenedor.getChildren().add(titulo);
+        if (initialTab != VisualizarTab.CALENDARIO) {
+            GastosFilterPane filtros = new GastosFilterPane(sm.getContext(), viewModel.getStore(), viewModel.getFilterState());
+            contenedor.getChildren().add(filtros);
+        }
+        contenedor.getChildren().add(contenido);
         contenedor.setPadding(new Insets(12, 20, 20, 20));
         VBox.setVgrow(contenedor, Priority.ALWAYS);
 
@@ -68,10 +69,7 @@ public class VisualizarView extends VBox {
             case PIE:
                 return buildPieTab();
             case CALENDARIO:
-                VBox wrap = new VBox(buildCalendarioTab(sm));
-                wrap.getStyleClass().add("card");
-                VBox.setVgrow(wrap, Priority.ALWAYS);
-                return wrap;
+                return buildCalendarioTab(sm);
             case TABLA:
             default:
                 return buildTablaTab(sm);
@@ -135,91 +133,63 @@ public class VisualizarView extends VBox {
         return box;
     }
 
-    private BorderPane buildCalendarioTab(SceneManager sm) {
-        BorderPane layout = new BorderPane();
+    private VBox buildCalendarioTab(SceneManager sm) {
+        ObjectProperty<YearMonth> mesActual = new SimpleObjectProperty<>(YearMonth.now());
+        DateTimeFormatter formatoMes = DateTimeFormatter.ofPattern("MMMM yyyy", new Locale("es", "ES"));
 
-        DatePicker calendario = new DatePicker(LocalDate.now());
-        calendario.setShowWeekNumbers(false);
-        calendario.setDayCellFactory(picker -> new javafx.scene.control.DateCell() {
-            @Override
-            public void updateItem(LocalDate date, boolean empty) {
-                super.updateItem(date, empty);
-                if (empty || date == null) {
-                    setText(null);
-                    return;
-                }
-                GastosQueryService.DayAggregate agg = viewModel.getCalendarioData().get(date);
-                if (agg != null) {
-                    setText(date.getDayOfMonth() + "\n" + String.format(java.util.Locale.ROOT, "€%.2f (%d)", agg.total, agg.count));
-                } else {
-                    setText(String.valueOf(date.getDayOfMonth()));
-                }
-            }
+        Button anterior = new Button("<");
+        Button siguiente = new Button(">");
+        Label mesLabel = new Label();
+        mesLabel.getStyleClass().add("section-title");
+        mesLabel.setMaxWidth(Double.MAX_VALUE);
+        mesLabel.setAlignment(Pos.CENTER);
+
+        HBox controlesMes = new HBox(12, anterior, mesLabel, siguiente);
+        controlesMes.setAlignment(Pos.CENTER);
+        HBox.setHgrow(mesLabel, Priority.ALWAYS);
+
+        TableView<Gasto> tabla = GastosTableFactory.crearTabla(sm.getContext(), viewModel.getStore());
+        FilteredList<Gasto> gastosMes = new FilteredList<>(viewModel.getStore().getGastos());
+        tabla.setItems(gastosMes);
+
+        Label resumen = new Label();
+        resumen.getStyleClass().add("muted");
+
+        Runnable actualizarMes = () -> {
+            YearMonth mes = mesActual.get();
+            mesLabel.setText(formatoMes.format(mes).toUpperCase(new Locale("es", "ES")));
+            gastosMes.setPredicate(g -> g.getFecha() != null && YearMonth.from(g.getFecha()).equals(mes));
+            actualizarResumenMes(resumen, gastosMes);
+        };
+
+        anterior.setOnAction(e -> {
+            mesActual.set(mesActual.get().minusMonths(1));
+            actualizarMes.run();
         });
-
-        ListView<Gasto> listaDia = new ListView<>();
-        listaDia.setCellFactory(lv -> new ListCell<>() {
-            private final Button editar = new Button("Editar");
-            private final Button eliminar = new Button("Eliminar");
-            private final HBox acciones = new HBox(6, editar, eliminar);
-            private final Label texto = new Label();
-            private final VBox cont = new VBox(4, texto, acciones);
-
-            {
-                editar.setOnAction(e -> {
-                    Gasto gasto = getItem();
-                    if (gasto != null) {
-                        new GastoEditorDialog(sm.getContext(), viewModel.getStore(), gasto);
-                    }
-                });
-                eliminar.setOnAction(e -> {
-                    Gasto gasto = getItem();
-                    if (gasto != null && GastosTableFactory.confirmarEliminar()) {
-                        viewModel.getStore().eliminarGasto(gasto);
-                    }
-                });
-            }
-
-            @Override
-            protected void updateItem(Gasto gasto, boolean empty) {
-                super.updateItem(gasto, empty);
-                if (empty || gasto == null) {
-                    setGraphic(null);
-                    return;
-                }
-                texto.setText(formatearGasto(gasto));
-                setGraphic(cont);
-            }
+        siguiente.setOnAction(e -> {
+            mesActual.set(mesActual.get().plusMonths(1));
+            actualizarMes.run();
         });
+        gastosMes.addListener((ListChangeListener<Gasto>) c -> actualizarResumenMes(resumen, gastosMes));
 
-        ObservableList<Gasto> listaFiltrada = viewModel.getGastosFiltrados();
-        FilteredList<Gasto> gastosDia = new FilteredList<>(listaFiltrada, g -> false);
-        listaDia.setItems(gastosDia);
+        actualizarMes.run();
 
-        calendario.valueProperty().addListener((obs, o, n) -> {
-            gastosDia.setPredicate(g -> n != null && n.equals(g.getFecha()));
-        });
-
-        if (calendario.getValue() != null) {
-            gastosDia.setPredicate(g -> calendario.getValue().equals(g.getFecha()));
-        }
-
-        viewModel.getCalendarioData().addListener((javafx.collections.MapChangeListener<LocalDate, GastosQueryService.DayAggregate>) c -> calendario.setDayCellFactory(calendario.getDayCellFactory()));
-
-        VBox right = new VBox(8, new Label("Gastos del día"), listaDia);
-        VBox.setVgrow(listaDia, Priority.ALWAYS);
-
-        layout.setLeft(calendario);
-        layout.setCenter(right);
-        BorderPane.setMargin(calendario, new Insets(0, 20, 0, 0));
-        BorderPane.setMargin(right, new Insets(0, 0, 0, 20));
-        return layout;
+        VBox box = new VBox(10, controlesMes, resumen, tabla);
+        box.getStyleClass().add("card");
+        VBox.setVgrow(tabla, Priority.ALWAYS);
+        return box;
     }
 
     private void actualizarResumen(Label resumen) {
         int total = viewModel.getGastosFiltrados().size();
         double suma = viewModel.getGastosFiltrados().stream().mapToDouble(Gasto::getCantidad).sum();
         resumen.setText("Gastos filtrados: " + total + " · Total: " + String.format(java.util.Locale.ROOT, "€%.2f", suma));
+    }
+
+    private void actualizarResumenMes(Label resumen, ObservableList<Gasto> gastosMes) {
+        int total = gastosMes.size();
+        double suma = gastosMes.stream().mapToDouble(Gasto::getCantidad).sum();
+        resumen.setText("Gastos del mes: " + total + " · Total: " + String.format(java.util.Locale.ROOT, "€%.2f", suma));
     }
 
     private String formatearGasto(Gasto gasto) {
