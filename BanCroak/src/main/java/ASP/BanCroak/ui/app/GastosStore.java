@@ -1,7 +1,9 @@
 package ASP.BanCroak.ui.app;
 
+import ASP.BanCroak.application.BorrarGastoUseCase;
+import ASP.BanCroak.application.ModificarGastoUseCase;
+import ASP.BanCroak.application.RegistrarGastoUseCase;
 import ASP.BanCroak.domain.Gasto;
-import ASP.BanCroak.persistence.GastosPersistence;
 import ASP.BanCroak.repo.RepositorioGastos;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,12 +12,21 @@ import java.util.List;
 
 public final class GastosStore {
     private final RepositorioGastos repoGastos;
-    private final GastosPersistence gastosPersistence;
+    private final RegistrarGastoUseCase registrarGastoUseCase;
+    private final ModificarGastoUseCase modificarGastoUseCase;
+    private final BorrarGastoUseCase borrarGastoUseCase;
     private final ObservableList<Gasto> gastos;
 
-    public GastosStore(RepositorioGastos repoGastos, GastosPersistence gastosPersistence) {
+    public GastosStore(
+        RepositorioGastos repoGastos,
+        RegistrarGastoUseCase registrarGastoUseCase,
+        ModificarGastoUseCase modificarGastoUseCase,
+        BorrarGastoUseCase borrarGastoUseCase
+    ) {
         this.repoGastos = repoGastos;
-        this.gastosPersistence = gastosPersistence;
+        this.registrarGastoUseCase = registrarGastoUseCase;
+        this.modificarGastoUseCase = modificarGastoUseCase;
+        this.borrarGastoUseCase = borrarGastoUseCase;
         this.gastos = FXCollections.observableArrayList();
         refresh();
     }
@@ -33,20 +44,20 @@ public final class GastosStore {
     }
 
     public void añadirGasto(Gasto gasto) {
-        repoGastos.añadirGasto(gasto);
-        gastosPersistence.save(repoGastos);
+        registrarGastoUseCase.ejecutar(gasto);
         refresh();
     }
 
     public void editarGasto(int id, double cantidad, java.time.LocalDate fecha, String categoria, String pagador) {
-        repoGastos.editarGasto(id, cantidad, fecha, categoria, pagador);
-        gastosPersistence.save(repoGastos);
+        modificarGastoUseCase.ejecutar(id, cantidad, fecha, categoria, pagador);
         refresh();
     }
 
     public void eliminarGasto(Gasto gasto) {
-        repoGastos.eliminarGasto(gasto);
-        gastosPersistence.save(repoGastos);
+        if (gasto == null) {
+            throw new IllegalArgumentException("El gasto no puede ser null");
+        }
+        borrarGastoUseCase.ejecutar(gasto.getID());
         refresh();
     }
 }

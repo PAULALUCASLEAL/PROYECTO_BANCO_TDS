@@ -18,6 +18,8 @@ module ASP.BanCroak {
     exports ASP.BanCroak.ui.visualizar;
     exports ASP.BanCroak.ui.notificaciones;
     exports ASP.BanCroak.service;
+    exports ASP.BanCroak.application;
+    exports ASP.BanCroak.cli;
 
     opens ASP.BanCroak.persistence to com.fasterxml.jackson.databind;
 }

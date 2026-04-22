@@ -27,6 +27,12 @@ public final class GastosTableFactory {
 
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
+        TableColumn<Gasto, String> colId = new TableColumn<>("ID");
+        colId.setCellValueFactory(d -> new SimpleStringProperty(String.valueOf(d.getValue().getID())));
+        colId.setMinWidth(50);
+        colId.setPrefWidth(60);
+        colId.setMaxWidth(80);
+
         TableColumn<Gasto, String> colFecha = new TableColumn<>("Fecha");
         colFecha.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getFecha() == null ? "" : d.getValue().getFecha().format(fmt)));
 
@@ -45,7 +51,7 @@ public final class GastosTableFactory {
         TableColumn<Gasto, Void> colAcciones = new TableColumn<>("Acciones");
         colAcciones.setCellFactory(accionesCellFactory(context, store));
 
-        tabla.getColumns().addAll(colFecha, colCategoria, colCantidad, colPagador, colCuenta, colAcciones);
+        tabla.getColumns().addAll(colId, colFecha, colCategoria, colCantidad, colPagador, colCuenta, colAcciones);
         return tabla;
     }
 

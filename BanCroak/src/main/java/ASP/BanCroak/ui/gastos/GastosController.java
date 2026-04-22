@@ -1,5 +1,8 @@
 package ASP.BanCroak.ui.gastos;
 
+import ASP.BanCroak.application.BorrarGastoUseCase;
+import ASP.BanCroak.application.ModificarGastoUseCase;
+import ASP.BanCroak.application.RegistrarGastoUseCase;
 import ASP.BanCroak.domain.Cuenta;
 import ASP.BanCroak.domain.Gasto;
 import ASP.BanCroak.repo.RepositorioCuentas;
@@ -11,7 +14,6 @@ import java.io.File;
 import java.time.LocalDate;
 import java.util.stream.Collectors;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 public class GastosController {
@@ -19,12 +21,18 @@ public class GastosController {
     private final RepositorioGastos repoGastos;
     private final RepositorioCuentas repoCuentas;
     private final GastosStore gastosStore;
+    private final RegistrarGastoUseCase registrarGastoUseCase;
+    private final ModificarGastoUseCase modificarGastoUseCase;
+    private final BorrarGastoUseCase borrarGastoUseCase;
 
     public GastosController(AppContext context) {
         this.context = context;
         this.repoGastos = context.getRepoGastos();
         this.repoCuentas = context.getRepoCuentas();
         this.gastosStore = context.getGastosStore();
+        this.registrarGastoUseCase = context.getRegistrarGastoUseCase();
+        this.modificarGastoUseCase = context.getModificarGastoUseCase();
+        this.borrarGastoUseCase = context.getBorrarGastoUseCase();
     }
 
     public List<String> getCuentas() {
@@ -61,22 +69,19 @@ public class GastosController {
 
 
     public void registrarGasto(double cantidad, LocalDate fecha, String categoria, String pagador, String nombreCuenta) {
-    	int idCuenta = repoCuentas.listarCuentas().stream()
-                .filter(c -> c.getNombreCuenta().equals(nombreCuenta))
-                .map(Cuenta::getIdCuenta)
-                .findFirst()
-                .get();
-        Gasto gasto = Gasto.crearGasto(cantidad, fecha, categoria, pagador, idCuenta);
-
-        gastosStore.añadirGasto(gasto);
-        context.evaluarAlertasYNotificar(idCuenta);
+        Gasto gasto = registrarGastoUseCase.ejecutar(cantidad, fecha, categoria, pagador, nombreCuenta);
+        gastosStore.refresh();
+        context.evaluarAlertasYNotificar(gasto.getIDCuenta());
     }
     
     public void borrarGasto(int id) {
-    	repoGastos.buscarPorId(id).ifPresent(repoGastos::eliminarGasto);    
-    	}
+        borrarGastoUseCase.ejecutar(id);
+        gastosStore.refresh();
+    }
+
     public void modificarGasto(int id, double cantidad, LocalDate fecha, String categoria, String pagador) {
-    	repoGastos.editarGasto(id,  cantidad,  fecha,  categoria, pagador);
+        modificarGastoUseCase.ejecutar(id, cantidad, fecha, categoria, pagador);
+        gastosStore.refresh();
     }
     
     public void importar(File archivo) {

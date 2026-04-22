@@ -1,5 +1,8 @@
 package ASP.BanCroak.ui.app;
 
+import ASP.BanCroak.application.BorrarGastoUseCase;
+import ASP.BanCroak.application.ModificarGastoUseCase;
+import ASP.BanCroak.application.RegistrarGastoUseCase;
 import ASP.BanCroak.domain.Cuenta;
 import ASP.BanCroak.persistence.AlertasPersistence;
 import ASP.BanCroak.persistence.CuentasPersistence;
@@ -13,6 +16,7 @@ import ASP.BanCroak.service.AlertaService;
 import ASP.BanCroak.service.FilterState;
 import ASP.BanCroak.domain.Notificacion;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +32,9 @@ public class AppContext {
     private final CuentasPersistence cuentasPersistence;
     private final AlertasPersistence alertasPersistence;
     private final NotificacionesPersistence notificacionesPersistence;
+    private final RegistrarGastoUseCase registrarGastoUseCase;
+    private final ModificarGastoUseCase modificarGastoUseCase;
+    private final BorrarGastoUseCase borrarGastoUseCase;
     private final GastosStore gastosStore;
     private final FilterState filterState;
     private SceneManager navigator;
@@ -38,21 +45,38 @@ public class AppContext {
         this.repoCuentas = RepositorioCuentas.INSTANCE;
         this.repoAlertas = RepositorioAlertas.INSTANCE;
         this.repoNotificaciones = RepositorioNotificaciones.INSTANCE;
-        this.gastosPersistence = new GastosPersistence(Path.of("data", "gastos.json"));
-        this.cuentasPersistence = new CuentasPersistence(Path.of("data", "cuentas.json"));
-        this.alertasPersistence = new AlertasPersistence(Path.of("data", "alertas.json"));
-        this.notificacionesPersistence = new NotificacionesPersistence(Path.of("data", "notificaciones.json"));
+        this.gastosPersistence = new GastosPersistence(dataFile("gastos.json"));
+        this.cuentasPersistence = new CuentasPersistence(dataFile("cuentas.json"));
+        this.alertasPersistence = new AlertasPersistence(dataFile("alertas.json"));
+        this.notificacionesPersistence = new NotificacionesPersistence(dataFile("notificaciones.json"));
 
         cuentasPersistence.load(repoCuentas, NOMBRE_CUENTA_PERSONAL);
         gastosPersistence.load(repoGastos);
         alertasPersistence.load(repoAlertas);
         notificacionesPersistence.load(repoNotificaciones);
 
-        this.gastosStore = new GastosStore(repoGastos, gastosPersistence);
+        this.registrarGastoUseCase = new RegistrarGastoUseCase(repoGastos, repoCuentas, gastosPersistence);
+        this.modificarGastoUseCase = new ModificarGastoUseCase(repoGastos, gastosPersistence);
+        this.borrarGastoUseCase = new BorrarGastoUseCase(repoGastos, gastosPersistence);
+        this.gastosStore = new GastosStore(
+            repoGastos,
+            registrarGastoUseCase,
+            modificarGastoUseCase,
+            borrarGastoUseCase
+        );
         this.filterState = new FilterState();
 
         Cuenta personal = getCuentaPersonal().orElse(null);
         this.cuentaActivaId = personal == null ? 0 : personal.getIdCuenta();
+    }
+
+    private Path dataFile(String fileName) {
+        Path localData = Path.of("data", fileName);
+        Path repoRootData = Path.of("BanCroak", "data", fileName);
+        if (!Files.exists(localData.getParent()) && Files.exists(repoRootData.getParent())) {
+            return repoRootData;
+        }
+        return localData;
     }
 
     public RepositorioGastos getRepoGastos() {
@@ -77,6 +101,18 @@ public class AppContext {
 
     public GastosStore getGastosStore() {
         return gastosStore;
+    }
+
+    public RegistrarGastoUseCase getRegistrarGastoUseCase() {
+        return registrarGastoUseCase;
+    }
+
+    public ModificarGastoUseCase getModificarGastoUseCase() {
+        return modificarGastoUseCase;
+    }
+
+    public BorrarGastoUseCase getBorrarGastoUseCase() {
+        return borrarGastoUseCase;
     }
 
     public FilterState getFilterState() {

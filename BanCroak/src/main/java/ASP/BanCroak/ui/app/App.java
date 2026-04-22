@@ -2,8 +2,7 @@ package ASP.BanCroak.ui.app;
 
 import java.io.IOException;
 
-import ASP.BanCroak.ui.gastos.GastoCLI;
-import ASP.BanCroak.ui.gastos.GastosController;
+import ASP.BanCroak.cli.MainCLI;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -21,10 +20,7 @@ public class App extends Application {
 
     public static void main(String[] args) {
     	if (args.length > 0) {    	    
-    	    AppContext context = new AppContext();
-    	    GastosController controller = new GastosController(context);
-    	    GastoCLI cli = new GastoCLI(controller);
-    	    cli.iniciar();
+            MainCLI.main(args);
     	} else {
     	    launch(args);
     	}
