@@ -45,3 +45,40 @@ buildNumber.properties
 /.metadata/
 bin/
 .settings/
+
+# ========================
+# Maven
+# ========================
+target/
+
+# ========================
+# Java
+# ========================
+*.class
+*.log
+
+# ========================
+# Eclipse
+# ========================
+.project
+.classpath
+/.metadata/
+bin/
+.settings/
+
+# ========================
+# IntelliJ / VS Code
+# ========================
+.idea/
+.vscode/
+
+# ========================
+# OS (Windows / Mac)
+# ========================
+.DS_Store
+Thumbs.db
+
+# ========================
+# Otros opcionales
+# ========================
+*.iml
