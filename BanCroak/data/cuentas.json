@@ -1,5 +1,5 @@
 {
-  "nextIdCuenta" : 18,
+  "nextIdCuenta" : 19,
   "cuentas" : [ {
     "idCuenta" : 1,
     "nombreCuenta" : "Mi Cuenta",
@@ -12,17 +12,17 @@
     "nombreCuenta" : "Paula",
     "miembros" : [ "Sergio", "Paula" ],
     "porcentajes" : {
-      "Paula" : 40.0,
-      "Sergio" : 60.0
+      "Sergio" : 60.0,
+      "Paula" : 40.0
     }
   }, {
     "idCuenta" : 3,
     "nombreCuenta" : "Puchaina",
     "miembros" : [ "Sergio", "Paula", "Aarón" ],
     "porcentajes" : {
-      "Paula" : 50.0,
       "Aarón" : 10.0,
-      "Sergio" : 40.0
+      "Sergio" : 40.0,
+      "Paula" : 50.0
     }
   }, {
     "idCuenta" : 4,
@@ -53,27 +53,27 @@
     "nombreCuenta" : "pruebadeporcentajes",
     "miembros" : [ "PAULA", "SERGIO" ],
     "porcentajes" : {
-      "PAULA" : 60.0,
-      "SERGIO" : 40.0
+      "SERGIO" : 40.0,
+      "PAULA" : 60.0
     }
   }, {
     "idCuenta" : 10,
     "nombreCuenta" : "nopuc",
     "miembros" : [ "PUAL A", "serfgio", "rad" ],
     "porcentajes" : {
-      "serfgio" : 21.2,
       "rad" : 60.0,
-      "PUAL A" : 18.8
+      "PUAL A" : 18.8,
+      "serfgio" : 21.2
     }
   }, {
     "idCuenta" : 11,
     "nombreCuenta" : "nopucmes",
     "miembros" : [ "ayuda", "no", "puc", "mes" ],
     "porcentajes" : {
-      "ayuda" : 2.3,
-      "no" : 9.1,
       "puc" : 48.6,
-      "mes" : 40.0
+      "mes" : 40.0,
+      "ayuda" : 2.3,
+      "no" : 9.1
     }
   }, {
     "idCuenta" : 12,
@@ -81,8 +81,8 @@
     "miembros" : [ "nopuc", "paleta", "reina" ],
     "porcentajes" : {
       "reina" : 40.0,
-      "nopuc" : 25.7,
-      "paleta" : 34.3
+      "paleta" : 34.3,
+      "nopuc" : 25.7
     }
   }, {
     "idCuenta" : 13,
@@ -97,9 +97,9 @@
     "nombreCuenta" : "por fa",
     "miembros" : [ "paula", "lucas", "leal" ],
     "porcentajes" : {
-      "leal" : 10.0,
       "paula" : 40.0,
-      "lucas" : 50.0
+      "lucas" : 50.0,
+      "leal" : 10.0
     }
   }, {
     "idCuenta" : 15,
@@ -128,6 +128,15 @@
       "Me" : 20.0,
       "Paco" : 20.0,
       "Bob" : 20.0
+    }
+  }, {
+    "idCuenta" : 18,
+    "nombreCuenta" : "Cuenta compartida prueba final",
+    "miembros" : [ "Paula", "pepe", "eksds" ],
+    "porcentajes" : {
+      "eksds" : 33.4,
+      "Paula" : 33.3,
+      "pepe" : 33.3
     }
   } ]
 }

@@ -1,6 +1,7 @@
 package ASP.BanCroak.ui.cuentas;
 
 import ASP.BanCroak.repo.RepositorioCuentas;
+import ASP.BanCroak.domain.Cuenta;
 import ASP.BanCroak.ui.app.AppContext;
 import java.util.List;
 import java.util.Map;
@@ -36,4 +37,8 @@ public class CuentasCompartidasController {
         repoCuentas.crearCuentaConPorcentajes(nombreCuenta, nombres, porcentajes);
         context.getCuentasPersistence().save(repoCuentas);
      }
+
+    public List<Cuenta> listarCuentas() {
+        return repoCuentas.listarCuentas();
+    }
 }

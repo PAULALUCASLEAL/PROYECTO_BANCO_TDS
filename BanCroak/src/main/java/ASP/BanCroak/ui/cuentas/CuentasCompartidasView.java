@@ -1,6 +1,7 @@
 package ASP.BanCroak.ui.cuentas;
 
 
+import ASP.BanCroak.domain.Cuenta;
 import ASP.BanCroak.ui.main.BarraMenuView;
 import ASP.BanCroak.ui.app.SceneManager;
 import javafx.collections.FXCollections;
@@ -14,8 +15,11 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -24,6 +28,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CuentasCompartidasView extends VBox{
@@ -50,6 +55,25 @@ public class CuentasCompartidasView extends VBox{
     private boolean porcentajesEditables = false;
     private final Label totalPorcentajeLabel = new Label("Total: 0.0%");
     private final Map<Persona, TextField> inputsPorcentaje = new HashMap<>();
+    private final TableView<CuentaRow> tablaCuentas = new TableView<>();
+
+    public static class CuentaRow {
+        private final String cuenta;
+        private final String miembros;
+
+        CuentaRow(String cuenta, String miembros) {
+            this.cuenta = cuenta;
+            this.miembros = miembros;
+        }
+
+        public String getCuenta() {
+            return cuenta;
+        }
+
+        public String getMiembros() {
+            return miembros;
+        }
+    }
 	
 	public CuentasCompartidasView(SceneManager sm) {
 		this.controller = new CuentasCompartidasController(sm.getContext());
@@ -142,6 +166,7 @@ public class CuentasCompartidasView extends VBox{
                 return;
             }
             controller.crearCuenta(nombre.getText(), listaPersonas);
+            actualizarListaCuentas();
             sonidoRana.play();
             sm.salto(ranaView);
             limpiarCuentas(nombre, nombrePersona, bAnadir);
@@ -155,7 +180,66 @@ public class CuentasCompartidasView extends VBox{
 
         gastoVView.getChildren().addAll(lTitulo, lNombre, nombre, personas);
         gastoHView.getChildren().addAll(nenufarView, gastoVView, ranaView);
-        return new VBox(gastoHView);
+        Tab tabCrear = new Tab("Crear cuenta", gastoHView);
+        Tab tabVer = new Tab("Ver cuentas", buildListadoCuentasPane());
+        tabCrear.setClosable(false);
+        tabVer.setClosable(false);
+        tabVer.setOnSelectionChanged(e -> {
+            if (tabVer.isSelected()) {
+                actualizarListaCuentas();
+            }
+        });
+
+        TabPane tabs = new TabPane(tabCrear, tabVer);
+        VBox.setVgrow(tabs, Priority.ALWAYS);
+        return new VBox(tabs);
+    }
+
+    private VBox buildListadoCuentasPane() {
+        Label titulo = new Label("TODAS LAS CUENTAS");
+        titulo.getStyleClass().add("section-title");
+
+        configurarTablaCuentas();
+
+        VBox panel = new VBox(10, titulo, tablaCuentas);
+        panel.setPadding(new Insets(18, 8, 8, 8));
+        VBox.setVgrow(panel, Priority.ALWAYS);
+        VBox.setVgrow(tablaCuentas, Priority.ALWAYS);
+        actualizarListaCuentas();
+        return panel;
+    }
+
+    private void configurarTablaCuentas() {
+        if (!tablaCuentas.getColumns().isEmpty()) {
+            return;
+        }
+
+        TableColumn<CuentaRow, String> cuentaCol = new TableColumn<>("Cuenta");
+        cuentaCol.setCellValueFactory(new PropertyValueFactory<>("cuenta"));
+        cuentaCol.setPrefWidth(180);
+
+        TableColumn<CuentaRow, String> miembrosCol = new TableColumn<>("Miembros y porcentajes");
+        miembrosCol.setCellValueFactory(new PropertyValueFactory<>("miembros"));
+        miembrosCol.setPrefWidth(360);
+
+        tablaCuentas.getColumns().addAll(cuentaCol, miembrosCol);
+        tablaCuentas.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        tablaCuentas.setFixedCellSize(30);
+        tablaCuentas.setPrefHeight(320);
+        tablaCuentas.setPlaceholder(new Label("No hay cuentas creadas."));
+    }
+
+    private void actualizarListaCuentas() {
+        tablaCuentas.getItems().clear();
+        List<Cuenta> cuentas = controller.listarCuentas();
+
+        for (Cuenta cuenta : cuentas) {
+            Map<String, Double> porcentajes = cuenta.getPorcentajes();
+            String miembros = cuenta.getMiembros().stream()
+                .map(miembro -> miembro + " (" + String.format("%.1f%%", porcentajes.getOrDefault(miembro, 0.0)) + ")")
+                .collect(java.util.stream.Collectors.joining(", "));
+            tablaCuentas.getItems().add(new CuentaRow(cuenta.getNombreCuenta(), miembros));
+        }
     }
 
 	private void actualizarUI() {

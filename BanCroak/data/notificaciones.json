@@ -1,4 +1,28 @@
 {
-  "nextId" : 8,
-  "notificaciones" : [ ]
+  "nextId" : 10,
+  "notificaciones" : [ {
+    "id" : 8,
+    "timestamp" : "2026-04-22T17:47:04.256013",
+    "mensaje" : "Alerta 'Prueba definitiva' semanal: superado el límite de 300.00 € en 2026-17. Total: 900.00 € (la categoría 'gastos medicos')",
+    "alertaId" : 7,
+    "alertaNombre" : "Prueba definitiva",
+    "periodo" : "SEMANAL",
+    "periodoKey" : "2026-17",
+    "limite" : 300.0,
+    "totalDetectado" : 900.0,
+    "categoria" : "gastos medicos",
+    "leida" : false
+  }, {
+    "id" : 9,
+    "timestamp" : "2026-04-22T17:47:48.674387",
+    "mensaje" : "Alerta 'prueba mensual' mensual: superado el límite de 20.00 € en 2026-04. Total: 500.00 € (la categoría 'comida')",
+    "alertaId" : 8,
+    "alertaNombre" : "prueba mensual",
+    "periodo" : "MENSUAL",
+    "periodoKey" : "2026-04",
+    "limite" : 20.0,
+    "totalDetectado" : 500.0,
+    "categoria" : "comida",
+    "leida" : false
+  } ]
 }
