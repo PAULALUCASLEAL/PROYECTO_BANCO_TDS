@@ -28,10 +28,28 @@ La aplicación permite a los usuarios registrar, categorizar y analizar sus gast
 * [Diagrama de interacción](./docs/03-diagrama-interaccion.md)
 * [Explicación de la arquitectura de la aplicación y decisiones de diseño](./docs/04-arquitectura.md)
 * [Explicación de los patrones de diseño usados](./docs/05-patrones.md)
-* [Breve manual de usuario](./docs/06-manual-usuario.md)
+* [Manual de usuario](./docs/06-manual-usuario.md)
 
 ---
 
 ## Guía de Ejecución
 
 Este proyecto utiliza **Maven Wrapper**, lo que permite ejecutar la aplicación sin necesidad de tener Maven instalado en el sistema. La aplicación detecta automáticamente si debe arrancar en modo **Gráfico (GUI)** o **Línea de Comandos (CLI)** según los argumentos proporcionados.
+### Requisitos del Sistema
+* **JDK:** Versión 21 o superior.
+* **Variable de Entorno:** `JAVA_HOME` configurada correctamente apuntando al JDK.
+* **Arquitectura:** Compatible con Windows, macOS y Linux.
+
+---
+
+#### 1. Interfaz Gráfica (GUI)
+Diseñada para la gestión visual de gastos, gráficos y uso del calendario.
+```cmd
+mvnw -q javafx:run
+```
+#### 2. Línea de Comandos (CLI)
+Diseñada para operaciones rápidas de registro, modificación y borrado.
+```cmd
+mvnw -q javafx:run -Djavafx.args="[comando] [argumentos]"
+```
+Para detalles específicos sobre la sintaxis de comandos consulte [aquí](./docs/06-manual-usuario.md).

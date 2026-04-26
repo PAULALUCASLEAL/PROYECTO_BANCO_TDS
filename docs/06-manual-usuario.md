@@ -16,6 +16,7 @@ mvnw javafx:run
 ```cmd
 ./mvnw javafx:run
 ```
+![Ventana Principal de BanCroak](./imagenes/GUI.png)
 ---
 
 ## Ejecución de la Línea de Comandos (CLI)
@@ -47,6 +48,8 @@ Mostrar ayuda:
 ```cmd
 mvnw javafx:run -Djavafx.args="--help"
 ```
+![Salida de help](./imagenes/Help.png)
+
 **NOTA**: Para mejorar la legibilidad de la interfaz de comandos, se recomienda la ejecución en modo silencioso con la flag `-q`.
 ## Solución de Problemas comunes
 * Error "mvnw no se reconoce": Asegúrate de estar en la carpeta raíz del proyecto donde se encuentran los archivos mvnw.
