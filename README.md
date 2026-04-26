@@ -34,4 +34,4 @@ La aplicación permite a los usuarios registrar, categorizar y analizar sus gast
 
 ## Guía de Ejecución
 
-Esta aplicación cuenta con un sistema de arranque dual: detecta automáticamente si el usuario desea usar la interfaz gráfica o la línea de comandos basándose en los argumentos proporcionados.
+Este proyecto utiliza **Maven Wrapper**, lo que permite ejecutar la aplicación sin necesidad de tener Maven instalado en el sistema. La aplicación detecta automáticamente si debe arrancar en modo **Gráfico (GUI)** o **Línea de Comandos (CLI)** según los argumentos proporcionados.

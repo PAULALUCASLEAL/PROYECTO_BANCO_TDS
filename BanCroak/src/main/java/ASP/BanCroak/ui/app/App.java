@@ -20,7 +20,10 @@ public class App extends Application {
 
     public static void main(String[] args) {
     	if (args.length > 0) {    	    
-            MainCLI.main(args);
+            AppContext context = new AppContext();
+            MainCLI cli = new MainCLI(context);
+            int codigo = cli.run(args);
+            System.exit(codigo);
     	} else {
     	    launch(args);
     	}
