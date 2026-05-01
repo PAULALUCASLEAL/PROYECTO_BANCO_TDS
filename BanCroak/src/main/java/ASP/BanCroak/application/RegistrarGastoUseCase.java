@@ -8,6 +8,7 @@ import ASP.BanCroak.repo.RepositorioGastos;
 
 import java.time.LocalDate;
 
+//Es para pedir datos, buscar a qué cuenta está asociado un gasto y ya crear el objeto gasto y guardarlo (persistirlo)
 public class RegistrarGastoUseCase {
     private final RepositorioGastos repoGastos;
     private final RepositorioCuentas repoCuentas;
@@ -29,6 +30,7 @@ public class RegistrarGastoUseCase {
 
     public Gasto ejecutar(double cantidad, LocalDate fecha, String categoria, String pagador, String nombreCuenta) {
         Cuenta cuenta = buscarCuentaPorNombre(nombreCuenta);
+        //MÉTODO FACTORÍA --> en vez de hacer un new Gasto, llamamos a una clase especializada en crear gastos (Gasto) y que lo cree ella 
         Gasto gasto = Gasto.crearGasto(cantidad, fecha, categoria, pagador, cuenta.getIdCuenta());
         return ejecutar(gasto);
     }
