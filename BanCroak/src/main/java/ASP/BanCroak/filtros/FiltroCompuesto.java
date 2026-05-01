@@ -5,9 +5,8 @@ import ASP.BanCroak.domain.Gasto;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Composite de filtros con lógica AND.
- */
+//AQUÍ ES DONDE APLICAMOS EL PATRÓN COMPOSITE, porque queremos filtar usando varias categorías
+//Esto va a ser como una caja donde podemos meter filtros dentro. 
 public final class FiltroCompuesto extends Filtro {
     private final List<Filtro> filtros;
 
@@ -54,7 +53,7 @@ public final class FiltroCompuesto extends Filtro {
         }
         for (Filtro f : filtros) {
             if (!f.filtrar(gasto)) {
-                return false;
+                return false; //si solamente uno falla, se devuelve false obviamente
             }
         }
         return true;

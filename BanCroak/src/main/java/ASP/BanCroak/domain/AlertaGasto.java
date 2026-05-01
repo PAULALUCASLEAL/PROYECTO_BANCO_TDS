@@ -3,6 +3,10 @@ package ASP.BanCroak.domain;
 import java.text.Normalizer;
 import java.util.Locale;
 
+
+//Creamos aquí la alerta y cuando se crea un gasto, el sistema debería hacer lo siguiente: mira todas las alertas que hay activas, dependiendo si la 
+//alerta es mensual o semanal pues lo que hace es sumar todos los gastos mensuales o semanales y filtra por categoría (opcional) y suma pues solo las que toquen.
+//Después se compara con el límite, si se supera, crea un aviso (que es la clase notificación)
 public class AlertaGasto {
     public enum Periodo {
         SEMANAL,

@@ -6,6 +6,7 @@ import ASP.BanCroak.repo.RepositorioGastos;
 
 import java.time.LocalDate;
 
+//busacmos un gasto que ya existe por su id, lo cambiamos y volvemos a persistirlo bien 
 public class ModificarGastoUseCase {
     private final RepositorioGastos repoGastos;
     private final GastosPersistence gastosPersistence;

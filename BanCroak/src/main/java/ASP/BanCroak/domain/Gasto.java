@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-
+//aquí representamos los gastos de una cuenta, un gasto está asociado a una fecha, categoría, cantidad, pagador y una cuenta
 public final class Gasto {
     private LocalDate fechaGasto;
     private String categoria;
