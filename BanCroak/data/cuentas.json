@@ -1,5 +1,5 @@
 {
-  "nextIdCuenta" : 19,
+  "nextIdCuenta" : 4,
   "cuentas" : [ {
     "idCuenta" : 1,
     "nombreCuenta" : "Mi Cuenta",
@@ -9,134 +9,23 @@
     }
   }, {
     "idCuenta" : 2,
-    "nombreCuenta" : "Paula",
-    "miembros" : [ "Sergio", "Paula" ],
-    "porcentajes" : {
-      "Sergio" : 60.0,
-      "Paula" : 40.0
-    }
-  }, {
-    "idCuenta" : 3,
-    "nombreCuenta" : "Puchaina",
-    "miembros" : [ "Sergio", "Paula", "Aarón" ],
-    "porcentajes" : {
-      "Aarón" : 10.0,
-      "Sergio" : 40.0,
-      "Paula" : 50.0
-    }
-  }, {
-    "idCuenta" : 4,
-    "nombreCuenta" : "BANCO",
-    "miembros" : [ "MARU", "SERGIO" ],
-    "porcentajes" : {
-      "MARU" : 50.0,
-      "SERGIO" : 50.0
-    }
-  }, {
-    "idCuenta" : 5,
-    "nombreCuenta" : "Club de los bandidos",
-    "miembros" : [ "Brayas", "Bobby Bolsillos" ],
-    "porcentajes" : {
-      "Brayas" : 50.0,
-      "Bobby Bolsillos" : 50.0
-    }
-  }, {
-    "idCuenta" : 8,
-    "nombreCuenta" : "RedondeoArregledo",
-    "miembros" : [ "Si", "No" ],
-    "porcentajes" : {
-      "Si" : 21.1,
-      "No" : 78.9
-    }
-  }, {
-    "idCuenta" : 9,
-    "nombreCuenta" : "pruebadeporcentajes",
-    "miembros" : [ "PAULA", "SERGIO" ],
-    "porcentajes" : {
-      "SERGIO" : 40.0,
-      "PAULA" : 60.0
-    }
-  }, {
-    "idCuenta" : 10,
-    "nombreCuenta" : "nopuc",
-    "miembros" : [ "PUAL A", "serfgio", "rad" ],
-    "porcentajes" : {
-      "rad" : 60.0,
-      "PUAL A" : 18.8,
-      "serfgio" : 21.2
-    }
-  }, {
-    "idCuenta" : 11,
-    "nombreCuenta" : "nopucmes",
-    "miembros" : [ "ayuda", "no", "puc", "mes" ],
-    "porcentajes" : {
-      "puc" : 48.6,
-      "mes" : 40.0,
-      "ayuda" : 2.3,
-      "no" : 9.1
-    }
-  }, {
-    "idCuenta" : 12,
-    "nombreCuenta" : "nopuuuuuc",
-    "miembros" : [ "nopuc", "paleta", "reina" ],
-    "porcentajes" : {
-      "reina" : 40.0,
-      "paleta" : 34.3,
-      "nopuc" : 25.7
-    }
-  }, {
-    "idCuenta" : 13,
-    "nombreCuenta" : "porfavorfuncioa",
-    "miembros" : [ "paula", "myke" ],
-    "porcentajes" : {
-      "myke" : 50.0,
-      "paula" : 50.0
-    }
-  }, {
-    "idCuenta" : 14,
-    "nombreCuenta" : "por fa",
-    "miembros" : [ "paula", "lucas", "leal" ],
-    "porcentajes" : {
-      "paula" : 40.0,
-      "lucas" : 50.0,
-      "leal" : 10.0
-    }
-  }, {
-    "idCuenta" : 15,
-    "nombreCuenta" : "pro foi",
-    "miembros" : [ "sdns", "ksdibajdc" ],
-    "porcentajes" : {
-      "sdns" : 40.0,
-      "ksdibajdc" : 60.0
-    }
-  }, {
-    "idCuenta" : 16,
     "nombreCuenta" : "Compartida 1",
     "miembros" : [ "Anthony", "Stephani", "Mark" ],
     "porcentajes" : {
       "Mark" : 33.4,
-      "Anthony" : 33.3,
-      "Stephani" : 33.3
+      "Stephani" : 33.3,
+      "Anthony" : 33.3
     }
   }, {
-    "idCuenta" : 17,
+    "idCuenta" : 3,
     "nombreCuenta" : "Compartida 2",
-    "miembros" : [ "Me", "Bob", "Greta", "Paco", "Betty" ],
+    "miembros" : [ "Me", "Greta", "Bob", "Paco", "Betty" ],
     "porcentajes" : {
-      "Betty" : 20.0,
       "Greta" : 20.0,
-      "Me" : 20.0,
+      "Betty" : 20.0,
+      "Bob" : 20.0,
       "Paco" : 20.0,
-      "Bob" : 20.0
-    }
-  }, {
-    "idCuenta" : 18,
-    "nombreCuenta" : "Cuenta compartida prueba final",
-    "miembros" : [ "Paula", "pepe", "eksds" ],
-    "porcentajes" : {
-      "eksds" : 33.4,
-      "Paula" : 33.3,
-      "pepe" : 33.3
+      "Me" : 20.0
     }
   } ]
 }

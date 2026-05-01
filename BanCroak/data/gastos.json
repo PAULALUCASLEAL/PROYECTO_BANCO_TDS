@@ -1,607 +1,208 @@
 {
-  "nextId" : 102,
+  "nextId" : 30,
   "gastos" : [ {
-    "idGasto" : 12,
+    "idGasto" : 1,
     "idCuenta" : 1,
-    "categoria" : "viaje",
+    "categoria" : "comida",
     "pagador" : "Mi Cuenta",
-    "cantidad" : 200.0,
-    "fecha" : "2026-01-15"
+    "cantidad" : 4.5,
+    "fecha" : "2022-03-02"
+  }, {
+    "idGasto" : 2,
+    "idCuenta" : 2,
+    "categoria" : "transporte publico",
+    "pagador" : "Anthony",
+    "cantidad" : 6.0,
+    "fecha" : "2022-03-02"
+  }, {
+    "idGasto" : 3,
+    "idCuenta" : 3,
+    "categoria" : "ocio",
+    "pagador" : "Me",
+    "cantidad" : 3.99,
+    "fecha" : "2022-03-01"
+  }, {
+    "idGasto" : 4,
+    "idCuenta" : 1,
+    "categoria" : "gasolina",
+    "pagador" : "Mi Cuenta",
+    "cantidad" : 45.0,
+    "fecha" : "2022-03-01"
+  }, {
+    "idGasto" : 5,
+    "idCuenta" : 2,
+    "categoria" : "comida",
+    "pagador" : "Stephani",
+    "cantidad" : 18.5,
+    "fecha" : "2022-03-01"
+  }, {
+    "idGasto" : 6,
+    "idCuenta" : 3,
+    "categoria" : "ocio",
+    "pagador" : "Bob",
+    "cantidad" : 12.0,
+    "fecha" : "2022-03-01"
+  }, {
+    "idGasto" : 7,
+    "idCuenta" : 1,
+    "categoria" : "transporte publico",
+    "pagador" : "Mi Cuenta",
+    "cantidad" : 1.5,
+    "fecha" : "2022-03-01"
+  }, {
+    "idGasto" : 8,
+    "idCuenta" : 2,
+    "categoria" : "regalos",
+    "pagador" : "Mark",
+    "cantidad" : 9.9,
+    "fecha" : "2022-02-28"
+  }, {
+    "idGasto" : 9,
+    "idCuenta" : 3,
+    "categoria" : "comida",
+    "pagador" : "Greta",
+    "cantidad" : 32.4,
+    "fecha" : "2022-02-28"
+  }, {
+    "idGasto" : 10,
+    "idCuenta" : 1,
+    "categoria" : "ocio",
+    "pagador" : "Mi Cuenta",
+    "cantidad" : 2.99,
+    "fecha" : "2022-02-27"
+  }, {
+    "idGasto" : 11,
+    "idCuenta" : 3,
+    "categoria" : "comida",
+    "pagador" : "Paco",
+    "cantidad" : 21.0,
+    "fecha" : "2022-02-26"
+  }, {
+    "idGasto" : 12,
+    "idCuenta" : 2,
+    "categoria" : "gasolina",
+    "pagador" : "Anthony",
+    "cantidad" : 30.0,
+    "fecha" : "2022-02-26"
   }, {
     "idGasto" : 13,
     "idCuenta" : 1,
-    "categoria" : "paleta",
+    "categoria" : "reparaciones",
     "pagador" : "Mi Cuenta",
-    "cantidad" : 3000.0,
-    "fecha" : "2026-03-24"
+    "cantidad" : 7.5,
+    "fecha" : "2022-02-26"
   }, {
     "idGasto" : 14,
+    "idCuenta" : 3,
+    "categoria" : "transporte publico",
+    "pagador" : "Betty",
+    "cantidad" : 20.0,
+    "fecha" : "2022-02-26"
+  }, {
+    "idGasto" : 15,
     "idCuenta" : 1,
-    "categoria" : "universidad",
+    "categoria" : "comida",
     "pagador" : "Mi Cuenta",
-    "cantidad" : 1200.0,
-    "fecha" : "2025-09-10"
+    "cantidad" : 5.25,
+    "fecha" : "2022-02-26"
+  }, {
+    "idGasto" : 16,
+    "idCuenta" : 2,
+    "categoria" : "ocio",
+    "pagador" : "Mark",
+    "cantidad" : 6.0,
+    "fecha" : "2022-02-26"
   }, {
     "idGasto" : 17,
     "idCuenta" : 1,
-    "categoria" : "ropa",
+    "categoria" : "gastos medicos",
     "pagador" : "Mi Cuenta",
-    "cantidad" : 201.0,
-    "fecha" : "2025-12-17"
+    "cantidad" : 12.75,
+    "fecha" : "2022-02-25"
   }, {
     "idGasto" : 18,
-    "idCuenta" : 1,
-    "categoria" : "navidad",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 250.0,
-    "fecha" : "2025-12-25"
+    "idCuenta" : 3,
+    "categoria" : "ocio",
+    "pagador" : "Bob",
+    "cantidad" : 4.99,
+    "fecha" : "2022-02-24"
   }, {
     "idGasto" : 19,
-    "idCuenta" : 1,
-    "categoria" : "gimnasio",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 2.0,
-    "fecha" : "2026-01-31"
+    "idCuenta" : 2,
+    "categoria" : "comida",
+    "pagador" : "Stephani",
+    "cantidad" : 28.0,
+    "fecha" : "2022-02-24"
   }, {
     "idGasto" : 20,
     "idCuenta" : 1,
-    "categoria" : "comida",
+    "categoria" : "transporte publico",
     "pagador" : "Mi Cuenta",
     "cantidad" : 11.0,
-    "fecha" : "2026-02-12"
+    "fecha" : "2022-02-24"
+  }, {
+    "idGasto" : 21,
+    "idCuenta" : 3,
+    "categoria" : "regalos",
+    "pagador" : "Greta",
+    "cantidad" : 15.0,
+    "fecha" : "2022-02-23"
   }, {
     "idGasto" : 22,
-    "idCuenta" : 11,
-    "categoria" : "disfrutar de la vida",
-    "pagador" : "ayuda",
-    "cantidad" : 5000.0,
-    "fecha" : "2026-02-26"
+    "idCuenta" : 2,
+    "categoria" : "comida",
+    "pagador" : "Anthony",
+    "cantidad" : 24.6,
+    "fecha" : "2022-02-23"
   }, {
     "idGasto" : 23,
     "idCuenta" : 1,
-    "categoria" : "navidad",
+    "categoria" : "gasolina",
     "pagador" : "Mi Cuenta",
-    "cantidad" : 6.0000000001E10,
-    "fecha" : "2026-02-15"
+    "cantidad" : 20.0,
+    "fecha" : "2022-02-23"
   }, {
     "idGasto" : 24,
-    "idCuenta" : 1,
-    "categoria" : "universidad",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 6.0E10,
-    "fecha" : "2026-02-15"
+    "idCuenta" : 3,
+    "categoria" : "transporte publico",
+    "pagador" : "Bob",
+    "cantidad" : 14.5,
+    "fecha" : "2022-02-22"
   }, {
     "idGasto" : 25,
     "idCuenta" : 1,
-    "categoria" : "universidad",
+    "categoria" : "ocio",
     "pagador" : "Mi Cuenta",
-    "cantidad" : 6.0000000001E10,
-    "fecha" : "2026-02-15"
+    "cantidad" : 5.99,
+    "fecha" : "2022-02-21"
   }, {
     "idGasto" : 26,
-    "idCuenta" : 1,
-    "categoria" : "universidad",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 6.0000000000001E13,
-    "fecha" : "2026-02-15"
+    "idCuenta" : 2,
+    "categoria" : "reparaciones",
+    "pagador" : "Mark",
+    "cantidad" : 19.8,
+    "fecha" : "2022-02-21"
   }, {
     "idGasto" : 27,
-    "idCuenta" : 1,
-    "categoria" : "comida",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 56.0,
-    "fecha" : "2026-03-01"
+    "idCuenta" : 3,
+    "categoria" : "gastos medicos",
+    "pagador" : "Betty",
+    "cantidad" : 8.4,
+    "fecha" : "2022-02-21"
   }, {
     "idGasto" : 28,
     "idCuenta" : 1,
     "categoria" : "comida",
     "pagador" : "Mi Cuenta",
-    "cantidad" : 4.5,
-    "fecha" : "2022-03-02"
+    "cantidad" : 3.2,
+    "fecha" : "2022-02-21"
   }, {
     "idGasto" : 29,
-    "idCuenta" : 1,
-    "categoria" : "comida",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 4.5,
-    "fecha" : "2022-03-02"
-  }, {
-    "idGasto" : 30,
-    "idCuenta" : 16,
-    "categoria" : "transporte publico",
-    "pagador" : "Anthony",
-    "cantidad" : 6.0,
-    "fecha" : "2022-03-02"
-  }, {
-    "idGasto" : 31,
-    "idCuenta" : 17,
-    "categoria" : "ocio",
-    "pagador" : "Me",
-    "cantidad" : 3.99,
-    "fecha" : "2022-03-01"
-  }, {
-    "idGasto" : 32,
-    "idCuenta" : 1,
-    "categoria" : "gasolina",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 45.0,
-    "fecha" : "2022-03-01"
-  }, {
-    "idGasto" : 33,
-    "idCuenta" : 16,
-    "categoria" : "comida",
-    "pagador" : "Stephani",
-    "cantidad" : 18.5,
-    "fecha" : "2022-03-01"
-  }, {
-    "idGasto" : 34,
-    "idCuenta" : 17,
-    "categoria" : "ocio",
-    "pagador" : "Bob",
-    "cantidad" : 12.0,
-    "fecha" : "2022-03-01"
-  }, {
-    "idGasto" : 35,
-    "idCuenta" : 1,
-    "categoria" : "transporte publico",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 1.5,
-    "fecha" : "2022-03-01"
-  }, {
-    "idGasto" : 36,
-    "idCuenta" : 16,
-    "categoria" : "regalos",
-    "pagador" : "Mark",
-    "cantidad" : 9.9,
-    "fecha" : "2022-02-28"
-  }, {
-    "idGasto" : 37,
-    "idCuenta" : 17,
-    "categoria" : "comida",
-    "pagador" : "Greta",
-    "cantidad" : 32.4,
-    "fecha" : "2022-02-28"
-  }, {
-    "idGasto" : 38,
-    "idCuenta" : 1,
-    "categoria" : "ocio",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 2.99,
-    "fecha" : "2022-02-27"
-  }, {
-    "idGasto" : 39,
-    "idCuenta" : 17,
-    "categoria" : "comida",
-    "pagador" : "Paco",
-    "cantidad" : 21.0,
-    "fecha" : "2022-02-26"
-  }, {
-    "idGasto" : 40,
-    "idCuenta" : 16,
-    "categoria" : "gasolina",
-    "pagador" : "Anthony",
-    "cantidad" : 30.0,
-    "fecha" : "2022-02-26"
-  }, {
-    "idGasto" : 41,
-    "idCuenta" : 1,
-    "categoria" : "reparaciones",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 7.5,
-    "fecha" : "2022-02-26"
-  }, {
-    "idGasto" : 42,
-    "idCuenta" : 17,
-    "categoria" : "transporte publico",
-    "pagador" : "Betty",
-    "cantidad" : 20.0,
-    "fecha" : "2022-02-26"
-  }, {
-    "idGasto" : 43,
-    "idCuenta" : 1,
-    "categoria" : "comida",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 5.25,
-    "fecha" : "2022-02-26"
-  }, {
-    "idGasto" : 44,
-    "idCuenta" : 16,
-    "categoria" : "ocio",
-    "pagador" : "Mark",
-    "cantidad" : 6.0,
-    "fecha" : "2022-02-26"
-  }, {
-    "idGasto" : 45,
-    "idCuenta" : 1,
-    "categoria" : "gastos medicos",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 12.75,
-    "fecha" : "2022-02-25"
-  }, {
-    "idGasto" : 46,
-    "idCuenta" : 17,
-    "categoria" : "ocio",
-    "pagador" : "Bob",
-    "cantidad" : 4.99,
-    "fecha" : "2022-02-24"
-  }, {
-    "idGasto" : 47,
-    "idCuenta" : 16,
-    "categoria" : "comida",
-    "pagador" : "Stephani",
-    "cantidad" : 28.0,
-    "fecha" : "2022-02-24"
-  }, {
-    "idGasto" : 48,
-    "idCuenta" : 1,
-    "categoria" : "transporte publico",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 11.0,
-    "fecha" : "2022-02-24"
-  }, {
-    "idGasto" : 49,
-    "idCuenta" : 17,
-    "categoria" : "regalos",
-    "pagador" : "Greta",
-    "cantidad" : 15.0,
-    "fecha" : "2022-02-23"
-  }, {
-    "idGasto" : 50,
-    "idCuenta" : 16,
-    "categoria" : "comida",
-    "pagador" : "Anthony",
-    "cantidad" : 24.6,
-    "fecha" : "2022-02-23"
-  }, {
-    "idGasto" : 51,
-    "idCuenta" : 1,
-    "categoria" : "gasolina",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 20.0,
-    "fecha" : "2022-02-23"
-  }, {
-    "idGasto" : 52,
-    "idCuenta" : 17,
-    "categoria" : "transporte publico",
-    "pagador" : "Bob",
-    "cantidad" : 14.5,
-    "fecha" : "2022-02-22"
-  }, {
-    "idGasto" : 53,
-    "idCuenta" : 1,
-    "categoria" : "ocio",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 5.99,
-    "fecha" : "2022-02-21"
-  }, {
-    "idGasto" : 54,
-    "idCuenta" : 16,
-    "categoria" : "reparaciones",
-    "pagador" : "Mark",
-    "cantidad" : 19.8,
-    "fecha" : "2022-02-21"
-  }, {
-    "idGasto" : 55,
-    "idCuenta" : 17,
-    "categoria" : "gastos medicos",
-    "pagador" : "Betty",
-    "cantidad" : 8.4,
-    "fecha" : "2022-02-21"
-  }, {
-    "idGasto" : 56,
-    "idCuenta" : 1,
-    "categoria" : "comida",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 3.2,
-    "fecha" : "2022-02-21"
-  }, {
-    "idGasto" : 57,
-    "idCuenta" : 16,
+    "idCuenta" : 2,
     "categoria" : "ocio",
     "pagador" : "Stephani",
     "cantidad" : 16.0,
     "fecha" : "2022-02-20"
-  }, {
-    "idGasto" : 58,
-    "idCuenta" : 1,
-    "categoria" : "comida",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 4.5,
-    "fecha" : "2022-03-02"
-  }, {
-    "idGasto" : 59,
-    "idCuenta" : 16,
-    "categoria" : "transporte publico",
-    "pagador" : "Anthony",
-    "cantidad" : 6.0,
-    "fecha" : "2022-03-02"
-  }, {
-    "idGasto" : 60,
-    "idCuenta" : 17,
-    "categoria" : "ocio",
-    "pagador" : "Me",
-    "cantidad" : 3.99,
-    "fecha" : "2022-03-01"
-  }, {
-    "idGasto" : 61,
-    "idCuenta" : 1,
-    "categoria" : "gasolina",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 45.0,
-    "fecha" : "2022-03-01"
-  }, {
-    "idGasto" : 62,
-    "idCuenta" : 16,
-    "categoria" : "comida",
-    "pagador" : "Stephani",
-    "cantidad" : 18.5,
-    "fecha" : "2022-03-01"
-  }, {
-    "idGasto" : 63,
-    "idCuenta" : 17,
-    "categoria" : "ocio",
-    "pagador" : "Bob",
-    "cantidad" : 12.0,
-    "fecha" : "2022-03-01"
-  }, {
-    "idGasto" : 64,
-    "idCuenta" : 1,
-    "categoria" : "transporte publico",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 1.5,
-    "fecha" : "2022-03-01"
-  }, {
-    "idGasto" : 65,
-    "idCuenta" : 16,
-    "categoria" : "regalos",
-    "pagador" : "Mark",
-    "cantidad" : 9.9,
-    "fecha" : "2022-02-28"
-  }, {
-    "idGasto" : 66,
-    "idCuenta" : 17,
-    "categoria" : "comida",
-    "pagador" : "Greta",
-    "cantidad" : 32.4,
-    "fecha" : "2022-02-28"
-  }, {
-    "idGasto" : 67,
-    "idCuenta" : 1,
-    "categoria" : "ocio",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 2.99,
-    "fecha" : "2022-02-27"
-  }, {
-    "idGasto" : 68,
-    "idCuenta" : 17,
-    "categoria" : "comida",
-    "pagador" : "Paco",
-    "cantidad" : 21.0,
-    "fecha" : "2022-02-26"
-  }, {
-    "idGasto" : 69,
-    "idCuenta" : 16,
-    "categoria" : "gasolina",
-    "pagador" : "Anthony",
-    "cantidad" : 30.0,
-    "fecha" : "2022-02-26"
-  }, {
-    "idGasto" : 70,
-    "idCuenta" : 1,
-    "categoria" : "reparaciones",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 7.5,
-    "fecha" : "2022-02-26"
-  }, {
-    "idGasto" : 71,
-    "idCuenta" : 17,
-    "categoria" : "transporte publico",
-    "pagador" : "Betty",
-    "cantidad" : 20.0,
-    "fecha" : "2022-02-26"
-  }, {
-    "idGasto" : 72,
-    "idCuenta" : 1,
-    "categoria" : "comida",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 5.25,
-    "fecha" : "2022-02-26"
-  }, {
-    "idGasto" : 73,
-    "idCuenta" : 16,
-    "categoria" : "ocio",
-    "pagador" : "Mark",
-    "cantidad" : 6.0,
-    "fecha" : "2022-02-26"
-  }, {
-    "idGasto" : 74,
-    "idCuenta" : 1,
-    "categoria" : "gastos medicos",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 12.75,
-    "fecha" : "2022-02-25"
-  }, {
-    "idGasto" : 75,
-    "idCuenta" : 17,
-    "categoria" : "ocio",
-    "pagador" : "Bob",
-    "cantidad" : 4.99,
-    "fecha" : "2022-02-24"
-  }, {
-    "idGasto" : 76,
-    "idCuenta" : 16,
-    "categoria" : "comida",
-    "pagador" : "Stephani",
-    "cantidad" : 28.0,
-    "fecha" : "2022-02-24"
-  }, {
-    "idGasto" : 77,
-    "idCuenta" : 1,
-    "categoria" : "transporte publico",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 11.0,
-    "fecha" : "2022-02-24"
-  }, {
-    "idGasto" : 78,
-    "idCuenta" : 17,
-    "categoria" : "regalos",
-    "pagador" : "Greta",
-    "cantidad" : 15.0,
-    "fecha" : "2022-02-23"
-  }, {
-    "idGasto" : 79,
-    "idCuenta" : 16,
-    "categoria" : "comida",
-    "pagador" : "Anthony",
-    "cantidad" : 24.6,
-    "fecha" : "2022-02-23"
-  }, {
-    "idGasto" : 80,
-    "idCuenta" : 1,
-    "categoria" : "gasolina",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 20.0,
-    "fecha" : "2022-02-23"
-  }, {
-    "idGasto" : 81,
-    "idCuenta" : 17,
-    "categoria" : "transporte publico",
-    "pagador" : "Bob",
-    "cantidad" : 14.5,
-    "fecha" : "2022-02-22"
-  }, {
-    "idGasto" : 82,
-    "idCuenta" : 1,
-    "categoria" : "ocio",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 5.99,
-    "fecha" : "2022-02-21"
-  }, {
-    "idGasto" : 83,
-    "idCuenta" : 16,
-    "categoria" : "reparaciones",
-    "pagador" : "Mark",
-    "cantidad" : 19.8,
-    "fecha" : "2022-02-21"
-  }, {
-    "idGasto" : 84,
-    "idCuenta" : 17,
-    "categoria" : "gastos medicos",
-    "pagador" : "Betty",
-    "cantidad" : 8.4,
-    "fecha" : "2022-02-21"
-  }, {
-    "idGasto" : 85,
-    "idCuenta" : 1,
-    "categoria" : "comida",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 3.2,
-    "fecha" : "2022-02-21"
-  }, {
-    "idGasto" : 86,
-    "idCuenta" : 16,
-    "categoria" : "ocio",
-    "pagador" : "Stephani",
-    "cantidad" : 16.0,
-    "fecha" : "2022-02-20"
-  }, {
-    "idGasto" : 87,
-    "idCuenta" : 16,
-    "categoria" : "ocio",
-    "pagador" : "Me",
-    "cantidad" : 3.0,
-    "fecha" : "1992-04-23"
-  }, {
-    "idGasto" : 88,
-    "idCuenta" : 1,
-    "categoria" : "comida",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 1.0E11,
-    "fecha" : "2026-04-23"
-  }, {
-    "idGasto" : 89,
-    "idCuenta" : 2,
-    "categoria" : "ocio",
-    "pagador" : "Paula",
-    "cantidad" : 40.0,
-    "fecha" : "2026-04-14"
-  }, {
-    "idGasto" : 90,
-    "idCuenta" : 1,
-    "categoria" : "gastos medicos",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 900.0,
-    "fecha" : "2026-04-22"
-  }, {
-    "idGasto" : 91,
-    "idCuenta" : 2,
-    "categoria" : "comida",
-    "pagador" : "Sergio",
-    "cantidad" : 500.0,
-    "fecha" : "2026-04-23"
-  }, {
-    "idGasto" : 92,
-    "idCuenta" : 18,
-    "categoria" : "gimnasio",
-    "pagador" : "pepe",
-    "cantidad" : 600.0,
-    "fecha" : "2026-04-14"
-  }, {
-    "idGasto" : 93,
-    "idCuenta" : 1,
-    "categoria" : "comida",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 25.5,
-    "fecha" : "2026-04-22"
-  }, {
-    "idGasto" : 94,
-    "idCuenta" : 1,
-    "categoria" : "comida",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 12.0,
-    "fecha" : "2023-12-12"
-  }, {
-    "idGasto" : 95,
-    "idCuenta" : 1,
-    "categoria" : "entretenimiento",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 23.5,
-    "fecha" : "2026-04-23"
-  }, {
-    "idGasto" : 97,
-    "idCuenta" : 1,
-    "categoria" : "gastos medicos",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 301.0,
-    "fecha" : "2026-05-01"
-  }, {
-    "idGasto" : 98,
-    "idCuenta" : 1,
-    "categoria" : "gastos medicos",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 301.0,
-    "fecha" : "2026-05-01"
-  }, {
-    "idGasto" : 99,
-    "idCuenta" : 1,
-    "categoria" : "gastos medicos",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 301.0,
-    "fecha" : "2026-05-01"
-  }, {
-    "idGasto" : 100,
-    "idCuenta" : 1,
-    "categoria" : "gastos medicos",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 900.0,
-    "fecha" : "2026-05-01"
-  }, {
-    "idGasto" : 101,
-    "idCuenta" : 1,
-    "categoria" : "gastos medicos",
-    "pagador" : "Mi Cuenta",
-    "cantidad" : 301.0,
-    "fecha" : "2026-05-01"
   } ],
-  "categorias" : [ "comida", "lll", "gimnasio", "transporte publico", "universidad", "regalos", "gastos medicos", "prueba", "primavera", "gasolina", "ocio", "disfrutar de la vida", "reparaciones", "entretenimiento", "viaje", "paleta", "ropa", "transporte", "alimentacion", "navidad" ]
+  "categorias" : [ "comida", "ocio", "alimentacion", "gasolina", "transporte", "gastos medicos", "regalos", "entretenimiento", "reparaciones", "transporte publico" ]
 }

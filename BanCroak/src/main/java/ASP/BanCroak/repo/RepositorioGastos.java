@@ -35,7 +35,7 @@ public enum RepositorioGastos {
         if (gasto == null) throw new IllegalArgumentException("El gasto no puede ser null");
         String categoria = normalizarCategoria(gasto.getCategoria());
         if (categoria.isEmpty()) throw new IllegalArgumentException("La categoría no puede estar vacía");
-        if (!categorias.contains(categoria)) throw new IllegalArgumentException("La categoría no existe");
+        if (!categorias.contains(categoria)) throw new IllegalArgumentException("La categoría '"+categoria+"' no existe");
 
         // Normaliza la categoría almacenada en el gasto para mantener consistencia.
         gasto.actualizarGasto(gasto.getCantidad(), gasto.getFecha(), categoria, gasto.getPagador());

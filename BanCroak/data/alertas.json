@@ -1,32 +1,4 @@
 {
-  "nextId" : 9,
-  "alertas" : [ {
-    "id" : 3,
-    "nombre" : "Alerta 3",
-    "periodo" : "SEMANAL",
-    "limite" : 10.0,
-    "categoria" : "comida",
-    "activa" : false
-  }, {
-    "id" : 6,
-    "nombre" : "Sergio",
-    "periodo" : "SEMANAL",
-    "limite" : 6.0E9,
-    "categoria" : null,
-    "activa" : false
-  }, {
-    "id" : 7,
-    "nombre" : "Prueba definitiva",
-    "periodo" : "SEMANAL",
-    "limite" : 300.0,
-    "categoria" : "gastos medicos",
-    "activa" : true
-  }, {
-    "id" : 8,
-    "nombre" : "prueba mensual",
-    "periodo" : "MENSUAL",
-    "limite" : 20.0,
-    "categoria" : "comida",
-    "activa" : true
-  } ]
+  "nextId" : 1,
+  "alertas" : [ ]
 }

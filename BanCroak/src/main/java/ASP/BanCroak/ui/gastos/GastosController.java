@@ -13,6 +13,7 @@ import ASP.BanCroak.ui.app.GastosStore;
 import java.io.File;
 import java.time.LocalDate;
 import java.util.stream.Collectors;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -89,7 +90,11 @@ public class GastosController {
             GastoImportarCSV importer = new GastoImportarCSV();
             List<GastoImportado> gastos = importer.importar(archivo);
 
+            List<Gasto> gastosValidados = new ArrayList<>();
             for (GastoImportado gasto : gastos) {
+            	if (!repoGastos.existeCategoria(gasto.categoria)) {
+                    throw new IllegalArgumentException("La categoría '" + gasto.categoria + "' no existe. Créala antes de importar.");
+                }
             	int id;
             	if(importer.esMiCuenta(gasto.cuenta)) {
             		id=1;
@@ -110,12 +115,19 @@ public class GastosController {
                     id
                 );
 
-                repoGastos.añadirGasto(nuevoGasto);
+                gastosValidados.add(nuevoGasto);
+            }
+            for (Gasto g : gastosValidados) {
+                repoGastos.añadirGasto(g);
             }
 
             context.getGastosPersistence().save(repoGastos);
+            context.getGastosStore().refresh();
+            context.getNavigator().showNotificacion("Archivo importado con exito");
         } catch (Exception e) {
             System.err.println("Error al importar gastos del archivo: " + e.getMessage());
+            context.getNavigator().showNotificacion("Error al importar: " + e.getMessage());
+
         }
     }
 }
