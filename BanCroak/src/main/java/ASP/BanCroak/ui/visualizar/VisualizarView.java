@@ -135,7 +135,7 @@ public class VisualizarView extends VBox {
 
     private VBox buildCalendarioTab(SceneManager sm) {
         ObjectProperty<YearMonth> mesActual = new SimpleObjectProperty<>(YearMonth.now());
-        DateTimeFormatter formatoMes = DateTimeFormatter.ofPattern("MMMM yyyy", new Locale("es", "ES"));
+        DateTimeFormatter formatoMes = DateTimeFormatter.ofPattern("MMMM yyyy", Locale.of("es", "ES"));
 
         Button anterior = new Button("<");
         Button siguiente = new Button(">");
@@ -157,7 +157,7 @@ public class VisualizarView extends VBox {
 
         Runnable actualizarMes = () -> {
             YearMonth mes = mesActual.get();
-            mesLabel.setText(formatoMes.format(mes).toUpperCase(new Locale("es", "ES")));
+            mesLabel.setText(formatoMes.format(mes).toUpperCase(Locale.of("es", "ES")));
             gastosMes.setPredicate(g -> g.getFecha() != null && YearMonth.from(g.getFecha()).equals(mes));
             actualizarResumenMes(resumen, gastosMes);
         };
@@ -192,8 +192,4 @@ public class VisualizarView extends VBox {
         resumen.setText("Gastos del mes: " + total + " · Total: " + String.format(java.util.Locale.ROOT, "€%.2f", suma));
     }
 
-    private String formatearGasto(Gasto gasto) {
-        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        return gasto.getFecha().format(fmt) + " · " + gasto.getCategoria() + " · " + gasto.getPagador() + " · " + String.format(java.util.Locale.ROOT, "€%.2f", gasto.getCantidad());
-    }
 }

@@ -15,6 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 
 public final class GastosTableFactory {
@@ -23,8 +24,7 @@ public final class GastosTableFactory {
 
     public static TableView<Gasto> crearTabla(AppContext context, GastosStore store) {
         TableView<Gasto> tabla = new TableView<>();
-        tabla.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
+        tabla.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         TableColumn<Gasto, String> colId = new TableColumn<>("ID");
@@ -51,7 +51,7 @@ public final class GastosTableFactory {
         TableColumn<Gasto, Void> colAcciones = new TableColumn<>("Acciones");
         colAcciones.setCellFactory(accionesCellFactory(context, store));
 
-        tabla.getColumns().addAll(colId, colFecha, colCategoria, colCantidad, colPagador, colCuenta, colAcciones);
+        tabla.getColumns().addAll(List.of(colId, colFecha, colCategoria, colCantidad, colPagador, colCuenta, colAcciones));
         return tabla;
     }
 

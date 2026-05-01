@@ -1,5 +1,5 @@
 {
-  "nextId" : 10,
+  "nextId" : 11,
   "notificaciones" : [ {
     "id" : 8,
     "timestamp" : "2026-04-22T17:47:04.256013",
@@ -23,6 +23,18 @@
     "limite" : 20.0,
     "totalDetectado" : 500.0,
     "categoria" : "comida",
+    "leida" : false
+  }, {
+    "id" : 10,
+    "timestamp" : "2026-05-01T19:30:15.310749800",
+    "mensaje" : "Alerta 'Prueba definitiva' semanal: superado el límite de 300.00 € en 2026-18. Total: 301.00 € (la categoría 'gastos medicos')",
+    "alertaId" : 7,
+    "alertaNombre" : "Prueba definitiva",
+    "periodo" : "SEMANAL",
+    "periodoKey" : "2026-18",
+    "limite" : 300.0,
+    "totalDetectado" : 301.0,
+    "categoria" : "gastos medicos",
     "leida" : false
   } ]
 }

@@ -222,8 +222,8 @@ public class CuentasCompartidasView extends VBox{
         miembrosCol.setCellValueFactory(new PropertyValueFactory<>("miembros"));
         miembrosCol.setPrefWidth(360);
 
-        tablaCuentas.getColumns().addAll(cuentaCol, miembrosCol);
-        tablaCuentas.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        tablaCuentas.getColumns().addAll(List.of(cuentaCol, miembrosCol));
+        tablaCuentas.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
         tablaCuentas.setFixedCellSize(30);
         tablaCuentas.setPrefHeight(320);
         tablaCuentas.setPlaceholder(new Label("No hay cuentas creadas."));

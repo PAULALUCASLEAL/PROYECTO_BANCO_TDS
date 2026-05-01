@@ -77,7 +77,7 @@ public class GastosFilterPane extends VBox {
                 if (month == null) {
                     return "";
                 }
-                return month.getDisplayName(TextStyle.FULL, new Locale("es", "ES"));
+                return month.getDisplayName(TextStyle.FULL, Locale.of("es", "ES"));
             }
 
             @Override

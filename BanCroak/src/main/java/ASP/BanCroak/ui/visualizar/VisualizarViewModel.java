@@ -19,7 +19,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public final class VisualizarViewModel {
-    private final AppContext context;
     private final GastosStore store;
     private final FilterState filterState;
 
@@ -29,7 +28,6 @@ public final class VisualizarViewModel {
     private final ObservableMap<LocalDate, GastosQueryService.DayAggregate> calendarioData = FXCollections.observableHashMap();
 
     public VisualizarViewModel(AppContext context) {
-        this.context = context;
         this.store = context.getGastosStore();
         this.filterState = context.getFilterState();
 

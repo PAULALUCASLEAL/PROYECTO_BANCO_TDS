@@ -1,5 +1,7 @@
 package ASP.BanCroak.ui.notificaciones;
 
+import java.util.List;
+
 import ASP.BanCroak.domain.AlertaGasto;
 import ASP.BanCroak.ui.app.SceneManager;
 import ASP.BanCroak.ui.main.BarraMenuView;
@@ -23,9 +25,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
@@ -141,7 +141,7 @@ public class NotificacionesView extends VBox{
         }
     });
 
-    tablaAlertas.getColumns().addAll(colNombre, colPeriodo, colLimite, colCategoria, colActiva, colEliminar);
+    tablaAlertas.getColumns().addAll(List.of(colNombre, colPeriodo, colLimite, colCategoria, colActiva, colEliminar));
 
     Label lMisAlertas = new Label("MIS ALERTAS");
     lMisAlertas.getStyleClass().add("section-title");

@@ -1,10 +1,7 @@
 package ASP.BanCroak.ui.gastos;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import ASP.BanCroak.ui.app.SceneManager;
 import ASP.BanCroak.ui.main.BarraMenuView;
@@ -25,7 +22,6 @@ import javafx.scene.media.AudioClip;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class GastosView  extends VBox{
 	private GastosController controller;
@@ -65,8 +61,7 @@ public GastosView(SceneManager sm) {
     
     String rutaSonidoRana = getClass().getResource("/Audio/Boton .mp3").toExternalForm();
     AudioClip sonidoRana = new AudioClip(rutaSonidoRana);
-    String rutaSonidoNotificaion = getClass().getResource("/Audio/Notificacion.mp3").toExternalForm();
-    AudioClip sonidoNotificacion = new AudioClip(rutaSonidoNotificaion);
+
 
 
     ranaView.setOnMouseClicked(e -> {
@@ -171,10 +166,6 @@ public GastosView(SceneManager sm) {
     bGuardar.setOnAction(ev -> {
     	controller.registrarGasto(Double.parseDouble(cantidad.getText()),fecha.getValue(),categoria.getValue(),cuentaNombrePersona.getValue(),cuenta.getValue());
         limpiarGasto(cuenta,cuentaNombrePersona,cantidad,fecha,categoria);
-        /*if (valor== 0) {
-            sm.showNotificacion("Se ha superado el limite de 100 eutos semanal en la categoria alimentacion");
-            sonidoNotificacion.play();
-        }*/
 
         sonidoRana.play();
         

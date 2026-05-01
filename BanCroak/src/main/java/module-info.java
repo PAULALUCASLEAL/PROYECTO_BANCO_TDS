@@ -1,11 +1,11 @@
 module ASP.BanCroak {
-    requires javafx.controls;
+    requires transitive javafx.controls;
     requires com.fasterxml.jackson.databind;
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.annotation;
 	requires javafx.media;
 	requires javafx.base;
-	requires javafx.graphics;
+	requires transitive javafx.graphics;
     exports ASP.BanCroak.domain;
     exports ASP.BanCroak.repo;
     exports ASP.BanCroak.filtros;
