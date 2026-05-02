@@ -59,7 +59,7 @@ Esto es especialmente importante en el dominio, donde no queremos objetos mal co
 
 ## 4. Composite
 
-El patrón Composite aparece en el sistema de filtros.
+El patrón Composite aparece en el sistema de filtros. Este patrón permite tratar de la misma manera a un filtro individual que a un conjunto de filtros agrupados.
 
 Aparece en:
 
@@ -67,14 +67,13 @@ Aparece en:
 - filtros simples (`FiltroCategoria`, `FiltroMeses`, etc.)
 - `FiltroCompuesto`
 
-Permite tratar filtros simples y combinados de la misma forma.
 
 ### Por qué se usa
 
 Porque el filtrado puede ser:
 
-- simple → una condición;
-- complejo → varias condiciones combinadas.
+- simple → un solo filtro;
+- complejo → varios filtros combinados.
 
 En lugar de escribir lógica complicada con muchos `if`, el Composite permite construir estructuras de filtros que se evalúan de forma uniforme.
 
@@ -96,12 +95,13 @@ Todos comparten una misma interfaz (`filtrar(Gasto)`).
 
 ### Por qué se usa
 
-Porque existen múltiples formas de realizar la misma operación (filtrar), y queremos poder intercambiarlas fácilmente.
+Porque existen múltiples formas de realizar la misma operación (filtrar), y queremos poder intercambiarlas fácilmente. Básicamente, el patrón estrategia nos ofrece: 
 
-Evita usar `switch` o muchos `if`, lo que hace el código más limpio y extensible.  
-Si mañana se añade un nuevo tipo de filtro, basta con crear una nueva clase sin modificar las existentes.
+- Desacoplamiento: El RepositorioGastos no necesita conocer los detalles de cómo se filtra. Simplemente recibe un objeto de tipo Filtro y ejecuta su método .filtrar(). No le importa si está validando una fecha o una etiqueta.
 
-Esto sigue la idea de “abierto para extensión, cerrado para modificación”.
+- Eliminación de condicionales complejos: Evitamos el uso de bloques if-else o switch interminables que intentarían adivinar qué tipo de filtro aplicar en tiempo de ejecución.
+
+- Extensibilidad: Si en el futuro queremos añadir otro filtro diferente, solo tenemos que crear una nueva clase que herede de Filtro. No hace falta modificar ni una sola línea de código del repositorio o de los filtros existentes.
 
 ---
 
