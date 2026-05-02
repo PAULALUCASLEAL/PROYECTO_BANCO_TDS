@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 
 import ASP.BanCroak.repo.RepositorioGastos;
 
+//tenemos una cuenta compartida entre varios miembros y queremos repartir el porcentaje de gastos entre ellos 
+
 public final class Cuenta {
     private static final double TOLERANCIA_SUMA = 0.01;
 
@@ -28,12 +30,14 @@ public final class Cuenta {
         this.porcentajes = Map.copyOf(porcentajesValidados);
     }
 
+    //queremos que por defecto se creen con porcentajes iguales 
     public static Cuenta crearConPartesIguales(int idCuenta, String nombreCuenta, List<String> miembros) {
         List<String> miembrosValidados = validarYNormalizarMiembros(miembros);
         Map<String, Double> reparto = repartoIgual(miembrosValidados);
         return new Cuenta(idCuenta, nombreCuenta, miembrosValidados, reparto);
     }
-
+    
+    //también queremos que se pueda crear con unos porcentajes concretos que nosotros les especificamos 
     public static Cuenta crearConPorcentajes(int idCuenta, String nombreCuenta, List<String> miembros, Map<String, Double> porcentajes) {
         return new Cuenta(idCuenta, nombreCuenta, miembros, porcentajes);
     }

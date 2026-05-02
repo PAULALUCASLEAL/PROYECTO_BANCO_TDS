@@ -4,6 +4,7 @@ import ASP.BanCroak.domain.Gasto;
 import ASP.BanCroak.persistence.GastosPersistence;
 import ASP.BanCroak.repo.RepositorioGastos;
 
+//borramos 
 public class BorrarGastoUseCase {
     private final RepositorioGastos repoGastos;
     private final GastosPersistence gastosPersistence;
