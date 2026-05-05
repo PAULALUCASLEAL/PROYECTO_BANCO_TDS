@@ -35,7 +35,7 @@
 - [12. Relaciones UML de casos de uso](#12-relaciones-uml-de-casos-de-uso)
 - [13. Relaciones UML de `AlertaService`](#13-relaciones-uml-de-alertaservice)
 - [14. Resumen final de relaciones](#14-resumen-final-de-relaciones)
-- [15. Leyenda UML que debe usarse](#16-leyenda-uml-que-debe-usarse)
+- [15. Leyenda UML que debe usarse](#15-leyenda-uml-que-debe-usarse)
 
 ---
 
