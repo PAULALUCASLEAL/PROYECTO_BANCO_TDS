@@ -1,6 +1,6 @@
 # Diagrama UML de clases 
 
-![Diagrama de clases](./imagenes/diagrama-clases.png)
+![Diagrama de clases](./imagenes/diagrama_clases_final.png)
 
 - [Diagrama UML de clases](#diagrama-uml-de-clases)
 - [1. Diagrama](#1-diagrama)
